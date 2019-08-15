@@ -75,32 +75,32 @@ public class EntradasDao {
 
     }
 
-    /**
-     * captura dados da tabela de tipos de entradas tipos: Dizimo, Ofertas,
-     * coleta CIBE, etc...
-     *
-     * @return List<TiposModel>
-     */
-    public List<TipoEntradaModel> carregaTpEntrada() {
-
-        List<TipoEntradaModel> lista = new ArrayList<>();
-
-        try {
-
-            managerFactory = new ConexaoJpa().getConexao("assembleia");
-            EntityManager = managerFactory.createEntityManager();
-            Query query = EntityManager.createQuery("FROM TipoEntradaModel tp");
-            lista = query.getResultList();
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro na tentativa de recuperar os TIPOS de Registros\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            EntityManager.close();
-            managerFactory.close();
-        }
-
-        return lista;
-    }
+//    /**
+//     * captura dados da tabela de tipos de entradas tipos: Dizimo, Ofertas,
+//     * coleta CIBE, etc...
+//     *
+//     * @return List<TiposModel>
+//     */
+//    public List<TipoEntradaModel> carregaTpEntrada() {
+//
+//        List<TipoEntradaModel> lista = new ArrayList<>();
+//
+//        try {
+//
+//            managerFactory = new ConexaoJpa().getConexao("assembleia");
+//            EntityManager = managerFactory.createEntityManager();
+//            Query query = EntityManager.createQuery("FROM TipoEntradaModel tp");
+//            lista = query.getResultList();
+//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "Erro na tentativa de recuperar os TIPOS de Registros\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
+//        } finally {
+//            EntityManager.close();
+//            managerFactory.close();
+//        }
+//
+//        return lista;
+//    }
 
    
 

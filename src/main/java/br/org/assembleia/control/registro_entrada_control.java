@@ -5,22 +5,14 @@
  */
 package br.org.assembleia.control;
 
-import br.org.assembleia.conexao.ConexaoDB;
 import br.org.assembleia.dao.EntradasDao;
-import br.org.assembleia.model.ReciboModel;
 import br.org.assembleia.model.EntradasModel;
-import br.org.assembleia.abstratas.TiposModel;
 import br.org.assembleia.model.Relatorios_Model;
 import br.org.assembleia.model.TipoEntradaModel;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.text.DateFormatter;
 import net.sf.jasperreports.engine.JRException;
 
 /**
@@ -37,8 +29,8 @@ public class registro_entrada_control {
     public List<TipoEntradaModel> preencheComboTipoEntrada() {
         List<TipoEntradaModel> lista;
 
-        EntradasDao capt = new EntradasDao();
-        lista = capt.carregaTpEntrada();
+        TipoEntradaModel tpEntrada = new TipoEntradaModel();
+        lista = tpEntrada.getListaTiposEntradas();
 
         return lista;
     }
@@ -67,8 +59,8 @@ public class registro_entrada_control {
     public List<EntradasModel> recuperarRegistrosEntradas(String competencia) {
 
         EntradasDao dao = new EntradasDao();
-        List<EntradasModel> registros = dao.capturarRegistrosEntradas(competencia);
-
+        //List<EntradasModel> registros = dao.capturarRegistrosEntradas(competencia);
+        List<EntradasModel> registros = new EntradasModel().recuperarListaRegistrosEntradas(competencia);
         return registros;
     }
 
@@ -118,7 +110,7 @@ public class registro_entrada_control {
      * @return List<EntradasModel>
      */
     public List<EntradasModel> recuperarListaRegistroEntrada(String competencia) {
-        
+
         EntradasModel model = new EntradasModel();
         List<EntradasModel> lista = model.recuperarListaRegistrosEntradas(competencia);
         return lista;

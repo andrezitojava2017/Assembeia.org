@@ -7,6 +7,7 @@ package br.org.assembleia.model;
 
 import br.org.assembleia.abstratas.TiposModel;
 import br.org.assembleia.dao.EntradasDao;
+import br.org.assembleia.dao.TipoEntradasDao;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -38,6 +39,20 @@ public class TipoEntradaModel extends TiposModel {
         lista = dao.carregaTpEntrada();
         
         return lista;
+    }
+    
+     /**
+     * captura dados da tabela de tipos de entradas tipos: Dizimo, Ofertas,
+     * coleta CIBE, etc...
+     *
+     * @return List<TiposModel>
+     */
+    public List<TipoEntradaModel> getListaTiposEntradas() {
+        
+        TipoEntradasDao dao = new TipoEntradasDao();
+        List<TipoEntradaModel> lista = dao.getListaTipos();
+        return lista;
+        
     }
     
 }
