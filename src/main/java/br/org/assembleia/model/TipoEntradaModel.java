@@ -27,19 +27,19 @@ public class TipoEntradaModel extends TiposModel {
     }
     
     
-    /**
-     * Recupera uma lista de TIPOS DE ENTRADAS cadastrados na base de dados
-     * @return List<TiposModel> lista
-     */
-    public List<TipoEntradaModel> recuperarLista(){
-        
-        List<TipoEntradaModel> lista = null;
-        
-        EntradasDao dao = new EntradasDao();
-        lista = dao.carregaTpEntrada();
-        
-        return lista;
-    }
+//    /**
+//     * Recupera uma lista de TIPOS DE ENTRADAS cadastrados na base de dados
+//     * @return List<TiposModel> lista
+//     */
+//    public List<TipoEntradaModel> recuperarLista(){
+//        
+//        List<TipoEntradaModel> lista = null;
+//        
+//        EntradasDao dao = new EntradasDao();
+//        lista = dao.carregaTpEntrada();
+//        
+//        return lista;
+//    }
     
      /**
      * captura dados da tabela de tipos de entradas tipos: Dizimo, Ofertas,

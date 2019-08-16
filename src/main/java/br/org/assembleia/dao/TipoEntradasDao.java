@@ -36,7 +36,7 @@ public class TipoEntradasDao {
 
             managerFactory = new ConexaoJpa().getConexao("assembleia");
             entityManager = managerFactory.createEntityManager();
-            Query query = entityManager.createQuery("from tp TipoEntradaModel tp", TipoEntradaModel.class);
+            Query query = entityManager.createQuery("from TipoEntradaModel tp", TipoEntradaModel.class);
             getLista = query.getResultList();
 
         } catch (Exception e) {
