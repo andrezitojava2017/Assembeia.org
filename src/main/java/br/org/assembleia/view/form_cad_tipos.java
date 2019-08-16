@@ -318,28 +318,41 @@ public class form_cad_tipos extends javax.swing.JDialog {
 
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
         // atualiza dados da base de dados
-        /*  if (combo_tabela.getSelectedItem().toString().equalsIgnoreCase("entrada")) {
-            
-            TiposModel tipoEntrada = new TipoEntradaModel();
-            tipo_entradas_control atualizar = new tipo_entradas_control();
-            tipoEntrada.setId(this.id_tipo_reg);
-            tipoEntrada.setDescricao(campo_descricao.getText());
-            
-            atualizar.atualizarTipoEntrada(tipoEntrada);
+        if (combo_tabela.getSelectedItem().toString().equalsIgnoreCase("entrada")) {
+
+            TipoEntradaController controller = new TipoEntradaController();
+            TipoEntradaModel tpEntrada = new TipoEntradaModel();
+
+            tpEntrada.setId(this.id_tipo_reg);
+            tpEntrada.setDescricao(campo_descricao.getText());
+
+            /* enviando dados para o metodo de update */
+            int get = controller.updateTipoEntrada(tpEntrada);
+
+            if (get == 0) {
+                JOptionPane.showMessageDialog(this, "Parabens...Os dados foram atualizados com sucesso!");
+            }
+            /* limpando os campos */
             campo_descricao.setText("");
             combo_tabela.setSelectedIndex(0);
-            
+
         } else if (combo_tabela.getSelectedItem().toString().equalsIgnoreCase("saida")) {
 
             TipoSaidasModel tipoSaida = new TipoSaidasModel();
-            tipoSaida.setId_saida(this.id_tipo_reg);
-            tipoSaida.setTipo_saida(campo_descricao.getText());
+            tipoSaida.setId(this.id_tipo_reg);
+            tipoSaida.setDescricao(campo_descricao.getText());
+
+            TipoSaidaController atualizar = new TipoSaidaController();
+            int get = atualizar.updateTipoSaida(tipoSaida);
+
+            if (get == 0) {
+                JOptionPane.showMessageDialog(this, "Parabens...Os dados foram atualizados com sucesso!");
+            }
             
-            tipo_saidas_control atualizar = new tipo_saidas_control();
-            atualizar.atualizarTipoSaida(tipoSaida);
+            /* limpando os campos */
             campo_descricao.setText("");
             combo_tabela.setSelectedIndex(0);
-        }*/
+        }
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
     /**

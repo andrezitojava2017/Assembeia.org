@@ -5,8 +5,6 @@
  */
 package br.org.assembleia.control;
 
-import br.org.assembleia.dao.SaidasDao;
-import br.org.assembleia.dao.TipoSaidaDao;
 import br.org.assembleia.model.TipoSaidasModel;
 import java.util.List;
 
@@ -42,4 +40,16 @@ public class TipoSaidaController {
 
     }
 
+    /**
+     * Update um registro de Tipos de Saidas
+     *
+     * @param model
+     * @return int
+     */
+    public int updateTipoSaida(TipoSaidasModel model) {
+
+        TipoSaidasModel saida = new TipoSaidasModel();
+        return saida.updateTipoSaida(model);
+        
+    }
 }

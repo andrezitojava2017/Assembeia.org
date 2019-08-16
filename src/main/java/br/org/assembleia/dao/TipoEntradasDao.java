@@ -5,7 +5,6 @@
  */
 package br.org.assembleia.dao;
 
-import br.org.assembleia.conexao.ConexaoDB;
 import br.org.assembleia.conexao.ConexaoJpa;
 import br.org.assembleia.model.TipoEntradaModel;
 import java.util.List;
@@ -68,6 +67,32 @@ public class TipoEntradasDao {
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao tentar inserir novo registro\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            entityManager.close();
+            managerFactory.close();
+        }
+        return 1;
+    }
+    
+    /**
+     * Update um registro de Tipos de Entradas
+     * @param model
+     * @return int
+     */
+    public int updateTipoEntrada(TipoEntradaModel model){
+                
+        try {
+            
+            managerFactory = new ConexaoJpa().getConexao("assembleia");
+            entityManager = managerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+            entityManager.merge(model);
+            entityManager.getTransaction().commit();
+            
+            return 0;
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar atualizar o registro selecionado\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             entityManager.close();
             managerFactory.close();

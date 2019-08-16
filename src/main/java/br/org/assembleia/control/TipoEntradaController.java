@@ -5,6 +5,7 @@
  */
 package br.org.assembleia.control;
 
+import br.org.assembleia.dao.TipoEntradasDao;
 import br.org.assembleia.model.TipoEntradaModel;
 
 /**
@@ -26,4 +27,16 @@ public class TipoEntradaController {
 
     }
 
+    /**
+     * chama o metodo da classe DAO para atualizar um registro de TIPO ENTRADA
+     *
+     * @param model
+     * @return int
+     */
+    public int updateTipoEntrada(TipoEntradaModel model) {
+
+        TipoEntradaModel dao = new TipoEntradaModel();
+        return dao.updateTipoEntrada(model);
+
+    }
 }

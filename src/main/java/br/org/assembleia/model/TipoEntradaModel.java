@@ -6,7 +6,6 @@
 package br.org.assembleia.model;
 
 import br.org.assembleia.abstratas.TiposModel;
-import br.org.assembleia.dao.EntradasDao;
 import br.org.assembleia.dao.TipoEntradasDao;
 import java.util.List;
 import javax.persistence.Entity;
@@ -53,4 +52,16 @@ public class TipoEntradaModel extends TiposModel {
         
     }
     
+    
+    /**
+     * chama o metodo da classe DAO para atualizar um registro de TIPO ENTRADA
+     * @param model
+     * @return int
+     */
+    public int updateTipoEntrada(TipoEntradaModel model){
+        
+        TipoEntradasDao dao = new TipoEntradasDao();
+        return dao.updateTipoEntrada(model);
+        
+    }
 }

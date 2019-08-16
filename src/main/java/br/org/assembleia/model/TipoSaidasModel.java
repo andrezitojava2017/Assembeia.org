@@ -36,17 +36,31 @@ public class TipoSaidasModel extends TiposModel {
 
         return listaSaida;
     }
-    
+
     /**
      * Chama metodo para lançar novo registro de TIPO SAIDA
+     *
      * @param model
      * @return int
      */
-    public int insertTipoSaida(TipoSaidasModel model){
-        
+    public int insertTipoSaida(TipoSaidasModel model) {
+
         TipoSaidaDao dao = new TipoSaidaDao();
         return dao.insertTipoSaida(model);
-        
+
+    }
+
+    /**
+     * Update um registro de Tipos de Saidas
+     *
+     * @param model
+     * @return int
+     */
+    public int updateTipoSaida(TipoSaidasModel model) {
+
+        TipoSaidaDao dao = new TipoSaidaDao();
+        return dao.updateTipoSaida(model);
+
     }
 
 }

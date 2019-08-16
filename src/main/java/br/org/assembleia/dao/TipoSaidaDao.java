@@ -16,35 +16,61 @@ import javax.swing.JOptionPane;
  * @author andre
  */
 public class TipoSaidaDao {
-    
+
     private EntityManager entityManager;
     private EntityManagerFactory managerFactory;
-    
+
     /**
      * Realiza a inserção de registro do TIPO SAIDAS
+     *
      * @param model
      * @return int
      */
-    public int insertTipoSaida(TipoSaidasModel model){
-        
+    public int insertTipoSaida(TipoSaidasModel model) {
+
         try {
-            
+
             managerFactory = new ConexaoJpa().getConexao("assembleia");
             entityManager = managerFactory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.persist(model);
             entityManager.getTransaction().commit();
-            
+
             return 0;
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao tentar inserir novo registro\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             entityManager.close();
             managerFactory.close();
         }
-        
+
         return 1;
     }
-    
+
+    /**
+     * Update um registro de Tipos de Saidas
+     * @param model
+     * @return int
+     */
+    public int updateTipoSaida(TipoSaidasModel model) {
+
+        try {
+
+            managerFactory = new ConexaoJpa().getConexao("assembleia");
+            entityManager = managerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+            entityManager.merge(model);
+            entityManager.getTransaction().commit();
+
+            return 0;
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar atualizar o registro selecionado\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            entityManager.close();
+            managerFactory.close();
+        }
+        return 1;
+    }
 }
