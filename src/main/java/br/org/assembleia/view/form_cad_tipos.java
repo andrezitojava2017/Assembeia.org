@@ -5,8 +5,11 @@
  */
 package br.org.assembleia.view;
 
-import br.org.assembleia.control.tipo_saidas_control;
 import br.org.assembleia.abstratas.TiposModel;
+import br.org.assembleia.control.TipoEntradaController;
+import br.org.assembleia.control.TipoSaidaController;
+import br.org.assembleia.control.registro_entrada_control;
+import br.org.assembleia.model.TipoEntradaModel;
 import br.org.assembleia.model.TipoSaidasModel;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -24,6 +27,9 @@ public class form_cad_tipos extends javax.swing.JDialog {
 
     /**
      * Creates new form form_cad_tipos
+     *
+     * @param parent
+     * @param modal
      */
     public form_cad_tipos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -44,24 +50,23 @@ public class form_cad_tipos extends javax.swing.JDialog {
         if (tabela_selecionada.equalsIgnoreCase("saida")) {
 
             // recupera a lista de tipos cdastradas pelo usuario
-            tipo_saidas_control lerSaida = new tipo_saidas_control();
-            List<TipoSaidasModel> listaSaidas = lerSaida.recuperaListaTipoSaidas();
-/*
+            TipoSaidaController lerSaida = new TipoSaidaController();
+            List<TipoSaidasModel> listaSaidas = lerSaida.getListaTiposSaidas();
+
             // preeche a tabela
             for (TipoSaidasModel listaSaida : listaSaidas) {
 
                 tabela.addRow(new Object[]{
-                    listaSaida.getId_saida(),
-                    listaSaida.getTipo_saida()
+                    listaSaida.getId(),
+                    listaSaida.getDescricao()
                 });
             }
-            */
 
         } else if (tabela_selecionada.equalsIgnoreCase("entrada")) {
             // recupera a lista tipos de entradas cadastradas pelo usuario
-            /*
-            tipo_entradas_control lerEntradas = new tipo_entradas_control();
-            List<TiposModel> listaEntradas = lerEntradas.recuperarTiposEntradas();
+
+            registro_entrada_control control = new registro_entrada_control();
+            List<TipoEntradaModel> listaEntradas = control.getListaTipoEntrada();
 
             for (TiposModel listaEntrada : listaEntradas) {
 
@@ -69,7 +74,7 @@ public class form_cad_tipos extends javax.swing.JDialog {
                     listaEntrada.getId(),
                     listaEntrada.getDescricao()
                 });
-            }*/
+            }
         }
 
     }
@@ -90,7 +95,7 @@ public class form_cad_tipos extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         campo_descricao = new javax.swing.JTextField();
         btn_salvar = new javax.swing.JButton();
-        btn_salvar_atualizacao = new javax.swing.JButton();
+        btnAtualizar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_tipos = new javax.swing.JTable();
@@ -124,11 +129,11 @@ public class form_cad_tipos extends javax.swing.JDialog {
             }
         });
 
-        btn_salvar_atualizacao.setText("Atualizar");
-        btn_salvar_atualizacao.setEnabled(false);
-        btn_salvar_atualizacao.addActionListener(new java.awt.event.ActionListener() {
+        btnAtualizar.setText("Atualizar");
+        btnAtualizar.setEnabled(false);
+        btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_salvar_atualizacaoActionPerformed(evt);
+                btnAtualizarActionPerformed(evt);
             }
         });
 
@@ -150,7 +155,7 @@ public class form_cad_tipos extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_salvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_salvar_atualizacao, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
+                    .addComponent(btnAtualizar, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -165,7 +170,7 @@ public class form_cad_tipos extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(campo_descricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_salvar_atualizacao))
+                    .addComponent(btnAtualizar))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
@@ -233,7 +238,7 @@ public class form_cad_tipos extends javax.swing.JDialog {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -257,18 +262,28 @@ public class form_cad_tipos extends javax.swing.JDialog {
         } else {
 
             if (combo_tabela.getSelectedItem().toString().equalsIgnoreCase("entrada")) {
-/*
-                tipo_entradas_control control = new tipo_entradas_control();
-                control.inserirNovoTipoEntrada(campo_descricao.getText());
-                campo_descricao.setText("");
-                combo_tabela.setSelectedIndex(0);
-*/
+
+                TipoEntradaController controller = new TipoEntradaController();
+                TipoEntradaModel model = new TipoEntradaModel();
+
+                model.setDescricao(campo_descricao.getText());
+                int get = controller.insertTipoEntrada(model);
+
+                if (get == 0) {
+                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Mensagem", 0);
+                }
+
             } else if (combo_tabela.getSelectedItem().toString().equalsIgnoreCase("saida")) {
 
-                tipo_saidas_control control = new tipo_saidas_control();
-                control.inserirNovoTipoSaida(campo_descricao.getText());
-                campo_descricao.setText("");
-                combo_tabela.setSelectedIndex(0);
+                TipoSaidaController controller = new TipoSaidaController();
+                TipoSaidasModel model = new TipoSaidasModel();
+                model.setDescricao(campo_descricao.getText());
+
+                int get = controller.insertTipoSaida(model);
+
+                if (get == 0) {
+                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Mensagem", 0);
+                }
 
             }
 
@@ -277,31 +292,33 @@ public class form_cad_tipos extends javax.swing.JDialog {
 
     private void combo_tabelaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combo_tabelaItemStateChanged
         // TODO add your handling code here:
+
         carregarTiposSelecionado(combo_tabela.getSelectedItem().toString());
     }//GEN-LAST:event_combo_tabelaItemStateChanged
 
     private void tbl_tiposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_tiposMouseClicked
 
         int linha = tbl_tipos.getSelectedRow();
-        this.id_tipo_reg = (Integer) tbl_tipos.getValueAt(linha, 0);
-        String tipo_selecionado = (String) tbl_tipos.getValueAt(linha, 1);
+        this.id_tipo_reg = (Integer) tbl_tipos.getValueAt(linha, 0); // recupera o ID
+        String tipo_selecionado = (String) tbl_tipos.getValueAt(linha, 1); // recupera a DESCRICAO
 
         // Ao selecionar um registro da tabela, ativa-se o btn_salvar_atualização
-        if (tbl_tipos.getSelectedRow() != 0) {
+        if (tbl_tipos.getSelectedRow() >= 0) {
 
-            btn_salvar_atualizacao.setEnabled(true);
+            btn_salvar.setEnabled(false);
+            btnAtualizar.setEnabled(true);
             campo_descricao.setText(tipo_selecionado);
 
         } else {
-
-            btn_salvar_atualizacao.setEnabled(false);
+            btn_salvar.setEnabled(false);
+            btnAtualizar.setEnabled(false);
             campo_descricao.setText(tipo_selecionado);
         }
     }//GEN-LAST:event_tbl_tiposMouseClicked
 
-    private void btn_salvar_atualizacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvar_atualizacaoActionPerformed
+    private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
         // atualiza dados da base de dados
-      /*  if (combo_tabela.getSelectedItem().toString().equalsIgnoreCase("entrada")) {
+        /*  if (combo_tabela.getSelectedItem().toString().equalsIgnoreCase("entrada")) {
             
             TiposModel tipoEntrada = new TipoEntradaModel();
             tipo_entradas_control atualizar = new tipo_entradas_control();
@@ -323,7 +340,7 @@ public class form_cad_tipos extends javax.swing.JDialog {
             campo_descricao.setText("");
             combo_tabela.setSelectedIndex(0);
         }*/
-    }//GEN-LAST:event_btn_salvar_atualizacaoActionPerformed
+    }//GEN-LAST:event_btnAtualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -368,8 +385,8 @@ public class form_cad_tipos extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtualizar;
     private javax.swing.JButton btn_salvar;
-    private javax.swing.JButton btn_salvar_atualizacao;
     private javax.swing.JTextField campo_descricao;
     private javax.swing.JComboBox<String> combo_tabela;
     private javax.swing.JLabel jLabel1;

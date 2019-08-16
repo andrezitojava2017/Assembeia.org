@@ -26,7 +26,7 @@ public class registro_entrada_control {
      *
      * @return List<TiposModel> lista
      */
-    public List<TipoEntradaModel> preencheComboTipoEntrada() {
+    public List<TipoEntradaModel> getListaTipoEntrada() {
         List<TipoEntradaModel> lista;
 
         TipoEntradaModel tpEntrada = new TipoEntradaModel();

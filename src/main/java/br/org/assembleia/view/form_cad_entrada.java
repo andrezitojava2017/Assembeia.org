@@ -99,7 +99,7 @@ public class form_cad_entrada extends javax.swing.JDialog {
 
         // carrega os tipos de entradas cadastrados
         registro_entrada_control entrada = new registro_entrada_control();
-        List<TipoEntradaModel> tipos = entrada.preencheComboTipoEntrada();
+        List<TipoEntradaModel> tipos = entrada.getListaTipoEntrada();
 
         // se a lista estiverr vazia é exibido a msg de alerta
         if (tipos.isEmpty()) {

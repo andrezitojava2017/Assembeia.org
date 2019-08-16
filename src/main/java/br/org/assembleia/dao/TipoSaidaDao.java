@@ -5,56 +5,27 @@
  */
 package br.org.assembleia.dao;
 
-import br.org.assembleia.conexao.ConexaoDB;
 import br.org.assembleia.conexao.ConexaoJpa;
-import br.org.assembleia.model.TipoEntradaModel;
-import java.util.List;
+import br.org.assembleia.model.TipoSaidasModel;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author andre
  */
-public class TipoEntradasDao {
-
+public class TipoSaidaDao {
+    
     private EntityManager entityManager;
     private EntityManagerFactory managerFactory;
-
     
     /**
-     * Recupera uma lista de TIPOS de ENTRADAS cadastradas
-     * @return List<TipoEntradaModel>
-     */
-    public List<TipoEntradaModel> getListaTipos() {
-        
-        List<TipoEntradaModel> getLista = null;
-        
-        try {
-
-            managerFactory = new ConexaoJpa().getConexao("assembleia");
-            entityManager = managerFactory.createEntityManager();
-            Query query = entityManager.createQuery("from TipoEntradaModel tp", TipoEntradaModel.class);
-            getLista = query.getResultList();
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro na tentativa de recuperar os TIPOS de Registros\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            entityManager.close();
-            managerFactory.close();
-        }
-
-        return getLista;
-    }
-    
-    /**
-     * Realiza a inserção de um novo registro de TIPO DE ENTRADA
+     * Realiza a inserção de registro do TIPO SAIDAS
      * @param model
      * @return int
      */
-    public int insertTipoEntrada(TipoEntradaModel model){
+    public int insertTipoSaida(TipoSaidasModel model){
         
         try {
             
@@ -72,7 +43,8 @@ public class TipoEntradasDao {
             entityManager.close();
             managerFactory.close();
         }
+        
         return 1;
     }
-
+    
 }
