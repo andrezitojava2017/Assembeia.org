@@ -7,6 +7,8 @@ package br.org.assembleia.view;
 
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  *
@@ -19,6 +21,26 @@ public class form_modulos extends javax.swing.JFrame {
      */
     public form_modulos() {
         initComponents();
+
+    }
+
+    public form_modulos(String permissao) {
+        initComponents();
+
+        switch (permissao) {
+
+            case "F": /* F= FINANCEIRO */
+
+                /* remove o evento click do modulo MEMBROS*/
+                MouseListener financeiro[] = moduloMembros.getMouseListeners();
+                moduloMembros.removeMouseListener(financeiro[0]);
+                break;
+            case "M": /* M= MEMBROS*/
+
+                /* remove o evento click do modulo FINANCEIRO*/
+                MouseListener membro[] = moduloFinanceiro.getMouseListeners();
+                moduloMembros.removeMouseListener(membro[0]);
+        }
     }
 
     /**
@@ -31,10 +53,10 @@ public class form_modulos extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        moduloFinanceiro = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        moduloMembros = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -47,16 +69,17 @@ public class form_modulos extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Escolha um modulo:");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        moduloFinanceiro.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        moduloFinanceiro.setEnabled(false);
+        moduloFinanceiro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel1MouseClicked(evt);
+                moduloFinanceiroMouseClicked(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel1MouseExited(evt);
+                moduloFinanceiroMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel1MouseEntered(evt);
+                moduloFinanceiroMouseEntered(evt);
             }
         });
 
@@ -64,22 +87,22 @@ public class form_modulos extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-painel-de-controle-96.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout moduloFinanceiroLayout = new javax.swing.GroupLayout(moduloFinanceiro);
+        moduloFinanceiro.setLayout(moduloFinanceiroLayout);
+        moduloFinanceiroLayout.setHorizontalGroup(
+            moduloFinanceiroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(moduloFinanceiroLayout.createSequentialGroup()
                 .addGap(81, 81, 81)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(moduloFinanceiroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(moduloFinanceiroLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jLabel2)))
                 .addContainerGap(91, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        moduloFinanceiroLayout.setVerticalGroup(
+            moduloFinanceiroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, moduloFinanceiroLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
@@ -87,13 +110,13 @@ public class form_modulos extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        moduloMembros.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        moduloMembros.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel2MouseExited(evt);
+                moduloMembrosMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel2MouseEntered(evt);
+                moduloMembrosMouseEntered(evt);
             }
         });
 
@@ -101,22 +124,22 @@ public class form_modulos extends javax.swing.JFrame {
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-teste-passado-96.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout moduloMembrosLayout = new javax.swing.GroupLayout(moduloMembros);
+        moduloMembros.setLayout(moduloMembrosLayout);
+        moduloMembrosLayout.setHorizontalGroup(
+            moduloMembrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(moduloMembrosLayout.createSequentialGroup()
                 .addGap(79, 79, 79)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(moduloMembrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(moduloMembrosLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel3)))
                 .addContainerGap(93, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        moduloMembrosLayout.setVerticalGroup(
+            moduloMembrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, moduloMembrosLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -162,9 +185,9 @@ public class form_modulos extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(moduloFinanceiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(moduloMembros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -175,8 +198,8 @@ public class form_modulos extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(moduloFinanceiro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(moduloMembros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -185,36 +208,36 @@ public class form_modulos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPanel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseEntered
+    private void moduloFinanceiroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_moduloFinanceiroMouseEntered
         // TODO add your handling code here:
         Cursor c = new Cursor(Cursor.HAND_CURSOR);
         this.setCursor(c);
-    }//GEN-LAST:event_jPanel1MouseEntered
+    }//GEN-LAST:event_moduloFinanceiroMouseEntered
 
-    private void jPanel1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseExited
+    private void moduloFinanceiroMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_moduloFinanceiroMouseExited
         // TODO add your handling code here:
         Cursor c = new Cursor(Cursor.DEFAULT_CURSOR);
         this.setCursor(c);
-    }//GEN-LAST:event_jPanel1MouseExited
+    }//GEN-LAST:event_moduloFinanceiroMouseExited
 
-    private void jPanel2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseEntered
+    private void moduloMembrosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_moduloMembrosMouseEntered
         // TODO add your handling code here:
         Cursor c = new Cursor(Cursor.HAND_CURSOR);
         this.setCursor(c);
-    }//GEN-LAST:event_jPanel2MouseEntered
+    }//GEN-LAST:event_moduloMembrosMouseEntered
 
-    private void jPanel2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseExited
+    private void moduloMembrosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_moduloMembrosMouseExited
         // TODO add your handling code here:
         Cursor c = new Cursor(Cursor.DEFAULT_CURSOR);
         this.setCursor(c);
-    }//GEN-LAST:event_jPanel2MouseExited
+    }//GEN-LAST:event_moduloMembrosMouseExited
 
-    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+    private void moduloFinanceiroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_moduloFinanceiroMouseClicked
         // TODO add your handling code here:
         form_principal_teste view = new form_principal_teste();
         view.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jPanel1MouseClicked
+    }//GEN-LAST:event_moduloFinanceiroMouseClicked
 
     /**
      * @param args the command line arguments
@@ -259,8 +282,8 @@ public class form_modulos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel moduloFinanceiro;
+    private javax.swing.JPanel moduloMembros;
     // End of variables declaration//GEN-END:variables
 }

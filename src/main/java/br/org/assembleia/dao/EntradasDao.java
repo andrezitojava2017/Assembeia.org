@@ -5,34 +5,14 @@
  */
 package br.org.assembleia.dao;
 
-import br.org.assembleia.conexao.ConexaoDB;
 import br.org.assembleia.conexao.ConexaoJpa;
 import br.org.assembleia.model.EntradasModel;
-import br.org.assembleia.abstratas.TiposModel;
-import br.org.assembleia.model.TipoEntradaModel;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.persistence.RollbackException;
 import javax.swing.JOptionPane;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *

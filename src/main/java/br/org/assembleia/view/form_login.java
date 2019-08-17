@@ -5,6 +5,11 @@
  */
 package br.org.assembleia.view;
 
+import br.org.assembleia.control.UsuarioController;
+import br.org.assembleia.model.UsuarioModel;
+import java.util.Arrays;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author andre
@@ -30,11 +35,11 @@ public class form_login extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        campoUsuario = new javax.swing.JTextField();
+        campoSenha = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        btnEntrar = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,21 +62,21 @@ public class form_login extends javax.swing.JFrame {
         jPanel2.add(jLabel2);
         jLabel2.setBounds(240, 160, 66, 17);
 
-        jTextField1.setBackground(new java.awt.Color(48, 126, 146));
-        jTextField1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 153)));
-        jTextField1.setCaretColor(new java.awt.Color(255, 255, 255));
-        jPanel2.add(jTextField1);
-        jTextField1.setBounds(320, 140, 230, 40);
+        campoUsuario.setBackground(new java.awt.Color(48, 126, 146));
+        campoUsuario.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        campoUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        campoUsuario.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 153)));
+        campoUsuario.setCaretColor(new java.awt.Color(255, 255, 255));
+        jPanel2.add(campoUsuario);
+        campoUsuario.setBounds(320, 140, 230, 40);
 
-        jPasswordField1.setBackground(new java.awt.Color(48, 126, 146));
-        jPasswordField1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jPasswordField1.setForeground(new java.awt.Color(255, 255, 255));
-        jPasswordField1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 153)));
-        jPasswordField1.setCaretColor(new java.awt.Color(255, 255, 255));
-        jPanel2.add(jPasswordField1);
-        jPasswordField1.setBounds(320, 200, 230, 40);
+        campoSenha.setBackground(new java.awt.Color(48, 126, 146));
+        campoSenha.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        campoSenha.setForeground(new java.awt.Color(255, 255, 255));
+        campoSenha.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 153)));
+        campoSenha.setCaretColor(new java.awt.Color(255, 255, 255));
+        jPanel2.add(campoSenha);
+        campoSenha.setBounds(320, 200, 230, 40);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-fechar-janela-25.png"))); // NOI18N
         jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -84,15 +89,20 @@ public class form_login extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Login");
+        jLabel5.setText("Acessar");
         jPanel2.add(jLabel5);
         jLabel5.setBounds(320, 90, 120, 30);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/user_access-512.png"))); // NOI18N
-        jPanel2.add(jLabel1);
-        jLabel1.setBounds(-90, 0, 573, 420);
+        btnEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/user_access-512.png"))); // NOI18N
+        jPanel2.add(btnEntrar);
+        btnEntrar.setBounds(-90, 0, 573, 420);
 
         jButton1.setText("Entrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton1);
         jButton1.setBounds(429, 250, 120, 40);
 
@@ -115,6 +125,32 @@ public class form_login extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        if (campoSenha.getPassword().length == 0 || campoUsuario.getText().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "Atenção verifique os campos USUARIO  e SENHA!");
+        } else {
+            
+            UsuarioModel usuario = new UsuarioModel();
+            usuario.setNomeUsuario(campoUsuario.getText());
+            usuario.setSenhaUsuario(String.valueOf(campoSenha.getPassword()));
+            System.out.println(usuario.getSenhaUsuario());
+            
+            UsuarioController controller = new UsuarioController();
+            usuario = controller.logarUsuario(usuario);
+            
+            if(usuario.getIdentificador() != 0){
+                form_modulos modulo = new form_modulos(usuario.getPermissao());
+                modulo.setVisible(true);
+                this.dispose();
+            }
+            
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -152,14 +188,14 @@ public class form_login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnEntrar;
+    private javax.swing.JPasswordField campoSenha;
+    private javax.swing.JTextField campoUsuario;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

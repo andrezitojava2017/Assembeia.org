@@ -13,6 +13,7 @@
     <class>br.org.assembleia.model.SolicitacaoModel</class>
     <class>br.org.assembleia.model.PrestacaoModel</class>
     <class>br.org.assembleia.model.PessoasModel</class>
+    <class>br.org.assembleia.model.UsuarioModel</class>
     <properties>
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
