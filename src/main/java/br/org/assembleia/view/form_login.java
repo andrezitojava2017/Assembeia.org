@@ -136,15 +136,19 @@ public class form_login extends javax.swing.JFrame {
             UsuarioModel usuario = new UsuarioModel();
             usuario.setNomeUsuario(campoUsuario.getText());
             usuario.setSenhaUsuario(String.valueOf(campoSenha.getPassword()));
-            System.out.println(usuario.getSenhaUsuario());
+            //System.out.println(usuario.getSenhaUsuario());
             
             UsuarioController controller = new UsuarioController();
             usuario = controller.logarUsuario(usuario);
             
-            if(usuario.getIdentificador() != 0){
-                form_modulos modulo = new form_modulos(usuario.getPermissao());
+            if(usuario != null){
+                form_modulos modulo = new form_modulos("M");
                 modulo.setVisible(true);
                 this.dispose();
+            } else {
+                
+                JOptionPane.showMessageDialog(this, "Atenção: Usuario ou senha invalidos, verifique");
+                
             }
             
         }

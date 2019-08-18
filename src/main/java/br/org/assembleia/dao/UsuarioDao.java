@@ -10,6 +10,7 @@ import br.org.assembleia.model.UsuarioModel;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,7 +40,10 @@ public class UsuarioDao {
             getUsuario = (UsuarioModel) query.getSingleResult();
 
         } catch (Exception e) {
-            
+            JOptionPane.showMessageDialog(null, "Atenção: Usuario ou senha invalidos, verifique");
+            //JOptionPane.showMessageDialog(null, "Erro ao tentar recuperar usuario do sistema\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
+        } finally{
+                        
             EntityManager.close();
             managerFactory.close();
         }

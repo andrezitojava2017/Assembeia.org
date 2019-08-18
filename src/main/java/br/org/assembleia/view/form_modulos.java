@@ -39,7 +39,8 @@ public class form_modulos extends javax.swing.JFrame {
 
                 /* remove o evento click do modulo FINANCEIRO*/
                 MouseListener membro[] = moduloFinanceiro.getMouseListeners();
-                moduloMembros.removeMouseListener(membro[0]);
+                moduloFinanceiro.removeMouseListener(membro[0]);
+                break;
         }
     }
 
@@ -70,7 +71,6 @@ public class form_modulos extends javax.swing.JFrame {
         jLabel1.setText("Escolha um modulo:");
 
         moduloFinanceiro.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        moduloFinanceiro.setEnabled(false);
         moduloFinanceiro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 moduloFinanceiroMouseClicked(evt);

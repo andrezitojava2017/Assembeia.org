@@ -5,10 +5,11 @@
  */
 package br.org.assembleia.view;
 
+import br.org.assembleia.control.PessoasController;
 import br.org.assembleia.control.dizimo_control;
 import br.org.assembleia.model.DizimoModel;
 import br.org.assembleia.model.MembroModel;
-import br.org.assembleia.abstratas.Pessoas;
+import br.org.assembleia.model.PessoasModel;
 import java.awt.Color;
 import java.awt.Component;
 import java.text.DecimalFormat;
@@ -27,6 +28,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
     private int id_pessoa_selecionada = 0;
     private int id_registro_dizimo = 0;
+    private PessoasModel getPessoa = null;
 
     /**
      * Creates new form form_entrada_dizimo
@@ -53,7 +55,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 //verificamos se o campo esta vazio
                 if (((JTextField) component).getText().isEmpty()) {
                     // campo vazio... alteramos suas propriedades
-                    ((JTextField) component).setBorder(new LineBorder(Color.red, 2));
+                    ((JTextField) component).setBorder(new LineBorder(Color.red, 1));
                     camposPreenchidos = false;
 
                 } else {
@@ -100,25 +102,16 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     }
 
     /**
-     * preenche campos referente a pessoa
-     *
+     * preenche campos referente a pessoa que esta dizimando
      * @param id_pessoa
      */
     public void preencherCamposPessoasEmpresa(int id_pessoa) {
-/*
-       pessoas_control capturar = new pessoas_control();
-        Pessoas pessoa = capturar.capturarInfoPessoasEmpresa(id_pessoa);
 
-        if (pessoa.getCpf() == null) {
-
-            campo_nome_membro_dizimista.setText(pessoa.getNome());
-//            campo_doc_membro_dizimista.setText(pessoa.getCnpj());
-        } else {
-
-            campo_nome_membro_dizimista.setText(pessoa.getNome());
-            campo_doc_membro_dizimista.setText(pessoa.getCpf());
-
-        }*/
+        PessoasController controller = new PessoasController();
+        this.getPessoa = controller.getPessoa(this.id_pessoa_selecionada);
+        campo_nome_membro_dizimista.setText(getPessoa.getNome());
+        campo_doc_membro_dizimista.setText(getPessoa.getCpf());
+        
     }
 
     /**
@@ -127,10 +120,9 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     private void carregarInformacoes() {
 
         LocalDate data = LocalDate.now();
-        DateTimeFormatter formatar = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        campo_data_lancamento.setText(formatar.format(data));
-        campo_competencia.setText(data.getMonthValue() + "/" + data.getYear());
+        campo_data_lancamento.setText(data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        campo_competencia.setText(data.format(DateTimeFormatter.ofPattern("MM/yyyy")));
 
     }
 
@@ -198,12 +190,6 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         campo_num_recibo = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         campo_valor_dizimo = new javax.swing.JFormattedTextField();
-        jPanel2 = new javax.swing.JPanel();
-        btn_salvar = new javax.swing.JButton();
-        btn_novo_lancamento = new javax.swing.JButton();
-        btn_localizar_registro = new javax.swing.JButton();
-        btn_atualizar = new javax.swing.JButton();
-        btn_deletar = new javax.swing.JButton();
         componentes_pessoas = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         campo_nome_membro_dizimista = new javax.swing.JTextField();
@@ -216,6 +202,12 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         campo_doc_resp_receber = new javax.swing.JTextField();
         btn_localizar_resp_receber = new javax.swing.JButton();
+        jToolBar1 = new javax.swing.JToolBar();
+        btn_salvar = new javax.swing.JButton();
+        btn_novo_lancamento = new javax.swing.JButton();
+        btn_atualizar = new javax.swing.JButton();
+        btn_deletar = new javax.swing.JButton();
+        btn_localizar_registro = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Lançamento entrada de dizimo");
@@ -289,7 +281,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 .addGroup(componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(campo_num_recibo)
                     .addComponent(campo_valor_dizimo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
         componentes_dizimosLayout.setVerticalGroup(
             componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,70 +307,6 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        btn_salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-salvar-e-fechar-48.png"))); // NOI18N
-        btn_salvar.setToolTipText("Salvar lançamento");
-        btn_salvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_salvarActionPerformed(evt);
-            }
-        });
-
-        btn_novo_lancamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-reiniciar-48.png"))); // NOI18N
-        btn_novo_lancamento.setToolTipText("Novo lançamento");
-
-        btn_localizar_registro.setText("Alterar um registro");
-        btn_localizar_registro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_localizar_registroActionPerformed(evt);
-            }
-        });
-
-        btn_atualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-design-48.png"))); // NOI18N
-        btn_atualizar.setToolTipText("Atualizar dados");
-        btn_atualizar.setEnabled(false);
-        btn_atualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_atualizarActionPerformed(evt);
-            }
-        });
-
-        btn_deletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-lixo-48.png"))); // NOI18N
-        btn_deletar.setToolTipText("Excluir registro");
-        btn_deletar.setEnabled(false);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btn_salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_novo_lancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_atualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_deletar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
-                .addComponent(btn_localizar_registro, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_salvar)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btn_novo_lancamento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_atualizar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_deletar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_localizar_registro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(23, 23, 23))
-        );
-
         componentes_pessoas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel6.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
@@ -395,8 +323,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         campo_doc_membro_dizimista.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
         campo_doc_membro_dizimista.setEnabled(false);
 
-        btn_localizar_membro_dizimista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-pesquisa-paga-48.png"))); // NOI18N
-        btn_localizar_membro_dizimista.setText("localizar");
+        btn_localizar_membro_dizimista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-pesquisar-mais-18.png"))); // NOI18N
         btn_localizar_membro_dizimista.setToolTipText("Localizar um dizimista");
         btn_localizar_membro_dizimista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -419,8 +346,9 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                         .addGroup(componentes_pessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addComponent(campo_doc_membro_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_localizar_membro_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_localizar_membro_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(16, 16, 16))
         );
         componentes_pessoasLayout.setVerticalGroup(
@@ -431,13 +359,13 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(campo_nome_membro_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(componentes_pessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(componentes_pessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(componentes_pessoasLayout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(campo_doc_membro_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btn_localizar_membro_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(7, Short.MAX_VALUE))
+                    .addComponent(btn_localizar_membro_dizimista))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         componentes_pessoas1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -456,8 +384,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         campo_doc_resp_receber.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
         campo_doc_resp_receber.setEnabled(false);
 
-        btn_localizar_resp_receber.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-pesquisa-paga-48.png"))); // NOI18N
-        btn_localizar_resp_receber.setText("localizar");
+        btn_localizar_resp_receber.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-pesquisar-mais-18.png"))); // NOI18N
         btn_localizar_resp_receber.setToolTipText("Localizar um dizimista");
         btn_localizar_resp_receber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -480,8 +407,9 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                         .addGroup(componentes_pessoas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addComponent(campo_doc_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_localizar_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_localizar_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(16, 16, 16))
         );
         componentes_pessoas1Layout.setVerticalGroup(
@@ -492,16 +420,55 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(campo_nome_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(componentes_pessoas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(componentes_pessoas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(componentes_pessoas1Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campo_doc_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, componentes_pessoas1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btn_localizar_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(campo_doc_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_localizar_resp_receber))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
+
+        jToolBar1.setFloatable(false);
+        jToolBar1.setRollover(true);
+        jToolBar1.setBorderPainted(false);
+
+        btn_salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-salvar-e-fechar-48.png"))); // NOI18N
+        btn_salvar.setToolTipText("Salvar lançamento");
+        btn_salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_salvarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btn_salvar);
+
+        btn_novo_lancamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-reiniciar-48.png"))); // NOI18N
+        btn_novo_lancamento.setToolTipText("Novo lançamento");
+        jToolBar1.add(btn_novo_lancamento);
+
+        btn_atualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-design-48.png"))); // NOI18N
+        btn_atualizar.setToolTipText("Atualizar dados");
+        btn_atualizar.setEnabled(false);
+        btn_atualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_atualizarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btn_atualizar);
+
+        btn_deletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-lixo-48.png"))); // NOI18N
+        btn_deletar.setToolTipText("Excluir registro");
+        btn_deletar.setEnabled(false);
+        jToolBar1.add(btn_deletar);
+
+        btn_localizar_registro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-pesquisa-paga-48.png"))); // NOI18N
+        btn_localizar_registro.setToolTipText("Buscar registro");
+        btn_localizar_registro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_localizar_registroActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btn_localizar_registro);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -509,12 +476,17 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(componentes_dizimos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(componentes_pessoas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(componentes_pessoas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(componentes_dizimos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(componentes_pessoas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(componentes_pessoas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -528,8 +500,9 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                         .addComponent(componentes_pessoas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(componentes_pessoas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 7, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -542,9 +515,9 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         Component[] pessoas = componentes_pessoas.getComponents();
         Component[] dizimos = componentes_dizimos.getComponents();
 
-        if (verificarCamposObrigatorios(pessoas)) {
+        if (verificarCamposObrigatorios(pessoas) && verificarCamposObrigatorios(componentes_pessoas1.getComponents())) {
             if (verificarCamposObrigatorios(dizimos)) {
-
+/*
                 // capturando data de lançamento e descricao conteudo
                 DizimoModel lanc_dizimos = new DizimoModel();
                 lanc_dizimos.setData(campo_data_lancamento.getText());
@@ -558,7 +531,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 // objeto que ira fazer a gravação na tabela dizimos
                 dizimo_control dizimo = new dizimo_control();
                 dizimo.inserirLancDizimos(lanc_dizimos);
-
+*/
             } else {
                 JOptionPane.showMessageDialog(this, "Preencha todos os campos obrigatorios referente ao dizimo :)", "Mensagem", JOptionPane.WARNING_MESSAGE);
             }
@@ -739,6 +712,6 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }

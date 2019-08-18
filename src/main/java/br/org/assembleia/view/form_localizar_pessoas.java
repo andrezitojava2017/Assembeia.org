@@ -227,7 +227,7 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
         preencherTabelaPessoaFisica();
-        tipo_cpf_cnpj = tipo_pessoas.CPF; // indicamos que foi feito uma busca por CPF
+        //tipo_cpf_cnpj = tipo_pessoas.CPF; // indicamos que foi feito uma busca por CPF
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
 
 
