@@ -12,6 +12,7 @@ import br.org.assembleia.model.MembroModel;
 import br.org.assembleia.model.PessoasModel;
 import java.awt.Color;
 import java.awt.Component;
+import java.lang.management.GarbageCollectorMXBean;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -68,8 +69,6 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         return camposPreenchidos;
     }
 
-    
-    
     /**
      * metodo criado para tratar os valores corretamente
      *
@@ -102,15 +101,28 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
     /**
      * preenche campos referente a pessoa que esta dizimando
+     *
      * @param id_pessoa
      */
-    public void preencherCamposPessoasEmpresa(PessoasModel get) {
+    private void preencherCamposPessoasDizimista(PessoasModel get) {
 
-       // PessoasController controller = new PessoasController();
+        // PessoasController controller = new PessoasController();
         //this.getPessoa = controller.getPessoa(this.id_pessoa_selecionada);
         campo_nome_membro_dizimista.setText(get.getNome());
         campo_doc_membro_dizimista.setText(get.getCpf());
-        
+
+    }
+
+    /**
+     * Preenche campos do responsavel que esta recebendo os valores
+    */
+    private void preencherCamposMembroResponsavel(MembroModel get) {
+
+        // PessoasController controller = new PessoasController();
+        //this.getPessoa = controller.getPessoa(this.id_pessoa_selecionada);
+        campo_nome_resp_receber.setText(get.getNome());
+        campo_doc_resp_receber.setText(get.getCpf());
+
     }
 
     /**
@@ -132,7 +144,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
      * @param id_registro
      */
     private void preencherCamposRegistroParaAlterar(int id_registro) {
-       /*
+        /*
         dizimo_control control = new dizimo_control();
         DizimoModel dizimo = control.recuperarRegistroParaAlterar(id_registro);
         campo_competencia.setText(dizimo.getCompetencia());
@@ -142,7 +154,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
         this.id_pessoa_selecionada = dizimo.getPessoa().getId_pessoa(); // id da pessoa 
         preencherCamposPessoasEmpresa(dizimo.getPessoa().getId_pessoa());
-        */
+         */
     }
 
     /**
@@ -518,7 +530,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
         if (verificarCamposObrigatorios(pessoas) && verificarCamposObrigatorios(componentes_pessoas1.getComponents())) {
             if (verificarCamposObrigatorios(dizimos)) {
-/*
+                /*
                 // capturando data de lançamento e descricao conteudo
                 DizimoModel lanc_dizimos = new DizimoModel();
                 lanc_dizimos.setData(campo_data_lancamento.getText());
@@ -532,7 +544,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 // objeto que ira fazer a gravação na tabela dizimos
                 dizimo_control dizimo = new dizimo_control();
                 dizimo.inserirLancDizimos(lanc_dizimos);
-*/
+                 */
             } else {
                 JOptionPane.showMessageDialog(this, "Preencha todos os campos obrigatorios referente ao dizimo :)", "Mensagem", JOptionPane.WARNING_MESSAGE);
             }
@@ -544,13 +556,13 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     }//GEN-LAST:event_btn_salvarActionPerformed
 
     private void btn_localizar_membro_dizimistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_localizar_membro_dizimistaActionPerformed
-        form_localizar_pessoas localizar = new form_localizar_pessoas(null, true, "membro");
+        form_localizar_pessoas localizar = new form_localizar_pessoas(null, true);
         localizar.setVisible(true);
 
-        if (localizar.getMembro != null) {
+        if (localizar.getPessoa != null) {
 
-           // this.id_pessoa_selecionada = localizar.codigo_pessoa;
-            preencherCamposPessoasEmpresa(localizar.getMembro);
+            // this.id_pessoa_selecionada = localizar.codigo_pessoa;
+            preencherCamposPessoasDizimista(localizar.getPessoa);
 
         } else {
 
@@ -585,7 +597,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
         if (verificarCamposObrigatorios(pessoas)) {
             if (verificarCamposObrigatorios(dizimos)) {
-/*
+                /*
                 DizimoModel lanc_dizimo = new DizimoModel();
                 MembroModel pessoa = new MembroModel();
                 lanc_dizimo.setCompetencia(campo_competencia.getText());
@@ -599,7 +611,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 // chamando metodo que ira fazer a atualização na base de dados
                 dizimo_control control = new dizimo_control();
                 control.atualizarRegistroDizimo(lanc_dizimo);
-*/
+                 */
             } else {
                 JOptionPane.showMessageDialog(this, "Preencha todos os campos obrigatorios referente ao dizimo :)", "Mensagem", JOptionPane.WARNING_MESSAGE);
             }
@@ -613,41 +625,48 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
     private void campo_data_lancamentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_data_lancamentoKeyPressed
         // capturando o evento ENTER
-        if(evt.getKeyCode() == evt.VK_ENTER){
+        if (evt.getKeyCode() == evt.VK_ENTER) {
             campo_num_recibo.requestFocus();
         }
     }//GEN-LAST:event_campo_data_lancamentoKeyPressed
 
     private void campo_num_reciboKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_num_reciboKeyPressed
         // capturando o evento ENTER
-        if(evt.getKeyCode() == evt.VK_ENTER){
+        if (evt.getKeyCode() == evt.VK_ENTER) {
             campo_competencia.requestFocus();
         }
     }//GEN-LAST:event_campo_num_reciboKeyPressed
 
     private void campo_competenciaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_competenciaKeyPressed
         // capturando o evento ENTER
-        if(evt.getKeyCode() == evt.VK_ENTER){
+        if (evt.getKeyCode() == evt.VK_ENTER) {
             campo_valor_dizimo.requestFocus();
         }
     }//GEN-LAST:event_campo_competenciaKeyPressed
 
     private void campo_valor_dizimoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_valor_dizimoKeyPressed
         // capturando o evento ENTER
-        if(evt.getKeyCode() == evt.VK_ENTER){
+        if (evt.getKeyCode() == evt.VK_ENTER) {
             btn_localizar_membro_dizimista.requestFocus();
         }
     }//GEN-LAST:event_campo_valor_dizimoKeyPressed
 
     private void btn_localizar_resp_receberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_localizar_resp_receberActionPerformed
-        
-        form_localizar_pessoas membro = new form_localizar_pessoas(null, true, "membro");
-        membro.setVisible(true);
-        
-        if(membro.codigo_pessoa != 0){
-            
+
+        form_localizar_pessoas localizar = new form_localizar_pessoas(null, true, "membro");
+        localizar.setVisible(true);
+
+        if (localizar.getMembro != null) {
+
+            // this.id_pessoa_selecionada = localizar.codigo_pessoa;
+            preencherCamposMembroResponsavel(localizar.getMembro);
+
+        } else {
+
+            JOptionPane.showMessageDialog(this, "Ops...nenhum membro foi selecionado, verifique", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+
         }
-        
+
     }//GEN-LAST:event_btn_localizar_resp_receberActionPerformed
 
     /**

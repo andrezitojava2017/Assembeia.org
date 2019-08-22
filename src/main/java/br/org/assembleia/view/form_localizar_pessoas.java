@@ -83,7 +83,7 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
         PessoasController control = new PessoasController();
         this.getListaPessoas = control.getListaPessoas();
 
-        if (getListaPessoas.isEmpty()) {
+        if (getListaPessoas.isEmpty() || getListaPessoas == null) {
 
             lblMensagem.setText("Não foi localizado nenhuma pessoa..."); // msg caso lista esteja vazia
 
@@ -249,16 +249,17 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
         //recuperando codigo do credor
 
         int linha = tabela_credores.getSelectedRow();
-        this.codigo_pessoa = Integer.parseInt(tabela_credores.getValueAt(linha, 0).toString());
 
-        if (getListaMembro.isEmpty()) {
-            this.getPessoa = getListaPessoas.get(linha);
+        //System.out.println("lista pessoas: " + getListaPessoas.size());
+        //System.out.println("lista membros: " + getListaMembro.size());
+
+        if (this.getListaMembro != null) {
+            this.getMembro = this.getListaMembro.get(linha);
             dispose();
-        } else {
-            this.getMembro = getListaMembro.get(linha);
+        } else if (this.getListaPessoas!= null) {
+            this.getPessoa = this.getListaPessoas.get(linha);
             dispose();
         }
-//        System.out.println(codigo_pessoa);
 
     }//GEN-LAST:event_btn_selecionarActionPerformed
 
