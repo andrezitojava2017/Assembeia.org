@@ -5,6 +5,7 @@
  */
 package br.org.assembleia.view;
 
+import br.org.assembleia.abstratas.Pessoas;
 import br.org.assembleia.control.PessoasController;
 import br.org.assembleia.model.PessoasModel;
 import java.awt.Color;
@@ -215,15 +216,18 @@ public class form_cad_pessoas extends javax.swing.JFrame {
         jLabel1.setText("Nome:");
 
         campoNome.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        campoNome.setText("TESTE INSERT");
 
         jLabel2.setText("Cart. Identidade:");
 
         campoIdentidade.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        campoIdentidade.setText("TESTE INSERT");
         campoIdentidade.setToolTipText("");
 
         jLabel3.setText("CPF:");
 
         campoCpf.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        campoCpf.setText("01010101");
         campoCpf.setToolTipText("");
 
         jLabel4.setText("Nascimento:");
@@ -235,6 +239,7 @@ public class form_cad_pessoas extends javax.swing.JFrame {
         jLabel7.setText("Nacionalidade:");
 
         campoNacionalidade.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        campoNacionalidade.setText("BRASIL");
         campoNacionalidade.setToolTipText("");
         campoNacionalidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -247,16 +252,19 @@ public class form_cad_pessoas extends javax.swing.JFrame {
         jLabel10.setText("Conjuge:");
 
         campoConjuge.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        campoConjuge.setText("TESTE INSERT");
         campoConjuge.setToolTipText("");
 
         jLabel11.setText("Escolaridade");
 
         campoEscolaridade.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        campoEscolaridade.setText("TESTE INSERT");
         campoEscolaridade.setToolTipText("");
 
         jLabel12.setText("Pai:");
 
         campoNomePai.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        campoNomePai.setText("TESTE INSERT");
         campoNomePai.setToolTipText("");
         campoNomePai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -267,6 +275,7 @@ public class form_cad_pessoas extends javax.swing.JFrame {
         jLabel13.setText("Mae:");
 
         campoNomeMae.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        campoNomeMae.setText("TESTE INSERT");
         campoNomeMae.setToolTipText("");
 
         try {
@@ -274,12 +283,13 @@ public class form_cad_pessoas extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        campoNascimento.setText("");
+        campoNascimento.setText("31/07/1990");
         campoNascimento.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         comboEstCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Solteiro", "Casado", "Viuvo", "Divorciado" }));
 
         campoNaturalidade.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        campoNaturalidade.setText("TESTE INSERT");
         campoNaturalidade.setToolTipText("");
         campoNaturalidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -294,13 +304,20 @@ public class form_cad_pessoas extends javax.swing.JFrame {
         jLabel14.setText("Endereço:");
 
         campoEndereco.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        campoEndereco.setText("PRINCIAPL");
         campoEndereco.setToolTipText("");
 
         jLabel9.setText("Numero:");
 
+        campoNumEndereco.setText("27");
+
         jLabel15.setText("Bairro:");
 
+        campoBairroEndereco.setText("AIORE");
+
         jLabel16.setText("Cidade:");
+
+        campoCidadeEndereco.setText("XINGU");
 
         jLabel18.setText("Estado:");
 
@@ -344,16 +361,17 @@ public class form_cad_pessoas extends javax.swing.JFrame {
                     .addComponent(jLabel14)
                     .addComponent(campoEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(campoNumEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel15)
                         .addComponent(campoBairroEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel16)
                         .addComponent(campoCidadeEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel18)
-                        .addComponent(comboEstadoEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(comboEstadoEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(campoNumEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -366,8 +384,11 @@ public class form_cad_pessoas extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        campoContatoCelular.setText("(66)66666-6666");
 
         jLabel20.setText("E-mail:");
+
+        campoEmail.setText("ANDRE@LIVE.COM");
 
         jLabel21.setText("Telefone:");
 
@@ -376,6 +397,7 @@ public class form_cad_pessoas extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        campoContatoTelefone.setText("(66)6666-6666");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -403,12 +425,13 @@ public class form_cad_pessoas extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(campoContatoCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel21)
-                        .addComponent(campoContatoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(campoContatoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel19)
+                        .addComponent(campoContatoCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -695,6 +718,7 @@ public class form_cad_pessoas extends javax.swing.JFrame {
 
             if (JOptionPane.showConfirmDialog(this, "Confirma a inclusão desta pessoa a base de dados?", "Mensagem", JOptionPane.OK_CANCEL_OPTION) == 0) {
 
+                //PessoasModel newPessoa = new PessoasModel();
                 PessoasModel newPessoa = new PessoasModel();
 
                 newPessoa.setNome(campoNome.getText());

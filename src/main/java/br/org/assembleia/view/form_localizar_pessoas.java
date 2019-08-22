@@ -5,10 +5,10 @@
  */
 package br.org.assembleia.view;
 
-import br.org.assembleia.abstratas.Pessoas;
+import br.org.assembleia.control.MembroController;
 import br.org.assembleia.control.PessoasController;
+import br.org.assembleia.model.MembroModel;
 import br.org.assembleia.model.PessoasModel;
-import br.org.assembleia.model.tipo_pessoas;
 import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.table.DefaultTableModel;
@@ -21,6 +21,10 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
 
     int codigo_pessoa = 0;
     int tipo_cpf_cnpj = 0;
+    List<PessoasModel> getListaPessoas = null;
+    List<MembroModel> getListaMembro = null;
+    PessoasModel getPessoa = null;
+    MembroModel getMembro = null;
 
     /**
      * Creates new form form_localizar_pessoas
@@ -29,12 +33,43 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         group_tipo.add(jCheckBox1);
-        testar();
     }
 
-    private void testar() {
-        JCheckBox check1 = new JCheckBox("Test");
-        jPanel1.getLayout().addLayoutComponent("Testar", check1);
+    public form_localizar_pessoas(java.awt.Frame parent, boolean modal, String membro) {
+        super(parent, modal);
+        initComponents();
+        carregarListaMembros();
+    }
+
+    /**
+     * Retorna uma lista de membros cadastrados na base de dados para
+     * preenchimento da tabela
+     */
+    private void carregarListaMembros() {
+
+        DefaultTableModel tabela = (DefaultTableModel) tabela_credores.getModel();
+        tabela.setNumRows(0);
+
+        MembroController controller = new MembroController();
+        this.getListaMembro = controller.getListaMembro();
+
+        if (getListaMembro.isEmpty()) {
+
+            lblMensagem.setText("Não foi localizado nenhuma membro..."); // msg caso lista esteja vazia
+
+        } else {
+
+            for (MembroModel object : getListaMembro) {
+
+                tabela.addRow(new Object[]{
+                    object.getId_pessoa(),
+                    object.getNome(),
+                    object.getCpf()
+                });
+
+            }
+        }
+
     }
 
     /**
@@ -46,15 +81,15 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
         tabela.setNumRows(0);
 
         PessoasController control = new PessoasController();
-        List<PessoasModel> pessoaFisica = control.getListaPessoas();
+        this.getListaPessoas = control.getListaPessoas();
 
-        if (pessoaFisica.isEmpty()) {
-            
+        if (getListaPessoas.isEmpty()) {
+
             lblMensagem.setText("Não foi localizado nenhuma pessoa..."); // msg caso lista esteja vazia
-            
+
         } else {
-            
-            for (PessoasModel object : pessoaFisica) {
+
+            for (PessoasModel object : getListaPessoas) {
 
                 tabela.addRow(new Object[]{
                     object.getId_pessoa(),
@@ -215,7 +250,14 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
 
         int linha = tabela_credores.getSelectedRow();
         this.codigo_pessoa = Integer.parseInt(tabela_credores.getValueAt(linha, 0).toString());
-        dispose();
+
+        if (getListaMembro.isEmpty()) {
+            this.getPessoa = getListaPessoas.get(linha);
+            dispose();
+        } else {
+            this.getMembro = getListaMembro.get(linha);
+            dispose();
+        }
 //        System.out.println(codigo_pessoa);
 
     }//GEN-LAST:event_btn_selecionarActionPerformed

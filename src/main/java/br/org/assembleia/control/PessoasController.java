@@ -5,6 +5,7 @@
  */
 package br.org.assembleia.control;
 
+import br.org.assembleia.abstratas.Pessoas;
 import br.org.assembleia.model.PessoasModel;
 import java.util.List;
 

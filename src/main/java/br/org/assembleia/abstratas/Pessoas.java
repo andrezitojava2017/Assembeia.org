@@ -5,27 +5,33 @@
  */
 package br.org.assembleia.abstratas;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
 
 /**
  *
  * @author Andre
  */
-@MappedSuperclass
-public abstract class Pessoas {
+//@MappedSuperclass
+
+public abstract class Pessoas implements Serializable {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    protected int id_pessoa;
-    
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id")
+//    protected int id_pessoa;
+ 
     @Column
-    protected String nome;
+    private String nome;
     
     @Column
     protected String identidade;
@@ -194,14 +200,6 @@ public abstract class Pessoas {
 
     public void setData_cadastro(String data_cadastro) {
         this.data_cadastro = data_cadastro;
-    }
-
-    public int getId_pessoa() {
-        return id_pessoa;
-    }
-
-    public void setId_pessoa(int id_pessoa) {
-        this.id_pessoa = id_pessoa;
     }
 
     public String getNome() {

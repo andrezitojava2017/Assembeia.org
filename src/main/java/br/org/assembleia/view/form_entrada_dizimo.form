@@ -256,7 +256,6 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btn_localizar_membro_dizimista" min="-2" pref="36" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
@@ -359,7 +358,6 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btn_localizar_resp_receber" min="-2" pref="36" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>

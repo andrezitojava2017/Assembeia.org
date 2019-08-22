@@ -26,9 +26,8 @@ import javax.swing.border.LineBorder;
  */
 public class form_entrada_dizimo extends javax.swing.JDialog {
 
-    private int id_pessoa_selecionada = 0;
+    //private int id_pessoa_selecionada = 0;
     private int id_registro_dizimo = 0;
-    private PessoasModel getPessoa = null;
 
     /**
      * Creates new form form_entrada_dizimo
@@ -105,12 +104,12 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
      * preenche campos referente a pessoa que esta dizimando
      * @param id_pessoa
      */
-    public void preencherCamposPessoasEmpresa(int id_pessoa) {
+    public void preencherCamposPessoasEmpresa(PessoasModel get) {
 
-        PessoasController controller = new PessoasController();
-        this.getPessoa = controller.getPessoa(this.id_pessoa_selecionada);
-        campo_nome_membro_dizimista.setText(getPessoa.getNome());
-        campo_doc_membro_dizimista.setText(getPessoa.getCpf());
+       // PessoasController controller = new PessoasController();
+        //this.getPessoa = controller.getPessoa(this.id_pessoa_selecionada);
+        campo_nome_membro_dizimista.setText(get.getNome());
+        campo_doc_membro_dizimista.setText(get.getCpf());
         
     }
 
@@ -133,6 +132,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
      * @param id_registro
      */
     private void preencherCamposRegistroParaAlterar(int id_registro) {
+       /*
         dizimo_control control = new dizimo_control();
         DizimoModel dizimo = control.recuperarRegistroParaAlterar(id_registro);
         campo_competencia.setText(dizimo.getCompetencia());
@@ -142,6 +142,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
         this.id_pessoa_selecionada = dizimo.getPessoa().getId_pessoa(); // id da pessoa 
         preencherCamposPessoasEmpresa(dizimo.getPessoa().getId_pessoa());
+        */
     }
 
     /**
@@ -543,13 +544,13 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     }//GEN-LAST:event_btn_salvarActionPerformed
 
     private void btn_localizar_membro_dizimistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_localizar_membro_dizimistaActionPerformed
-        form_localizar_pessoas localizar = new form_localizar_pessoas(null, true);
+        form_localizar_pessoas localizar = new form_localizar_pessoas(null, true, "membro");
         localizar.setVisible(true);
 
-        if (localizar.codigo_pessoa != 0) {
+        if (localizar.getMembro != null) {
 
-            this.id_pessoa_selecionada = localizar.codigo_pessoa;
-            preencherCamposPessoasEmpresa(localizar.codigo_pessoa);
+           // this.id_pessoa_selecionada = localizar.codigo_pessoa;
+            preencherCamposPessoasEmpresa(localizar.getMembro);
 
         } else {
 
@@ -584,7 +585,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
         if (verificarCamposObrigatorios(pessoas)) {
             if (verificarCamposObrigatorios(dizimos)) {
-
+/*
                 DizimoModel lanc_dizimo = new DizimoModel();
                 MembroModel pessoa = new MembroModel();
                 lanc_dizimo.setCompetencia(campo_competencia.getText());
@@ -598,7 +599,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 // chamando metodo que ira fazer a atualização na base de dados
                 dizimo_control control = new dizimo_control();
                 control.atualizarRegistroDizimo(lanc_dizimo);
-
+*/
             } else {
                 JOptionPane.showMessageDialog(this, "Preencha todos os campos obrigatorios referente ao dizimo :)", "Mensagem", JOptionPane.WARNING_MESSAGE);
             }
@@ -639,7 +640,14 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     }//GEN-LAST:event_campo_valor_dizimoKeyPressed
 
     private void btn_localizar_resp_receberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_localizar_resp_receberActionPerformed
-        // TODO add your handling code here:
+        
+        form_localizar_pessoas membro = new form_localizar_pessoas(null, true, "membro");
+        membro.setVisible(true);
+        
+        if(membro.codigo_pessoa != 0){
+            
+        }
+        
     }//GEN-LAST:event_btn_localizar_resp_receberActionPerformed
 
     /**
