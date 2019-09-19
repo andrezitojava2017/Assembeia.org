@@ -28,6 +28,7 @@ public class EntradasDao {
      * Insere novo registro de entradas na base de dados
      *
      * @param model EntradasModel
+     * @return 
      */
     public int gravarRegistroEntrada(EntradasModel model) {
 

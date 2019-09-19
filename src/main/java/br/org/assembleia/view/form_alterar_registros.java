@@ -122,7 +122,7 @@ public class form_alterar_registros extends javax.swing.JDialog {
      * @param valor
      * @return String valorFormatado
      */
-    private String formatarValor(Double valor) {
+    private String formatarValor(String valor) {
 
         String valorFormatado;
 

@@ -6,9 +6,7 @@
 package br.org.assembleia.view;
 
 import br.org.assembleia.control.SaidasController;
-import br.org.assembleia.model.MembroModel;
 import br.org.assembleia.model.TipoRegistro;
-import br.org.assembleia.abstratas.Pessoas;
 import br.org.assembleia.control.PessoasController;
 import br.org.assembleia.control.Recibo_Control;
 import br.org.assembleia.control.SolicitacaoController;
@@ -122,7 +120,7 @@ public class form_cad_saida extends javax.swing.JDialog {
                 // preenchendo campos com as informações da base de dados
                 campo_competencia.setText(listaSaida.getCompetencia());
                 campo_data_lancamento.setText(formatarData(listaSaida.getData()));
-                campo_valor_saida.setText(formatarValor(listaSaida.getValor()));
+                campo_valor_saida.setText(listaSaida.getValor());
                 area_descricao.setText(listaSaida.getDescricao());
 
                 getReciboSaida(listaSaida);
@@ -673,9 +671,6 @@ public class form_cad_saida extends javax.swing.JDialog {
 
             } else {
 
-                // tratando o valor informado pelo usuario, para evitar erros a inserção
-                double valorSaida = convertValorInfo(campo_valor_saida.getText());
-
                 // setando informações
                 SaidasModel saida = new SaidasModel();
                 saida.setData(campo_data_lancamento.getText());
@@ -683,7 +678,7 @@ public class form_cad_saida extends javax.swing.JDialog {
                 saida.setDescricao(area_descricao.getText());
                 saida.setTipo_saida(combo_tipo_saida.getSelectedItem().toString());
                 saida.setSituacao("A");
-                saida.setValor(valorSaida);
+                saida.setValor(campo_valor_saida.getText());
                 saida.setIdCredor(this.id_pessoa_selecionada);
 
                 // Aqui iremos gerar a sequencia para o recibo, e salvar na base de dados
@@ -842,9 +837,7 @@ public class form_cad_saida extends javax.swing.JDialog {
             registro.setIdentificador(this.id_reg_saida);
             registro.setTipo_saida(combo_tipo_saida.getSelectedItem().toString());
             registro.setSituacao("A");
-
-            double valorSaida = convertValorInfo(campo_valor_saida.getText());
-            registro.setValor(valorSaida);
+            registro.setValor(campo_valor_saida.getText());
 
             int retorno = registro.updateRegistroSaida(registro);
 

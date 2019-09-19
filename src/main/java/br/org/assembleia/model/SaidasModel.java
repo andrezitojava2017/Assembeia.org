@@ -7,12 +7,19 @@ package br.org.assembleia.model;
 
 import br.org.assembleia.abstratas.Registro;
 import br.org.assembleia.dao.SaidasDao;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,6 +51,21 @@ public class SaidasModel extends Registro {
         this.tipo_saida = tipo_saida;
     }
 
+    
+        /**
+     * Formata o valor informado para o padrao aceito pelo mysql
+     *
+     * @param valor
+     * @return String
+     */
+    private String formatarValores(String valor) throws ParseException {
+
+        DecimalFormat fr = new DecimalFormat("###,##0.00");
+        fr.setCurrency(Currency.getInstance(new Locale("pt", "BR")));
+
+        return fr.parse(valor).toString();
+    }
+    
     /**
      * Grava um registro de saida
      *
@@ -99,14 +121,21 @@ public class SaidasModel extends Registro {
      * @param registro
      */
     public int updateRegistroSaida(SaidasModel registro) {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate data = LocalDate.parse(registro.data, format);
+        int retorno = 0;
+        try {
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate data = LocalDate.parse(registro.data, format);
+            
+            registro.setData(data.toString());            
+            registro.setValor(formatarValores(registro.getValor()));
+            
+            SaidasDao dao = new SaidasDao();
+            retorno = dao.updateRegistroSaida(registro);
+            
 
-        registro.setData(data.toString());
-
-        SaidasDao dao = new SaidasDao();
-        int retorno = dao.updateRegistroSaida(registro);
-
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar formatar valores para formato do banco de dados");
+        }            
         return retorno;
     }
 

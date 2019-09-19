@@ -442,10 +442,7 @@ public class form_cad_entrada extends javax.swing.JDialog {
                 entrada.setTipo_entrada(combo_tipo_entrada.getSelectedItem().toString());
                 entrada.setDescricao(area_descricao.getText());
                 entrada.setSituacao("A");
-
-                // tratando o valor informado pelo usuario, para evitar erros a inserção
-                double valorEntrada = convertValorInfo(campo_valor_entrada.getText());
-                entrada.setValor(valorEntrada);
+                entrada.setValor(campo_valor_entrada.getText());
 
                 // Aqui iremos gerar a sequencia para o recibo, e salvar na base de dados
                 Recibo_Control reciboControl = new Recibo_Control();
@@ -584,9 +581,7 @@ public class form_cad_entrada extends javax.swing.JDialog {
                 registro.setData(campo_data_lancamento.getText());
                 registro.setDescricao(area_descricao.getText());
                 //registro.setIdentificador(this.id_registro_alterar);
-
-                String valor = campo_valor_entrada.getText();
-                registro.setValor(convertValorInfo(valor));
+                registro.setValor(campo_valor_entrada.getText());
 
                 // passando objetos para metodo resposanvel em atualizar o registro na base de dados
                 registro_entrada_control atualizar = new registro_entrada_control();

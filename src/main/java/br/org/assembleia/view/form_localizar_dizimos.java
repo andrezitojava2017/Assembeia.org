@@ -111,7 +111,7 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
      * @param valor
      * @return String valorFormatado
      */
-    private String formatarValor(Double valor) {
+    private String formatarValor(String valor) {
 
         String valorFormatado;
 
@@ -353,7 +353,7 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
 
         for (DizimoModel dizimo : dizimos) {
             if(dizimo.getId_dizimo() == codSelec){ // captura o id selecionado na tabela
-                preencherDadosReferentePessoa(dizimo.getPessoa().getId_pessoa());
+//                preencherDadosReferentePessoa(dizimo.getPessoa().getId_pessoa());
                 btn_alterar_reg.setEnabled(true);
             }
         }

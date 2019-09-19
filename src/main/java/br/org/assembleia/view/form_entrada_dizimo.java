@@ -5,14 +5,14 @@
  */
 package br.org.assembleia.view;
 
-import br.org.assembleia.control.PessoasController;
-import br.org.assembleia.control.dizimo_control;
-import br.org.assembleia.model.DizimoModel;
+import br.org.assembleia.control.Recibo_Control;
+import br.org.assembleia.control.registro_entrada_control;
+import br.org.assembleia.model.EntradasModel;
 import br.org.assembleia.model.MembroModel;
 import br.org.assembleia.model.PessoasModel;
+import br.org.assembleia.model.ReciboModel;
 import java.awt.Color;
 import java.awt.Component;
-import java.lang.management.GarbageCollectorMXBean;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +29,9 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
     //private int id_pessoa_selecionada = 0;
     private int id_registro_dizimo = 0;
+    private PessoasModel membroDizimista = null;
+    private MembroModel membroReceptor = null;
+    private int idRecibo = 0;
 
     /**
      * Creates new form form_entrada_dizimo
@@ -115,7 +118,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
     /**
      * Preenche campos do responsavel que esta recebendo os valores
-    */
+     */
     private void preencherCamposMembroResponsavel(MembroModel get) {
 
         // PessoasController controller = new PessoasController();
@@ -194,22 +197,22 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        componentes_dizimos = new javax.swing.JPanel();
+        campos_dizimo = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         campo_data_lancamento = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
         campo_competencia = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        campo_num_recibo = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         campo_valor_dizimo = new javax.swing.JFormattedTextField();
-        componentes_pessoas = new javax.swing.JPanel();
+        lbl_recibo = new javax.swing.JLabel();
+        campos_dizimista = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         campo_nome_membro_dizimista = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         campo_doc_membro_dizimista = new javax.swing.JTextField();
         btn_localizar_membro_dizimista = new javax.swing.JButton();
-        componentes_pessoas1 = new javax.swing.JPanel();
+        campos_membros = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         campo_nome_resp_receber = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -228,7 +231,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-adicionar-banco-de-dados-96.png"))); // NOI18N
         jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        componentes_dizimos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        campos_dizimo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
         jLabel2.setText("Data lançamento:");
@@ -251,16 +254,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         });
 
         jLabel4.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
-        jLabel4.setText("Numero Recibo:");
-
-        campo_num_recibo.setEditable(false);
-        campo_num_recibo.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
-        campo_num_recibo.setEnabled(false);
-        campo_num_recibo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                campo_num_reciboKeyPressed(evt);
-            }
-        });
+        jLabel4.setText("Recibo");
 
         jLabel5.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
         jLabel5.setText("Valor dizimado:");
@@ -273,54 +267,55 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout componentes_dizimosLayout = new javax.swing.GroupLayout(componentes_dizimos);
-        componentes_dizimos.setLayout(componentes_dizimosLayout);
-        componentes_dizimosLayout.setHorizontalGroup(
-            componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(componentes_dizimosLayout.createSequentialGroup()
+        javax.swing.GroupLayout campos_dizimoLayout = new javax.swing.GroupLayout(campos_dizimo);
+        campos_dizimo.setLayout(campos_dizimoLayout);
+        campos_dizimoLayout.setHorizontalGroup(
+            campos_dizimoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(campos_dizimoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(campos_dizimoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(campos_dizimoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(campo_data_lancamento, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                     .addComponent(campo_competencia))
-                .addGap(31, 31, 31)
-                .addGroup(componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                .addGap(29, 29, 29)
+                .addComponent(jLabel5)
                 .addGap(22, 22, 22)
-                .addGroup(componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(campo_num_recibo)
-                    .addComponent(campo_valor_dizimo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addComponent(campo_valor_dizimo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(campos_dizimoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, campos_dizimoLayout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, campos_dizimoLayout.createSequentialGroup()
+                        .addComponent(lbl_recibo, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))))
         );
-        componentes_dizimosLayout.setVerticalGroup(
-            componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(componentes_dizimosLayout.createSequentialGroup()
+        campos_dizimoLayout.setVerticalGroup(
+            campos_dizimoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(campos_dizimoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(componentes_dizimosLayout.createSequentialGroup()
-                        .addGroup(componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(campos_dizimoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(campos_dizimoLayout.createSequentialGroup()
+                        .addGroup(campos_dizimoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(campo_data_lancamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(campo_data_lancamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(campo_valor_dizimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addGroup(componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(campos_dizimoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(campo_competencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(componentes_dizimosLayout.createSequentialGroup()
-                        .addGroup(componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(campo_num_recibo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(componentes_dizimosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(campo_valor_dizimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(campos_dizimoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lbl_recibo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        componentes_pessoas.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        campos_dizimista.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel6.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
         jLabel6.setText("Membro dizimista:");
@@ -344,36 +339,36 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout componentes_pessoasLayout = new javax.swing.GroupLayout(componentes_pessoas);
-        componentes_pessoas.setLayout(componentes_pessoasLayout);
-        componentes_pessoasLayout.setHorizontalGroup(
-            componentes_pessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(componentes_pessoasLayout.createSequentialGroup()
+        javax.swing.GroupLayout campos_dizimistaLayout = new javax.swing.GroupLayout(campos_dizimista);
+        campos_dizimista.setLayout(campos_dizimistaLayout);
+        campos_dizimistaLayout.setHorizontalGroup(
+            campos_dizimistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(campos_dizimistaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(componentes_pessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(campos_dizimistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(campo_nome_membro_dizimista)
-                    .addGroup(componentes_pessoasLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(componentes_pessoasLayout.createSequentialGroup()
-                        .addGroup(componentes_pessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(campo_doc_membro_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_localizar_membro_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(campos_dizimistaLayout.createSequentialGroup()
+                        .addGroup(campos_dizimistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addGroup(campos_dizimistaLayout.createSequentialGroup()
+                                .addGroup(campos_dizimistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(campo_doc_membro_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_localizar_membro_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(16, 16, 16))
         );
-        componentes_pessoasLayout.setVerticalGroup(
-            componentes_pessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(componentes_pessoasLayout.createSequentialGroup()
+        campos_dizimistaLayout.setVerticalGroup(
+            campos_dizimistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(campos_dizimistaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(campo_nome_membro_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(componentes_pessoasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(componentes_pessoasLayout.createSequentialGroup()
+                .addGroup(campos_dizimistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(campos_dizimistaLayout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(campo_doc_membro_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -381,7 +376,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        componentes_pessoas1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        campos_membros.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel8.setFont(new java.awt.Font("Ebrima", 0, 14)); // NOI18N
         jLabel8.setText("Responsavel pelo recebimento:");
@@ -405,36 +400,36 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout componentes_pessoas1Layout = new javax.swing.GroupLayout(componentes_pessoas1);
-        componentes_pessoas1.setLayout(componentes_pessoas1Layout);
-        componentes_pessoas1Layout.setHorizontalGroup(
-            componentes_pessoas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(componentes_pessoas1Layout.createSequentialGroup()
+        javax.swing.GroupLayout campos_membrosLayout = new javax.swing.GroupLayout(campos_membros);
+        campos_membros.setLayout(campos_membrosLayout);
+        campos_membrosLayout.setHorizontalGroup(
+            campos_membrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(campos_membrosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(componentes_pessoas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(campos_membrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(campo_nome_resp_receber)
-                    .addGroup(componentes_pessoas1Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(componentes_pessoas1Layout.createSequentialGroup()
-                        .addGroup(componentes_pessoas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(campo_doc_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_localizar_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(campos_membrosLayout.createSequentialGroup()
+                        .addGroup(campos_membrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addGroup(campos_membrosLayout.createSequentialGroup()
+                                .addGroup(campos_membrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(campo_doc_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_localizar_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(16, 16, 16))
         );
-        componentes_pessoas1Layout.setVerticalGroup(
-            componentes_pessoas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(componentes_pessoas1Layout.createSequentialGroup()
+        campos_membrosLayout.setVerticalGroup(
+            campos_membrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(campos_membrosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(campo_nome_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(componentes_pessoas1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(componentes_pessoas1Layout.createSequentialGroup()
+                .addGroup(campos_membrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(campos_membrosLayout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(campo_doc_resp_receber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -493,13 +488,13 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(componentes_dizimos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(componentes_pessoas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(componentes_pessoas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(campos_dizimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(campos_dizimista, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(campos_membros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 158, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -508,11 +503,11 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(componentes_dizimos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campos_dizimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(componentes_pessoas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campos_dizimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(componentes_pessoas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campos_membros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 7, Short.MAX_VALUE)))
@@ -525,26 +520,51 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
         // verificamos se os campos obrigatorios foram preenchidos
-        Component[] pessoas = componentes_pessoas.getComponents();
-        Component[] dizimos = componentes_dizimos.getComponents();
+//        Component[] pessoas = campos_dizimista.getComponents();
+//        Component[] dizimos = campos_dizimo.getComponents();
 
-        if (verificarCamposObrigatorios(pessoas) && verificarCamposObrigatorios(componentes_pessoas1.getComponents())) {
-            if (verificarCamposObrigatorios(dizimos)) {
-                /*
-                // capturando data de lançamento e descricao conteudo
-                DizimoModel lanc_dizimos = new DizimoModel();
-                lanc_dizimos.setData(campo_data_lancamento.getText());
-                lanc_dizimos.setCompetencia(campo_competencia.getText());
-                lanc_dizimos.setRecibo(Integer.parseInt(campo_num_recibo.getText()));
-                lanc_dizimos.setValor(convertValorInfo(campo_valor_dizimo.getText()));
-                MembroModel pessoa = new MembroModel();
-                pessoa.setId_pessoa(this.id_pessoa_selecionada);
-                lanc_dizimos.setPessoa(pessoa);
+        if (verificarCamposObrigatorios(campos_dizimista.getComponents()) && verificarCamposObrigatorios(campos_membros.getComponents())) {
+            if (verificarCamposObrigatorios(campos_dizimo.getComponents())) {
 
-                // objeto que ira fazer a gravação na tabela dizimos
-                dizimo_control dizimo = new dizimo_control();
-                dizimo.inserirLancDizimos(lanc_dizimos);
-                 */
+                // geração do recibo
+                Recibo_Control recibo = new Recibo_Control();
+                ReciboModel reciboModel = recibo.gravarRecibo();
+
+                // caso nao tenha sido gerado o recibo, não sera feito a gravação
+                if (reciboModel == null) {
+
+                    JOptionPane.showMessageDialog(null, "Ops... não foi possivel gerar um recibo para este registro!");
+
+                } else {
+
+                    EntradasModel entrada = new EntradasModel();
+                    entrada.setData(campo_data_lancamento.getText());
+                    entrada.setCompetencia(campo_competencia.getText());
+                    entrada.setDescricao("Registro de entrada referente dizimos");
+                    entrada.setSituacao("A");
+                    entrada.setTipo_entrada("Dizimo");
+                    entrada.setValor(campo_valor_dizimo.getText());
+                    entrada.setTipo_entrada("Dizimo");
+
+                    // setando o valor do ID do recibo para este lançamento de entrada
+                    entrada.setRecibo(reciboModel.getIdRecibo());
+
+                    // atributo que ira disponibilizar para impressao o recibo
+                    idRecibo = reciboModel.getIdRecibo();
+
+                    // inserindo novas informações na tabela entradas
+                    registro_entrada_control novoLancamento = new registro_entrada_control();
+                    int idEntrada = novoLancamento.inserirNovoRegEntrada(entrada);
+
+                    // ativa o botao para imprimir o recibo
+                    if (idEntrada != 0) {
+
+                        JOptionPane.showMessageDialog(null, "Registro efetuado com sucesso!!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                }
+
             } else {
                 JOptionPane.showMessageDialog(this, "Preencha todos os campos obrigatorios referente ao dizimo :)", "Mensagem", JOptionPane.WARNING_MESSAGE);
             }
@@ -592,8 +612,8 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
     private void btn_atualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atualizarActionPerformed
         // verificamos se os campos obrigatorios foram preenchidos
-        Component[] pessoas = componentes_pessoas.getComponents();
-        Component[] dizimos = componentes_dizimos.getComponents();
+        Component[] pessoas = campos_dizimista.getComponents();
+        Component[] dizimos = campos_dizimo.getComponents();
 
         if (verificarCamposObrigatorios(pessoas)) {
             if (verificarCamposObrigatorios(dizimos)) {
@@ -626,22 +646,12 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     private void campo_data_lancamentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_data_lancamentoKeyPressed
         // capturando o evento ENTER
         if (evt.getKeyCode() == evt.VK_ENTER) {
-            campo_num_recibo.requestFocus();
+           campo_valor_dizimo.requestFocus();
         }
     }//GEN-LAST:event_campo_data_lancamentoKeyPressed
 
-    private void campo_num_reciboKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_num_reciboKeyPressed
-        // capturando o evento ENTER
-        if (evt.getKeyCode() == evt.VK_ENTER) {
-            campo_competencia.requestFocus();
-        }
-    }//GEN-LAST:event_campo_num_reciboKeyPressed
-
     private void campo_competenciaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_competenciaKeyPressed
-        // capturando o evento ENTER
-        if (evt.getKeyCode() == evt.VK_ENTER) {
-            campo_valor_dizimo.requestFocus();
-        }
+
     }//GEN-LAST:event_campo_competenciaKeyPressed
 
     private void campo_valor_dizimoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_valor_dizimoKeyPressed
@@ -725,11 +735,10 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     private javax.swing.JTextField campo_doc_resp_receber;
     private javax.swing.JTextField campo_nome_membro_dizimista;
     private javax.swing.JTextField campo_nome_resp_receber;
-    private javax.swing.JTextField campo_num_recibo;
     private javax.swing.JFormattedTextField campo_valor_dizimo;
-    private javax.swing.JPanel componentes_dizimos;
-    private javax.swing.JPanel componentes_pessoas;
-    private javax.swing.JPanel componentes_pessoas1;
+    private javax.swing.JPanel campos_dizimista;
+    private javax.swing.JPanel campos_dizimo;
+    private javax.swing.JPanel campos_membros;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -740,5 +749,6 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel lbl_recibo;
     // End of variables declaration//GEN-END:variables
 }

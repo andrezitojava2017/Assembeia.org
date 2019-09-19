@@ -17,32 +17,33 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public abstract class Registro {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     protected int identificador;
-    
+
     @Column
     protected String data;
-    
+
     @Column
     protected String competencia;
-    
+
     @Column
     protected String descricao;
-    
+/*
     @Column
     protected double valor;
-    
+*/
+    @Column
+    protected String valor;
+
     @Column(name = "id_recibo")
     protected int recibo;
-    
+
     @Column
     protected String situacao;
 
-    
-    
     public String getSituacao() {
         return situacao;
     }
@@ -58,7 +59,6 @@ public abstract class Registro {
     public void setRecibo(int recibo) {
         this.recibo = recibo;
     }
-
 
     public String getData() {
         return data;
@@ -84,11 +84,11 @@ public abstract class Registro {
         this.descricao = descricao;
     }
 
-    public double getValor() {
+    public String getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor(String valor) {
         this.valor = valor;
     }
 

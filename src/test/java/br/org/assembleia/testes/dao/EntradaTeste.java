@@ -5,32 +5,32 @@
  */
 package br.org.assembleia.testes.dao;
 
-import br.org.assembleia.dao.EntradasDao;
-import br.org.assembleia.model.EntradasModel;
-import br.org.assembleia.model.TipoEntradaModel;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Currency;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author andre
  */
 public class EntradaTeste {
-    
+
     public static void main(String[] args) {
-        
-        EntradasModel entrada = new EntradasModel();
-        entrada.setData("27/07/2019");
-        DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dat = LocalDate.parse(entrada.getData(), f);
-        
-        entrada.setData(dat.toString());
-        
-        System.out.println("DAta: " + entrada.getData());
-        
+
+        try {
+            DecimalFormat fr = new DecimalFormat("###,##0.00");
+            fr.setCurrency(Currency.getInstance(new Locale("pt", "BR")));
+
+            String valor = "1004,18";
+            System.out.println("formatdor: " + fr.parse(valor));
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(EntradaTeste.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }
