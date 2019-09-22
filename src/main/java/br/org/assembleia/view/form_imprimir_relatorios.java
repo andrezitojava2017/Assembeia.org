@@ -5,7 +5,7 @@
  */
 package br.org.assembleia.view;
 
-import br.org.assembleia.control.dizimo_control;
+import br.org.assembleia.control.DizimoController;
 import br.org.assembleia.control.SaidasController;
 import br.org.assembleia.control.registro_entrada_control;
 import br.org.assembleia.dao.EntradasDao;

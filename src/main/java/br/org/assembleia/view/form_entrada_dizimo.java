@@ -5,8 +5,10 @@
  */
 package br.org.assembleia.view;
 
+import br.org.assembleia.control.DizimoController;
 import br.org.assembleia.control.Recibo_Control;
 import br.org.assembleia.control.registro_entrada_control;
+import br.org.assembleia.model.DizimoModel;
 import br.org.assembleia.model.EntradasModel;
 import br.org.assembleia.model.MembroModel;
 import br.org.assembleia.model.PessoasModel;
@@ -113,6 +115,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         //this.getPessoa = controller.getPessoa(this.id_pessoa_selecionada);
         campo_nome_membro_dizimista.setText(get.getNome());
         campo_doc_membro_dizimista.setText(get.getCpf());
+        this.membroDizimista = get;
 
     }
 
@@ -125,6 +128,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         //this.getPessoa = controller.getPessoa(this.id_pessoa_selecionada);
         campo_nome_resp_receber.setText(get.getNome());
         campo_doc_resp_receber.setText(get.getCpf());
+        this.membroReceptor = get;
 
     }
 
@@ -267,6 +271,11 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
             }
         });
 
+        lbl_recibo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_recibo.setForeground(new java.awt.Color(153, 0, 0));
+        lbl_recibo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_recibo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         javax.swing.GroupLayout campos_dizimoLayout = new javax.swing.GroupLayout(campos_dizimo);
         campos_dizimo.setLayout(campos_dizimoLayout);
         campos_dizimoLayout.setHorizontalGroup(
@@ -284,14 +293,15 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 .addComponent(jLabel5)
                 .addGap(22, 22, 22)
                 .addComponent(campo_valor_dizimo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(campos_dizimoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, campos_dizimoLayout.createSequentialGroup()
+                    .addGroup(campos_dizimoLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(46, 46, 46))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, campos_dizimoLayout.createSequentialGroup()
-                        .addComponent(lbl_recibo, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26))))
+                    .addGroup(campos_dizimoLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbl_recibo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         campos_dizimoLayout.setVerticalGroup(
             campos_dizimoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -559,8 +569,26 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                     // ativa o botao para imprimir o recibo
                     if (idEntrada != 0) {
 
-                        JOptionPane.showMessageDialog(null, "Registro efetuado com sucesso!!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                        // realiza inserção de dados na tabela especifica de dizimos
+                        DizimoModel dizimo = new DizimoModel();
+                        dizimo.setCompetencia(campo_competencia.getText());
+                        dizimo.setData(entrada.getData());
+                        dizimo.setDescricao("Registro de entrada referente dizimos");
+                        dizimo.setIdDizimista(this.membroDizimista.getId_pessoa());
+                        dizimo.setIdMembroReceptor(this.membroReceptor.getId_pessoa());
+                        dizimo.setRecibo(idRecibo);
+                        dizimo.setSituacao("A");
+                        dizimo.setValor(entrada.getValor());
+                        dizimo.setIdEntrada(idEntrada);
 
+                        DizimoController controller = new DizimoController();
+                        dizimo = controller.insertRegistroDizimo(dizimo);
+
+                        if (dizimo.getIdentificador() != 0) {
+
+                            JOptionPane.showMessageDialog(null, "Registro efetuado com sucesso!!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                            lbl_recibo.setText(reciboModel.getAnoRecibo() + "-" + reciboModel.getSequencia());
+                        }
                     }
 
                 }
@@ -646,7 +674,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     private void campo_data_lancamentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_data_lancamentoKeyPressed
         // capturando o evento ENTER
         if (evt.getKeyCode() == evt.VK_ENTER) {
-           campo_valor_dizimo.requestFocus();
+            campo_valor_dizimo.requestFocus();
         }
     }//GEN-LAST:event_campo_data_lancamentoKeyPressed
 

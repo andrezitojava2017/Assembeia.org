@@ -5,13 +5,7 @@
  */
 package br.org.assembleia.testes.dao;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Currency;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -21,16 +15,6 @@ public class EntradaTeste {
 
     public static void main(String[] args) {
 
-        try {
-            DecimalFormat fr = new DecimalFormat("###,##0.00");
-            fr.setCurrency(Currency.getInstance(new Locale("pt", "BR")));
-
-            String valor = "1004,18";
-            System.out.println("formatdor: " + fr.parse(valor));
-            
-        } catch (ParseException ex) {
-            Logger.getLogger(EntradaTeste.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
     }
 }

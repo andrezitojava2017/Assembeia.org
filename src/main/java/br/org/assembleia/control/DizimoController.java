@@ -5,7 +5,7 @@
  */
 package br.org.assembleia.control;
 
-import br.org.assembleia.dao.dizimos_dao;
+import br.org.assembleia.dao.DizimoDao;
 import br.org.assembleia.model.DizimoModel;
 import java.util.List;
 
@@ -13,17 +13,17 @@ import java.util.List;
  *
  * @author Andre
  */
-public class dizimo_control {
+public class DizimoController {
 
-    /**
-     * Inserção de lancamento de dizimos
-     *
-     * @param dizimos
-     */
-    public void inserirLancDizimos(DizimoModel dizimos) {
+/**
+ * Insert de novo registro de DIZIMO  na tabela especifica
+ * @param registro
+ * @return DizimoModel 
+ */
+    public DizimoModel insertRegistroDizimo(DizimoModel registro) {
 
-        dizimos_dao dao = new dizimos_dao();
-        dao.novoLancamentoDizimo(dizimos);
+        DizimoModel model = new DizimoModel();
+        return model.insertRegistroDizimo(registro);
     }
 
     /**
@@ -32,9 +32,7 @@ public class dizimo_control {
      */
     public List<DizimoModel> recuperarCompetenciasDizimos() {
 
-        dizimos_dao dao = new dizimos_dao();
-        List<DizimoModel> dizimos = dao.carregarCompetenciasDizimos();
-        return dizimos;
+        return null;
     }
 
     /**
@@ -45,9 +43,7 @@ public class dizimo_control {
      */
     public List<DizimoModel> recuperarLancamentosDizimos() {
 
-        dizimos_dao dao = new dizimos_dao();
-        List<DizimoModel> dizimos = dao.carregarRegistrosEntradaDizimo();
-        return dizimos;
+        return null;
     }
 
     /**
@@ -57,9 +53,8 @@ public class dizimo_control {
      * @return dizimo
      */
     public DizimoModel recuperarRegistroParaAlterar(int id_registro) {
-        dizimos_dao dao = new dizimos_dao();
-        DizimoModel dizimos = dao.carregarRegistrosEntradaDizimo(id_registro);
-        return dizimos;
+
+        return null;
     }
 
     /**
@@ -68,7 +63,6 @@ public class dizimo_control {
      * @param registro DizimoModel
      */
     public void atualizarRegistroDizimo(DizimoModel registro) {
-        dizimos_dao dao = new dizimos_dao();
-        dao.atualizarDadosRegistroDizimo(registro);
+
     }
 }

@@ -5,7 +5,7 @@
  */
 package br.org.assembleia.view;
 
-import br.org.assembleia.control.dizimo_control;
+import br.org.assembleia.control.DizimoController;
 import br.org.assembleia.model.DizimoModel;
 import br.org.assembleia.abstratas.Pessoas;
 import java.text.DecimalFormat;
@@ -46,7 +46,7 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
      */
     private void recuperarDadosLancDizimos(){
         
-        dizimo_control control = new dizimo_control();
+        DizimoController control = new DizimoController();
         this.dizimos = control.recuperarLancamentosDizimos();
         
     }
@@ -56,7 +56,7 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
      */
     private void preencherComboBoxCompetencias() {
 
-        dizimo_control control = new dizimo_control();
+        DizimoController control = new DizimoController();
         this.dizimos = control.recuperarCompetenciasDizimos();
 
         for (DizimoModel dizimo : dizimos) {
@@ -87,7 +87,7 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
         tabela.setNumRows(0);
         
         // recupera uma lista com os lançamento de uma dterminado competencia
-        dizimo_control control = new dizimo_control();
+        DizimoController control = new DizimoController();
         List<DizimoModel> listaDizimos = control.recuperarLancamentosDizimos();
 
         // preenchendo a tabela
