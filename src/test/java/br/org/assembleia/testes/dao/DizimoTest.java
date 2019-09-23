@@ -5,10 +5,13 @@
  */
 package br.org.assembleia.testes.dao;
 
-import br.org.assembleia.dao.DizimoDao;
 import br.org.assembleia.model.DizimoModel;
-import java.time.LocalDate;
-import org.exolab.castor.types.DateTime;
+import br.org.assembleia.model.EntradasModel;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 
 /**
  *
@@ -18,22 +21,12 @@ public class DizimoTest {
     
     public static void main(String[] args) {
         
-        DizimoModel model = new DizimoModel();
-        
-        LocalDate dta = LocalDate.now();
-        
-        model.setIdDizimista(2);
-        model.setIdEntrada(43);
-        model.setIdMembroReceptor(1);
-        model.setData(dta.toString());
-        model.setCompetencia("09/2019");
-        model.setDescricao("Teste de inserção");
-        model.setRecibo(69);
-        model.setSituacao("A");
-        
-        
-        DizimoDao dao = new DizimoDao();
-        dao.insertRegistroDizimo(model);
+        EntradasModel md = new EntradasModel();
+        try {
+            System.out.println(md.formatarValores("12.50"));
+        } catch (ParseException ex) {
+            Logger.getLogger(DizimoTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
     }

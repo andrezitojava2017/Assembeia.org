@@ -6,6 +6,8 @@
 package br.org.assembleia.view;
 
 import br.org.assembleia.control.DizimoController;
+import br.org.assembleia.control.MembroController;
+import br.org.assembleia.control.PessoasController;
 import br.org.assembleia.control.Recibo_Control;
 import br.org.assembleia.control.registro_entrada_control;
 import br.org.assembleia.model.DizimoModel;
@@ -18,6 +20,8 @@ import java.awt.Component;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Currency;
+import java.util.Locale;
 import java.util.stream.IntStream;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -30,7 +34,7 @@ import javax.swing.border.LineBorder;
 public class form_entrada_dizimo extends javax.swing.JDialog {
 
     //private int id_pessoa_selecionada = 0;
-    private int id_registro_dizimo = 0;
+    private DizimoModel registroRecuperado = null;
     private PessoasModel membroDizimista = null;
     private MembroModel membroReceptor = null;
     private int idRecibo = 0;
@@ -75,36 +79,6 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     }
 
     /**
-     * metodo criado para tratar os valores corretamente
-     *
-     * @param valor_entrada
-     */
-    private double convertValorInfo(String valor_entrada) {
-
-        // transfroma em vetor
-        IntStream s = valor_entrada.chars();
-        double valor = 0;
-
-        // verifica a qtd de posiçoes... indica numeros com casas de milhares
-        if (s.count() > 6) {
-            String n = valor_entrada.replace(".", "");
-            String b = n.replace(",", ".");
-
-            valor = Double.parseDouble(b);
-//            System.out.println(valor);
-
-        } else {
-
-            // valores com casas abaixo de milhares
-            String n = valor_entrada.replace(",", ".");
-            valor = Double.parseDouble(n);
-//            System.out.println(n);
-        }
-
-        return valor;
-    }
-
-    /**
      * preenche campos referente a pessoa que esta dizimando
      *
      * @param id_pessoa
@@ -120,6 +94,20 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     }
 
     /**
+     * preenche campos referente a pessoa que esta dizimando
+     *
+     * @param id_pessoa
+     */
+    private void preencherCamposPessoasDizimista(int idDizimista) {
+
+        PessoasController controller = new PessoasController();
+        this.membroDizimista = controller.getPessoa(idDizimista);
+        campo_nome_membro_dizimista.setText(membroDizimista.getNome());
+        campo_doc_membro_dizimista.setText(membroDizimista.getCpf());
+
+    }
+
+    /**
      * Preenche campos do responsavel que esta recebendo os valores
      */
     private void preencherCamposMembroResponsavel(MembroModel get) {
@@ -130,6 +118,36 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         campo_doc_resp_receber.setText(get.getCpf());
         this.membroReceptor = get;
 
+    }
+
+    /**
+     * Preenche campos do responsavel que esta recebendo os valores
+     */
+    private void preencherCamposMembroResponsavel(int idResponsavel) {
+
+        MembroController controller = new MembroController();
+        this.membroReceptor = controller.getMembro(idResponsavel);
+        
+        PessoasController ctr = new PessoasController();
+        PessoasModel pessoa = ctr.getPessoa(membroReceptor.getId_pessoa());
+        
+        this.
+        campo_nome_resp_receber.setText(pessoa.getNome());
+        campo_doc_resp_receber.setText(pessoa.getCpf());
+
+    }
+    
+    /**
+     * Recupera o recibo de um determinado registro
+     * @param idRecibo
+     * @return String
+     */
+    private void preencherSequenciaRecibo(int idRecibo){
+        Recibo_Control ctr = new Recibo_Control();
+        ReciboModel recibo = ctr.getRecibo(idRecibo);
+        String sequencia = recibo.getAnoRecibo() + "-" + recibo.getSequencia();
+        lbl_recibo.setText(sequencia);
+        this.idRecibo = recibo.getIdRecibo();
     }
 
     /**
@@ -150,18 +168,13 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
      *
      * @param id_registro
      */
-    private void preencherCamposRegistroParaAlterar(int id_registro) {
-        /*
-        dizimo_control control = new dizimo_control();
-        DizimoModel dizimo = control.recuperarRegistroParaAlterar(id_registro);
-        campo_competencia.setText(dizimo.getCompetencia());
-        campo_data_lancamento.setText(formatarDataCampo(dizimo.getData()));
-        campo_valor_dizimo.setText(formatarValorCampo(dizimo.getValor()));
-        campo_num_recibo.setText(String.valueOf(dizimo.getRecibo()));
+    private void preencherCamposRegistroParaAlterar(DizimoModel registro) {
 
-        this.id_pessoa_selecionada = dizimo.getPessoa().getId_pessoa(); // id da pessoa 
-        preencherCamposPessoasEmpresa(dizimo.getPessoa().getId_pessoa());
-         */
+        campo_competencia.setText(registro.getCompetencia());
+        campo_data_lancamento.setText(registro.getData());
+
+        Double valor = Double.parseDouble(registro.getValor());
+        campo_valor_dizimo.setText(formatarValorCampo(valor));
     }
 
     /**
@@ -187,6 +200,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
     private String formatarValorCampo(double valorDizimo) {
         // formatação correta dos valores
         DecimalFormat decim = new DecimalFormat("###,##0.00");
+        decim.setCurrency(Currency.getInstance(new Locale("pt", "BR")));
         String valorFormt = decim.format(valorDizimo);
         return valorFormt;
     }
@@ -295,7 +309,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                 .addComponent(campo_valor_dizimo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(campos_dizimoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(campos_dizimoLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(46, 46, 46))
                     .addGroup(campos_dizimoLayout.createSequentialGroup()
@@ -503,8 +517,7 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
                             .addComponent(campos_membros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 158, Short.MAX_VALUE))))
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -624,10 +637,23 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         form_localizar_dizimos localizar = new form_localizar_dizimos(null, true);
         localizar.setVisible(true);
 
-        if (localizar.cod_reg != 0) {
-            preencherCamposRegistroParaAlterar(localizar.cod_reg);
-            this.id_registro_dizimo = localizar.cod_reg;
+        if (localizar.itemSelecionado != null) {
 
+            // define um objeto dizimoModel recuperado
+            this.registroRecuperado = localizar.itemSelecionado;
+            
+            // preenche campos do lançamento
+            preencherCamposRegistroParaAlterar(localizar.itemSelecionado);
+
+            // preenche campos do dizimista
+            preencherCamposPessoasDizimista(localizar.itemSelecionado.getIdDizimista());
+
+            // preenche campos do membro receptor
+            preencherCamposMembroResponsavel(localizar.itemSelecionado.getIdMembroReceptor());
+            
+            // preenche o label com o recibo vinculado
+            preencherSequenciaRecibo(localizar.itemSelecionado.getRecibo());
+            
             // Desativando botoes
             btn_novo_lancamento.setEnabled(false);
             btn_salvar.setEnabled(false);
@@ -645,21 +671,25 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
         if (verificarCamposObrigatorios(pessoas)) {
             if (verificarCamposObrigatorios(dizimos)) {
-                /*
+                
                 DizimoModel lanc_dizimo = new DizimoModel();
-                MembroModel pessoa = new MembroModel();
+                
                 lanc_dizimo.setCompetencia(campo_competencia.getText());
                 lanc_dizimo.setData(campo_data_lancamento.getText());
-                lanc_dizimo.setId_dizimo(this.id_registro_dizimo);
-                lanc_dizimo.setValor(convertValorInfo(campo_valor_dizimo.getText()));
-                lanc_dizimo.setRecibo(Integer.parseInt(campo_num_recibo.getText()));
-                pessoa.setId_pessoa(this.id_pessoa_selecionada);
-                lanc_dizimo.setPessoa(pessoa);
+                lanc_dizimo.setIdentificador(this.registroRecuperado.getIdentificador());
+                lanc_dizimo.setValor(campo_valor_dizimo.getText());
+                lanc_dizimo.setRecibo(this.idRecibo);
+                lanc_dizimo.setIdDizimista(this.membroDizimista.getId_pessoa());
+                lanc_dizimo.setIdMembroReceptor(this.membroReceptor.getId_pessoa());
+                lanc_dizimo.setDescricao("Registro de entrada referente dizimos");
+                lanc_dizimo.setSituacao("A");
+                lanc_dizimo.setIdEntrada(this.registroRecuperado.getIdEntrada());
+                
 
                 // chamando metodo que ira fazer a atualização na base de dados
-                dizimo_control control = new dizimo_control();
+                DizimoController control = new DizimoController();
                 control.atualizarRegistroDizimo(lanc_dizimo);
-                 */
+                 
             } else {
                 JOptionPane.showMessageDialog(this, "Preencha todos os campos obrigatorios referente ao dizimo :)", "Mensagem", JOptionPane.WARNING_MESSAGE);
             }

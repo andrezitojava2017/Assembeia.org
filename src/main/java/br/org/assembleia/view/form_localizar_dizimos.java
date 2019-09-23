@@ -7,11 +7,11 @@ package br.org.assembleia.view;
 
 import br.org.assembleia.control.DizimoController;
 import br.org.assembleia.model.DizimoModel;
-import br.org.assembleia.abstratas.Pessoas;
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import br.org.assembleia.control.PessoasController;
+import br.org.assembleia.model.PessoasModel;
+import java.awt.event.KeyEvent;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,9 +26,12 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
      * banco
      */
     private List<DizimoModel> dizimos;
+    
+    // armazena o objeto que foi selecionado na tabela de registros,
+    // assim, evitamos de realizar uma nova busca na tela de entrada de dizimo,
+    // esse registro ira ser retornado com todos os dados necessarioss
+    DizimoModel itemSelecionado = null;
 
-    // atributo que ira armazenar o id selecionado na tabela, indicndo qual registro sera alterado
-    int cod_reg = 0;
 
     /**
      * Creates new form form_alterar_reg_entrada
@@ -36,109 +39,61 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
     public form_localizar_dizimos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        preencherComboBoxCompetencias();
-        recuperarDadosLancDizimos();
     }
 
-    /**
-     * Simplesmente faz a captura de todas as informações da tabela dizimos
-     * armazenando em uma list<dizimos_model>
-     */
-    private void recuperarDadosLancDizimos(){
-        
-        DizimoController control = new DizimoController();
-        this.dizimos = control.recuperarLancamentosDizimos();
-        
-    }
-    
-    /**
-     * Preenche o combobox com as competencias registradas na tabela de dizimos
-     */
-    private void preencherComboBoxCompetencias() {
-
-        DizimoController control = new DizimoController();
-        this.dizimos = control.recuperarCompetenciasDizimos();
-
-        for (DizimoModel dizimo : dizimos) {
-            combo_competencias.addItem(dizimo.getCompetencia());
-        }
-    }
 
     /**
-     * preenche a area de descrição com as informaçoes da pessoa vinculada ao
-     * registro de dizimo
+     * Recupera o nome de um determinado dizimista para preenchar a coluna
+     * especifica da tabela de registros
+     *
+     * @param idPessoa
+     * @return String
      */
-    private void preencherDadosReferentePessoa(int idPessoa) {
-        /*
-        pessoas_control pessoa = new pessoas_control();
-        Pessoas lista = pessoa.capturarInfoPessoasEmpresa(idPessoa);
-        textArea_descricao.setText(lista.getNome());
-        */
+    private String getNomeDizimista(int idPessoa) {
+
+        PessoasController controller = new PessoasController();
+        PessoasModel dizimista = controller.getPessoa(idPessoa);
+        return dizimista.getNome();
     }
 
     /**
      * Metodo que faz o preenchimento da tabela com as informações recuperadas
-     * da tabela ENTRADAS
+     * da tabela DIZIMOS
      *
      */
-    private void preencherTabelaRegEntradas(String competencia) {
+    private void preencherTabelaListaDizimos(String competencia) {
 
         DefaultTableModel tabela = (DefaultTableModel) tbl_registros.getModel();
         tabela.setNumRows(0);
-        
+
         // recupera uma lista com os lançamento de uma dterminado competencia
         DizimoController control = new DizimoController();
-        List<DizimoModel> listaDizimos = control.recuperarLancamentosDizimos();
+        List<DizimoModel> listaDizimos = control.getListaRegistrosDizimos(competencia);
+        
+        // atribui a lista global
+        this.dizimos = listaDizimos;
+        
+        
+        if (listaDizimos.isEmpty()) {
+            lblMensagem.setText("Nenhum registro encontrato!");
+        } else {
 
-        // preenchendo a tabela
-        for (DizimoModel dizimo : listaDizimos) {
-            if (dizimo.getCompetencia().equalsIgnoreCase(competencia)) {
+            // retira a msg, caso houver
+            lblMensagem.setText(null);
+
+            // preenchendo a tabela
+            for (DizimoModel dizimo : listaDizimos) {
 
                 tabela.addRow(new Object[]{
-                    dizimo.getId_dizimo(),
-                    formatarData(dizimo.getData()),
-                    dizimo.getCompetencia(),
-                    formatarValor(dizimo.getValor())
+                    dizimo.getIdentificador(),
+                    dizimo.getData(),
+                    dizimo.getValor(),
+                    getNomeDizimista(dizimo.getIdDizimista())
 
                 });
             }
         }
-    }
 
-    /**
-     * Metodo para formatar valores doubles no formato BR
-     *
-     * @param valor
-     * @return String valorFormatado
-     */
-    private String formatarValor(String valor) {
-
-        String valorFormatado;
-
-        DecimalFormat format = new DecimalFormat("R$ ###,##0.00");
-        valorFormatado = format.format(valor);
-//        System.out.println(valorFormatado);
-
-        return valorFormatado;
-    }
-
-    /**
-     * Metodo que formata a data no padrão dd/MM/yyyy
-     *
-     * @param data
-     * @return String dat
-     */
-    private String formatarData(String data) {
-
-        String dataRegistro = null;
-
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dat = LocalDate.parse(data);
-
-        dataRegistro = format.format(dat);
-//        System.out.println(dataRegistro);
-
-        return dataRegistro;
     }
 
     /**
@@ -154,8 +109,9 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        combo_competencias = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        campoCompetencia = new javax.swing.JFormattedTextField();
+        btnCarregar = new javax.swing.JButton();
+        lblMensagem = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_registros = new javax.swing.JTable();
@@ -172,36 +128,60 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setFont(new java.awt.Font("DejaVu Sans", 1, 12)); // NOI18N
-        jLabel1.setText("Selecionar competencia:");
+        jLabel1.setText("Mes/Ano:");
+
+        try {
+            campoCompetencia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        campoCompetencia.setToolTipText("");
+        campoCompetencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoCompetenciaActionPerformed(evt);
+            }
+        });
+        campoCompetencia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                campoCompetenciaKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(combo_competencias, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(campoCompetencia, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(combo_competencias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(campoCompetencia, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
-        jButton1.setFont(new java.awt.Font("DejaVu Sans", 0, 12)); // NOI18N
-        jButton1.setText("Carregar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCarregar.setFont(new java.awt.Font("DejaVu Sans", 0, 12)); // NOI18N
+        btnCarregar.setText("Carregar");
+        btnCarregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCarregarActionPerformed(evt);
             }
         });
+        btnCarregar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnCarregarKeyPressed(evt);
+            }
+        });
+
+        lblMensagem.setForeground(new java.awt.Color(153, 0, 0));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -211,17 +191,20 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCarregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
+            .addComponent(lblMensagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnCarregar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addComponent(lblMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70))
         );
 
         tbl_registros.setFont(new java.awt.Font("DejaVu Sans", 0, 12)); // NOI18N
@@ -230,7 +213,7 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Codigo", "Data lancameto", "Competencia", "Valor R$"
+                "Codigo", "Data lancameto", "Valor R$", "Dizimista"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -250,14 +233,12 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tbl_registros);
         if (tbl_registros.getColumnModel().getColumnCount() > 0) {
-            tbl_registros.getColumnModel().getColumn(0).setMinWidth(30);
-            tbl_registros.getColumnModel().getColumn(0).setMaxWidth(60);
-            tbl_registros.getColumnModel().getColumn(1).setMinWidth(80);
+            tbl_registros.getColumnModel().getColumn(0).setMinWidth(50);
+            tbl_registros.getColumnModel().getColumn(0).setMaxWidth(50);
+            tbl_registros.getColumnModel().getColumn(1).setMinWidth(120);
             tbl_registros.getColumnModel().getColumn(1).setMaxWidth(120);
             tbl_registros.getColumnModel().getColumn(2).setMinWidth(80);
-            tbl_registros.getColumnModel().getColumn(2).setMaxWidth(120);
-            tbl_registros.getColumnModel().getColumn(3).setMinWidth(80);
-            tbl_registros.getColumnModel().getColumn(3).setMaxWidth(120);
+            tbl_registros.getColumnModel().getColumn(2).setMaxWidth(80);
         }
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Descrição:"));
@@ -303,10 +284,12 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 134, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,11 +322,17 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarActionPerformed
 
-        preencherTabelaRegEntradas(combo_competencias.getSelectedItem().toString());
+        if (!campoCompetencia.isValid()) {
+            JOptionPane.showMessageDialog(null, "Atenção preencha o campo com a competencia!");
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+        } else {
+
+            preencherTabelaListaDizimos(campoCompetencia.getText());
+        }
+
+    }//GEN-LAST:event_btnCarregarActionPerformed
 
     private void tbl_registrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_registrosMouseClicked
 
@@ -351,24 +340,46 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
         int linha = tbl_registros.getSelectedRow();
         int codSelec = Integer.parseInt(tbl_registros.getValueAt(linha, 0).toString());
 
-        for (DizimoModel dizimo : dizimos) {
-            if(dizimo.getId_dizimo() == codSelec){ // captura o id selecionado na tabela
-//                preencherDadosReferentePessoa(dizimo.getPessoa().getId_pessoa());
+        for (DizimoModel dizimo : this.dizimos) {
+            if (dizimo.getIdentificador() == codSelec) { // captura o id selecionado na tabela
+                textArea_descricao.setText(dizimo.getDescricao());
                 btn_alterar_reg.setEnabled(true);
             }
         }
-        
+
     }//GEN-LAST:event_tbl_registrosMouseClicked
 
     private void btn_alterar_regActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_alterar_regActionPerformed
 
         int row = tbl_registros.getSelectedRow();
-        int valor = (Integer) tbl_registros.getValueAt(row, 0);
-
-        //atribuindo valor, esse é o id do registro selecionado para possivel alteração
-        this.cod_reg = valor;
+        this.itemSelecionado = dizimos.get(row);
+        System.out.println(itemSelecionado.getIdentificador() + " " + itemSelecionado.getDescricao());
         dispose();
     }//GEN-LAST:event_btn_alterar_regActionPerformed
+
+    private void campoCompetenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCompetenciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoCompetenciaActionPerformed
+
+    private void campoCompetenciaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoCompetenciaKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnCarregar.requestFocus();
+        }
+    }//GEN-LAST:event_campoCompetenciaKeyPressed
+
+    private void btnCarregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnCarregarKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (!campoCompetencia.isValid()) {
+                JOptionPane.showMessageDialog(null, "Atenção preencha o campo com a competencia!");
+
+            } else {
+
+                preencherTabelaListaDizimos(campoCompetencia.getText());
+            }
+        }
+    }//GEN-LAST:event_btnCarregarKeyPressed
 
     /**
      * @param args the command line arguments
@@ -416,10 +427,10 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCarregar;
     private javax.swing.JButton btn_alterar_reg;
-    private javax.swing.JComboBox<String> combo_competencias;
+    private javax.swing.JFormattedTextField campoCompetencia;
     private javax.swing.ButtonGroup group;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -427,6 +438,7 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblMensagem;
     private javax.swing.JTable tbl_registros;
     private javax.swing.JTextArea textArea_descricao;
     // End of variables declaration//GEN-END:variables

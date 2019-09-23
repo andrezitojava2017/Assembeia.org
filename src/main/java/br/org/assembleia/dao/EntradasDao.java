@@ -105,7 +105,7 @@ public class EntradasDao {
             registros = query.getResultList();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro na tentativa de recuperar os registros a competencia informada!\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro na tentativa de recuperar os registros da competencia informada!\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             EntityManager.close();
             managerFactory.close();

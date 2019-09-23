@@ -7,6 +7,7 @@ package br.org.assembleia.control;
 
 import br.org.assembleia.dao.DizimoDao;
 import br.org.assembleia.model.DizimoModel;
+import br.org.assembleia.model.MembroModel;
 import java.util.List;
 
 /**
@@ -15,19 +16,22 @@ import java.util.List;
  */
 public class DizimoController {
 
-/**
- * Insert de novo registro de DIZIMO  na tabela especifica
- * @param registro
- * @return DizimoModel 
- */
+    /**
+     * Insert de novo registro de DIZIMO na tabela especifica
+     *
+     * @param registro
+     * @return DizimoModel
+     */
     public DizimoModel insertRegistroDizimo(DizimoModel registro) {
 
         DizimoModel model = new DizimoModel();
         return model.insertRegistroDizimo(registro);
     }
+    
 
     /**
      * Recupera uma lista de competencias ja lançadas na base de dados
+     *
      * @return List<> dizimos_model
      */
     public List<DizimoModel> recuperarCompetenciasDizimos() {
@@ -35,15 +39,17 @@ public class DizimoController {
         return null;
     }
 
+    
     /**
      * Recupera uma lista de todos os lançamentos registrados na tabela de
      * dizimos
      *
      * @return dizimos List<Dizimos_model>
      */
-    public List<DizimoModel> recuperarLancamentosDizimos() {
+    public List<DizimoModel> getListaRegistrosDizimos(String competenciia) {
 
-        return null;
+        DizimoModel model = new DizimoModel();
+        return model.getListaRegistroDizimo(competenciia);
     }
 
     /**
@@ -64,5 +70,7 @@ public class DizimoController {
      */
     public void atualizarRegistroDizimo(DizimoModel registro) {
 
+        DizimoModel update = new DizimoModel();
+        update.updateRegistroDizimo(registro);
     }
 }

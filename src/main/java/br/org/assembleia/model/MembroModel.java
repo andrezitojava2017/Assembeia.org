@@ -94,4 +94,15 @@ public class MembroModel extends PessoasModel {
         return dao.getListaMembro();
 
     }
+    
+    /**
+     * Recupera informações de um determinado membro
+     * @param idMembro
+     * @return MembroModel
+     */
+    public MembroModel getMembro(int idMembro){
+        MembroDao md = new MembroDao();
+        MembroModel membro = md.getMembro(idMembro);
+        return membro;
+    }
 }

@@ -50,7 +50,7 @@ public class EntradasModel extends Registro {
      * @param valor
      * @return String
      */
-    private String formatarValores(String valor) throws ParseException {
+    public String formatarValores(String valor) throws ParseException {
 
         DecimalFormat fr = new DecimalFormat("###,##0.00");
         fr.setCurrency(Currency.getInstance(new Locale("pt", "BR")));

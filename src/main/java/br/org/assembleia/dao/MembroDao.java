@@ -73,4 +73,27 @@ public class MembroDao {
         }
         return lista;
     }
+
+    /**
+     * Recupera informações de um determinado membro
+     * @param idMembro
+     * @return MembroModel
+     */
+    public MembroModel getMembro(int idMembro) {
+        MembroModel membro = null;
+        try {
+            managerFactory = new ConexaoJpa().getConexao("assembleia");
+            entityManager = managerFactory.createEntityManager();
+            membro = entityManager.find(MembroModel.class, idMembro);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao tentar recuperar lista de membros\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
+
+        } finally {
+            entityManager.close();
+            managerFactory.close();
+        }
+        return membro;
+    }
 }

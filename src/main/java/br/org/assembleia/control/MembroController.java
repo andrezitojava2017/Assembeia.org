@@ -37,4 +37,14 @@ public class MembroController {
         return membro.getListaMembro();
         
     }
+    
+    /**
+     * Recupera informações de um determinado membro
+     * @param idMembro
+     * @return MembroModel
+     */
+    public MembroModel getMembro(int idMembro){
+        MembroModel md = new MembroModel().getMembro(idMembro);
+        return md;
+    }
 }
