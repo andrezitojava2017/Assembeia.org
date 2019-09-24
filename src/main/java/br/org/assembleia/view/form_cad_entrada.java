@@ -17,7 +17,9 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.IntStream;
 import javax.swing.JOptionPane;
 
@@ -30,7 +32,7 @@ public class form_cad_entrada extends javax.swing.JDialog {
     // atributo que aramazenara o id do registro que sera alterado
     private int id_registro_alterar;
     private int idRecibo;
-    private static EntradasModel registro = new EntradasModel();
+    private EntradasModel registro = null;
     
 
     /**
@@ -52,35 +54,20 @@ public class form_cad_entrada extends javax.swing.JDialog {
         combo_tipo_entrada.setSelectedItem("");
 
     }
-
+    
+    
     /**
-     * metodo criado para tratar os valores corretamente
+     * Formata o valor de entrada em string no padrao R$1.234,12
      *
-     * @param valor_entrada
+     * @param valor
+     * @return String
      */
-    private double convertValorInfo(String valor_entrada) {
-
-        // transfroma em vetor
-        IntStream s = valor_entrada.chars();
-        double valor = 0;
-
-        // verifica a qtd de posiçoes... indica numeros com casas de milhares
-        if (s.count() > 6) {
-            String n = valor_entrada.replace(".", "");
-            String b = n.replace(",", ".");
-
-            valor = Double.parseDouble(b);
-//            System.out.println(valor);
-
-        } else {
-
-            // valores com casas abaixo de milhares
-            String n = valor_entrada.replace(",", ".");
-            valor = Double.parseDouble(n);
-//            System.out.println(n);
-        }
-
-        return valor;
+    private String formatarValorCampo(double valor) {
+        // formatação correta dos valores
+        DecimalFormat decim = new DecimalFormat("###,##0.00");
+        decim.setCurrency(Currency.getInstance(new Locale("pt", "BR")));
+        String valorFormt = decim.format(valor);
+        return valorFormt;
     }
 
     /**
@@ -122,11 +109,11 @@ public class form_cad_entrada extends javax.swing.JDialog {
      * Preenche os campos com os dados retornados da base de dados
      * @param id_registro_selec 
      */
-    private void preencherRegistroParaAlteracao(int id_registro_selec) {
+    private void preencherRegistroParaAlteracao(EntradasModel reg) {
 
         // instanciando objeto necessários
-        registro_entrada_control alterarEntrada = new registro_entrada_control();
-        registro = alterarEntrada.recuperarInfoRegistroParaAlterar(id_registro_selec);
+       // registro_entrada_control alterarEntrada = new registro_entrada_control();
+        registro = reg;
 
         // formatação de data
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -138,7 +125,7 @@ public class form_cad_entrada extends javax.swing.JDialog {
         // preechimeno de campos
         campo_data_lancamento.setText(format.format(data));
         campo_competencia.setText(registro.getCompetencia());
-        campo_valor_entrada.setText(decim.format(registro.getValor()));
+        campo_valor_entrada.setText(formatarValorCampo(Double.parseDouble(registro.getValor())));
         combo_tipo_entrada.setSelectedItem(registro.getTipo_entrada());
         area_descricao.setText(registro.getDescricao());
         
@@ -517,9 +504,9 @@ public class form_cad_entrada extends javax.swing.JDialog {
         form_alterar_registros reg = new form_alterar_registros(null, true, TipoRegistro.TIPO_ENTRADA);
         reg.setVisible(true);
 
-        if (reg.cod_reg != 0) {
+        if (reg.entradaSelec != null) {
 
-            preencherRegistroParaAlteracao(reg.cod_reg);
+            preencherRegistroParaAlteracao(reg.entradaSelec);
             btn_salvar_lancamento.setEnabled(false); // desativa btn salvar novo lancamento
             btn_salvar_alteracao.setEnabled(true); // ativa o btn de salvar atualização
             btn_excluir_registro.setEnabled(true); // ativa o btn de exclusão

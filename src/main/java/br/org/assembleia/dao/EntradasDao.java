@@ -132,7 +132,7 @@ public class EntradasDao {
             registro = EntityManager.find(EntradasModel.class, id_selecionado);
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro na tentativa de recuperar os TIPOS de Registros\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro na tentativa de recuperar registros selecionado\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             EntityManager.close();
             managerFactory.close();

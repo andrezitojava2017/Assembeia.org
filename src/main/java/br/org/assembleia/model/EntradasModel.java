@@ -65,7 +65,7 @@ public class EntradasModel extends Registro {
      * @return identificador - ID deste lançamento
      */
     public int GravarRegistroEntrada(EntradasModel entrada) {
-        
+
         try {
             // formatar a data padrao yyyy-MM-dd
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -74,7 +74,7 @@ public class EntradasModel extends Registro {
             // setendo data no formato aceito pelo mysql
             entrada.setData(ld.toString());
             entrada.setValor(formatarValores(entrada.getValor()));
-            
+
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao tentar converter valor para ser inserido na base de dados\n" + ex);
         }
@@ -131,6 +131,14 @@ public class EntradasModel extends Registro {
         DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy");  // formato que esta vindo a data
         LocalDate dat = LocalDate.parse(entrada.getData(), f); // aqui o parse transforma no padrao yyyy-MM-dd
         entrada.setData(dat.toString());
+
+        try {
+
+            entrada.setValor(formatarValores(entrada.getValor()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar formatar valor para padrao aceito pelo banco de dados!");
+        }
+        
         EntradasDao dao = new EntradasDao();
         int retorno = dao.atualizarRegEntrada(entrada);
         return retorno;

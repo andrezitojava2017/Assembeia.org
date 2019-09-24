@@ -28,7 +28,6 @@ import javax.swing.border.LineBorder;
  */
 public class form_cad_pessoas extends javax.swing.JFrame {
 
-    private int identificadorPessoa = 0;
     private PessoasModel pessoa = null;
 
     /**
@@ -71,11 +70,11 @@ public class form_cad_pessoas extends javax.swing.JFrame {
      *
      * @param idPessoa int
      */
-    private void preencherFormularioPessoas(int idPessoa) {
+    private void preencherFormularioPessoas(PessoasModel pessoa) {
 
-        PessoasController controller = new PessoasController();
-
-        pessoa = controller.getPessoa(idPessoa);
+//        PessoasController controller = new PessoasController();
+//
+//        pessoa = controller.getPessoa(idPessoa);
 
         campoNome.setText(pessoa.getNome());
         campoNacionalidade.setText(pessoa.getNacionalidade());
@@ -671,10 +670,10 @@ public class form_cad_pessoas extends javax.swing.JFrame {
         form_localizar_pessoas view = new form_localizar_pessoas(this, true);
         view.setVisible(true);
 
-        if (view.codigo_pessoa != 0) {
+        if (view.getPessoa != null) {
 
-            this.identificadorPessoa = view.codigo_pessoa;
-            preencherFormularioPessoas(view.codigo_pessoa);
+            this.pessoa = view.getPessoa;
+            preencherFormularioPessoas(view.getPessoa);
 
             btnSalvar.setEnabled(false);
         } else {

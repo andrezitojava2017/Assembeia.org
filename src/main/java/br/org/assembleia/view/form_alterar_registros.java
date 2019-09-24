@@ -12,9 +12,14 @@ import br.org.assembleia.model.TipoRegistro;
 import br.org.assembleia.model.EntradasModel;
 import br.org.assembleia.model.SaidasModel;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -31,6 +36,7 @@ public class form_alterar_registros extends javax.swing.JDialog {
      */
     public List<EntradasModel> regEntradas;
     public List<SaidasModel> regSaidas;
+    public EntradasModel entradaSelec = null;
 
     // atributo que ira armazenar o id selecionado na tabela, indicndo qual registro sera alterado
     int cod_reg = 0;
@@ -85,7 +91,7 @@ public class form_alterar_registros extends javax.swing.JDialog {
                 reg.getIdentificador(),
                 formatarData(reg.getData()),
                 reg.getCompetencia(),
-                formatarValor(reg.getValor())
+                formatarValor(Double.parseDouble(reg.getValor()))
 
             });
 
@@ -107,11 +113,11 @@ public class form_alterar_registros extends javax.swing.JDialog {
 
         for (SaidasModel reg : regSaidas) {
 
-            tabela.addRow(new Object[]{  reg.getIdentificador(),
+            tabela.addRow(new Object[]{reg.getIdentificador(),
                 formatarData(reg.getData()),
                 reg.getCompetencia(),
-                formatarValor(reg.getValor())
-             });
+                formatarValor(Double.parseDouble(reg.getValor()))
+            });
 
         }
     }
@@ -122,14 +128,12 @@ public class form_alterar_registros extends javax.swing.JDialog {
      * @param valor
      * @return String valorFormatado
      */
-    private String formatarValor(String valor) {
-
-        String valorFormatado;
-
-        DecimalFormat format = new DecimalFormat("R$ ###,##0.00");
+    private String formatarValor(double valor) {
+        String valorFormatado = null;
+        DecimalFormat format = new DecimalFormat("###,##0.00");
+        format.setCurrency(Currency.getInstance(new Locale("pt", "BR")));
         valorFormatado = format.format(valor);
 //        System.out.println(valorFormatado);
-
         return valorFormatado;
     }
 
@@ -453,10 +457,10 @@ public class form_alterar_registros extends javax.swing.JDialog {
             for (SaidasModel saidas : regSaidas) {
 
                 // capturando informações que já estão na lista pré carregada
-                 if (saidas.getIdentificador() == codSelec) {
+                if (saidas.getIdentificador() == codSelec) {
                     textArea_descricao.setText(saidas.getDescricao());
                     btn_alterar_reg.setEnabled(true);
-                } 
+                }
             }
 
         }
@@ -469,6 +473,7 @@ public class form_alterar_registros extends javax.swing.JDialog {
 
         //atribuindo valor, esse é o id do registro selecionado para possivel alteração
         this.cod_reg = valor;
+        this.entradaSelec = regEntradas.get(row);
         dispose();
     }//GEN-LAST:event_btn_alterar_regActionPerformed
 

@@ -22,7 +22,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Currency;
 import java.util.Locale;
-import java.util.stream.IntStream;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
@@ -131,7 +130,6 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         PessoasController ctr = new PessoasController();
         PessoasModel pessoa = ctr.getPessoa(membroReceptor.getId_pessoa());
         
-        this.
         campo_nome_resp_receber.setText(pessoa.getNome());
         campo_doc_resp_receber.setText(pessoa.getCpf());
 
@@ -240,7 +238,6 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
         btn_salvar = new javax.swing.JButton();
         btn_novo_lancamento = new javax.swing.JButton();
         btn_atualizar = new javax.swing.JButton();
-        btn_deletar = new javax.swing.JButton();
         btn_localizar_registro = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -476,6 +473,11 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
         btn_novo_lancamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-reiniciar-48.png"))); // NOI18N
         btn_novo_lancamento.setToolTipText("Novo lançamento");
+        btn_novo_lancamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_novo_lancamentoActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btn_novo_lancamento);
 
         btn_atualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-design-48.png"))); // NOI18N
@@ -487,11 +489,6 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
             }
         });
         jToolBar1.add(btn_atualizar);
-
-        btn_deletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-lixo-48.png"))); // NOI18N
-        btn_deletar.setToolTipText("Excluir registro");
-        btn_deletar.setEnabled(false);
-        jToolBar1.add(btn_deletar);
 
         btn_localizar_registro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-pesquisa-paga-48.png"))); // NOI18N
         btn_localizar_registro.setToolTipText("Buscar registro");
@@ -655,11 +652,8 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
             preencherSequenciaRecibo(localizar.itemSelecionado.getRecibo());
             
             // Desativando botoes
-            btn_novo_lancamento.setEnabled(false);
+            btn_novo_lancamento.setEnabled(true);
             btn_salvar.setEnabled(false);
-
-            // ativando btn de exclusao
-            btn_deletar.setEnabled(true);
             btn_atualizar.setEnabled(true);
         }
     }//GEN-LAST:event_btn_localizar_registroActionPerformed
@@ -737,6 +731,18 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btn_localizar_resp_receberActionPerformed
 
+    private void btn_novo_lancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novo_lancamentoActionPerformed
+        // TODO add your handling code here:
+        carregarInformacoes();
+        campo_valor_dizimo.setText(null);
+        campo_doc_membro_dizimista.setText(null);
+        campo_doc_resp_receber.setText(null);
+        campo_nome_membro_dizimista.setText(null);
+        campo_nome_resp_receber.setText(null);
+        lbl_recibo.setText(null);
+        
+    }//GEN-LAST:event_btn_novo_lancamentoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -781,7 +787,6 @@ public class form_entrada_dizimo extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_atualizar;
-    private javax.swing.JButton btn_deletar;
     private javax.swing.JButton btn_localizar_membro_dizimista;
     private javax.swing.JButton btn_localizar_registro;
     private javax.swing.JButton btn_localizar_resp_receber;

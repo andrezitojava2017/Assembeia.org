@@ -255,9 +255,12 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
 
         if (this.getListaMembro != null) {
             this.getMembro = this.getListaMembro.get(linha);
-            dispose();
+            System.out.println(getMembro.getNome());
+            //dispose();
         } else if (this.getListaPessoas!= null) {
             this.getPessoa = this.getListaPessoas.get(linha);
+            
+            System.out.println(getPessoa.getNome());
             dispose();
         }
 
