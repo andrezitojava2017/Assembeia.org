@@ -142,7 +142,7 @@ public class form_login extends javax.swing.JFrame {
             usuario = controller.logarUsuario(usuario);
             
             if(usuario != null){
-                form_modulos modulo = new form_modulos("M");
+                form_modulos modulo = new form_modulos(usuario.getPermissao());
                 modulo.setVisible(true);
                 this.dispose();
             } else {

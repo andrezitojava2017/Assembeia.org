@@ -41,6 +41,8 @@ public class form_modulos extends javax.swing.JFrame {
                 MouseListener membro[] = moduloFinanceiro.getMouseListeners();
                 moduloFinanceiro.removeMouseListener(membro[0]);
                 break;
+            default:
+                break;
         }
     }
 

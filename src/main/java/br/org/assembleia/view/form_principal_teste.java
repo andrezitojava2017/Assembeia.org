@@ -63,6 +63,7 @@ public class form_principal_teste extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Controle Financeiro");
+        setExtendedState(6);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
