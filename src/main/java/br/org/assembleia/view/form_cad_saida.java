@@ -20,7 +20,9 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.IntStream;
 import javax.swing.JOptionPane;
 
@@ -39,7 +41,7 @@ public class form_cad_saida extends javax.swing.JDialog {
     // id que referencia o registro da tabela saida, que sera atualizado
     private int id_reg_saida = 0;
 
-    private List<SaidasModel> listaSaidas = null;
+    private SaidasModel regSaida = null;
 
     /**
      * Creates new form form_cad_entrada
@@ -48,6 +50,28 @@ public class form_cad_saida extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         carregarInfo();
+    }
+
+    /**
+     * Formata os valores para o padrao BR
+     *
+     * @param valor
+     * @return String
+     * @throws ParseException
+     */
+    public String formatarValores(double valor) {
+
+        String retorno = null;
+        try {
+            DecimalFormat fr = new DecimalFormat("###,##0.00");
+            fr.setCurrency(Currency.getInstance(new Locale("pt", "BR")));
+            retorno = fr.format(valor).toString();
+            //System.out.println(retorno);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Opss...erro ao tentar formatador valores recuperados");
+        }
+
+        return retorno;
     }
 
     /**
@@ -76,7 +100,7 @@ public class form_cad_saida extends javax.swing.JDialog {
 
         SolicitacaoController controler = new SolicitacaoController();
         this.solicitacao = controler.getSolicitacao(model.getIdentificador());
-        
+
         if (solicitacao.getSituacao().equalsIgnoreCase("A")) {
             label_situacao.setText("AGUARDANDO PRESTAÇÃO");
         } else {
@@ -108,27 +132,23 @@ public class form_cad_saida extends javax.swing.JDialog {
      *
      * @param id_reg_saida
      */
-    private void preencherCamposSaidasAlterar(int id_reg_saida) {
+    private void preencherCamposSaidasAlterar() {
 
-        for (SaidasModel listaSaida : listaSaidas) {
+//        this.registro = listaSaida;
+        this.id_pessoa_selecionada = registro.getIdCredor();
 
-            if (listaSaida.getIdentificador() == id_reg_saida) {
+        // preenchendo campos com as informações da base de dados
+        campo_competencia.setText(registro.getCompetencia());
+        campo_data_lancamento.setText(formatarData(registro.getData()));
+        campo_valor_saida.setText(formatarValores(
+                Double.parseDouble(registro.getValor())
+        ));
+        area_descricao.setText(registro.getDescricao());
 
-                this.registro = listaSaida;
-                this.id_pessoa_selecionada = listaSaida.getIdCredor();
-
-                // preenchendo campos com as informações da base de dados
-                campo_competencia.setText(listaSaida.getCompetencia());
-                campo_data_lancamento.setText(formatarData(listaSaida.getData()));
-                campo_valor_saida.setText(listaSaida.getValor());
-                area_descricao.setText(listaSaida.getDescricao());
-
-                getReciboSaida(listaSaida);
-                getSolicitacaoVinculada(listaSaida);
-                preencherCamposPessoas(listaSaida.getIdCredor());
-                preencherComboTipoSaida(listaSaida);
-            }
-        }
+        getReciboSaida(registro);
+        getSolicitacaoVinculada(registro);
+        preencherCamposPessoas(registro.getIdCredor());
+        preencherComboTipoSaida(registro);
 
     }
 
@@ -590,7 +610,7 @@ public class form_cad_saida extends javax.swing.JDialog {
         jLabel10.setForeground(new java.awt.Color(0, 51, 204));
         jLabel10.setText("SITUAÇÃO:");
 
-        label_situacao.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        label_situacao.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         label_situacao.setForeground(new java.awt.Color(204, 51, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -617,10 +637,13 @@ public class form_cad_saida extends javax.swing.JDialog {
                         .addComponent(btn_deletar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
-                        .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(label_situacao, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(jLabel10))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(label_situacao, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -797,12 +820,12 @@ public class form_cad_saida extends javax.swing.JDialog {
         form_alterar_registros buscarReg = new form_alterar_registros(null, true, TipoRegistro.TIPO_SAIDA);
         buscarReg.setVisible(true);
 
-        if (buscarReg.cod_reg != 0) {
+        if (buscarReg.saidaSelec != null) {
 
             // trago a lista de saidas recuperada no formulario
-            this.listaSaidas = buscarReg.regSaidas;
+            this.registro = buscarReg.saidaSelec;
 
-            preencherCamposSaidasAlterar(buscarReg.cod_reg);
+            preencherCamposSaidasAlterar();
 
             this.id_reg_saida = buscarReg.cod_reg;
             btn_atualizar.setEnabled(true);
@@ -834,7 +857,7 @@ public class form_cad_saida extends javax.swing.JDialog {
             registro.setDescricao(area_descricao.getText());
             registro.setIdCredor(this.id_pessoa_selecionada);
             registro.setRecibo(this.id_recibo);
-            registro.setIdentificador(this.id_reg_saida);
+            registro.setIdentificador(this.registro.getIdentificador());
             registro.setTipo_saida(combo_tipo_saida.getSelectedItem().toString());
             registro.setSituacao("A");
             registro.setValor(campo_valor_saida.getText());

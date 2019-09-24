@@ -12,10 +12,9 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Currency;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -51,8 +50,7 @@ public class SaidasModel extends Registro {
         this.tipo_saida = tipo_saida;
     }
 
-    
-        /**
+    /**
      * Formata o valor informado para o padrao aceito pelo mysql
      *
      * @param valor
@@ -66,6 +64,8 @@ public class SaidasModel extends Registro {
         return fr.parse(valor).toString();
     }
     
+
+
     /**
      * Grava um registro de saida
      *
@@ -111,7 +111,7 @@ public class SaidasModel extends Registro {
 
         SaidasDao dao = new SaidasDao();
         List<SaidasModel> saidas = dao.getListaSaidas(competencia);
-
+        
         return saidas;
     }
 
@@ -125,17 +125,16 @@ public class SaidasModel extends Registro {
         try {
             DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate data = LocalDate.parse(registro.data, format);
-            
-            registro.setData(data.toString());            
+
+            registro.setData(data.toString());
             registro.setValor(formatarValores(registro.getValor()));
-            
+
             SaidasDao dao = new SaidasDao();
             retorno = dao.updateRegistroSaida(registro);
-            
 
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao tentar formatar valores para formato do banco de dados");
-        }            
+        }
         return retorno;
     }
 
@@ -146,7 +145,7 @@ public class SaidasModel extends Registro {
      * @return int
      */
     public int deleteRegistroSaida(SaidasModel registro) {
-        
+
         SaidasDao dao = new SaidasDao();
         int retorno = dao.deleteRegistroSaida(registro);
 

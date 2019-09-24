@@ -37,6 +37,8 @@ public class form_alterar_registros extends javax.swing.JDialog {
     public List<EntradasModel> regEntradas;
     public List<SaidasModel> regSaidas;
     public EntradasModel entradaSelec = null;
+    public SaidasModel saidaSelec = null;
+    private static TipoRegistro tpRegistro;
 
     // atributo que ira armazenar o id selecionado na tabela, indicndo qual registro sera alterado
     int cod_reg = 0;
@@ -65,6 +67,9 @@ public class form_alterar_registros extends javax.swing.JDialog {
      * @param tpRegistro
      */
     private void verificarTipoRegistro(TipoRegistro tpRegistro) {
+
+        form_alterar_registros.tpRegistro = tpRegistro;
+
         if (tpRegistro == TipoRegistro.TIPO_ENTRADA) {
             radio_entrada.setEnabled(true);
         } else if (tpRegistro == TipoRegistro.TIPO_SAIDA) {
@@ -469,12 +474,19 @@ public class form_alterar_registros extends javax.swing.JDialog {
     private void btn_alterar_regActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_alterar_regActionPerformed
 
         int row = tbl_registros.getSelectedRow();
-        int valor = (Integer) tbl_registros.getValueAt(row, 0);
 
         //atribuindo valor, esse é o id do registro selecionado para possivel alteração
-        this.cod_reg = valor;
-        this.entradaSelec = regEntradas.get(row);
-        dispose();
+        // this.cod_reg = valor;
+        if (this.tpRegistro == TipoRegistro.TIPO_ENTRADA) {
+
+            this.entradaSelec = regEntradas.get(row);
+            dispose();
+            
+        } else if (this.tpRegistro == TipoRegistro.TIPO_SAIDA) {
+            
+            this.saidaSelec = regSaidas.get(row);
+            dispose();
+        }
     }//GEN-LAST:event_btn_alterar_regActionPerformed
 
     private void radio_saidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radio_saidaMouseClicked
