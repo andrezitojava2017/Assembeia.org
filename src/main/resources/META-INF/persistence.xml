@@ -15,6 +15,7 @@
     <class>br.org.assembleia.model.PessoasModel</class>
     <class>br.org.assembleia.model.UsuarioModel</class>
     <class>br.org.assembleia.model.MembroModel</class>
+    <class>br.org.assembleia.model.CargosModel</class>
     <properties>
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

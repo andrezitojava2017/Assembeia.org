@@ -47,6 +47,8 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu10 = new javax.swing.JMenu();
+        jMenuItem12 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -175,11 +177,11 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenu1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-sala-de-reuniões-25.png"))); // NOI18N
-        jMenu3.setText("Pessoas e empresas");
+        jMenu3.setText("Pessoas");
         jMenu3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
         jMenuItem6.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jMenuItem6.setText("Novo cad. pessoa ou empresa");
+        jMenuItem6.setText("Novo cad. pessoa");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
@@ -188,7 +190,7 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenu3.add(jMenuItem6);
 
         jMenuItem1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jMenuItem1.setText("Alterar cad. pessoa ou empresa");
+        jMenuItem1.setText("Alterar cad. pessoa");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -197,7 +199,7 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenu3.add(jMenuItem1);
 
         jMenuItem7.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jMenuItem7.setText("Localizar pessoa ou empresa");
+        jMenuItem7.setText("Localizar pessoa");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
@@ -221,6 +223,20 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenu4.add(jMenuItem8);
 
         jMenu1.add(jMenu4);
+
+        jMenu10.setText("Membro");
+        jMenu10.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+
+        jMenuItem12.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jMenuItem12.setText("Cadastrar membro");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem12);
+
+        jMenu1.add(jMenu10);
 
         jMenuBar1.add(jMenu1);
 
@@ -415,6 +431,13 @@ public class form_principal_teste extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btn_alterar_moduloActionPerformed
 
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        
+        form_cad_membro view = new form_cad_membro();
+        view.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -460,6 +483,7 @@ public class form_principal_teste extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -472,6 +496,7 @@ public class form_principal_teste extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

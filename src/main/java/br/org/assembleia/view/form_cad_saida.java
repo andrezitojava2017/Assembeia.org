@@ -132,7 +132,7 @@ public class form_cad_saida extends javax.swing.JDialog {
      *
      * @param id_reg_saida
      */
-    private void preencherCamposSaidasAlterar() {
+    private void preencherCamposSaidasAlterar(int id) {
 
 //        this.registro = listaSaida;
         this.id_pessoa_selecionada = registro.getIdCredor();
@@ -147,7 +147,7 @@ public class form_cad_saida extends javax.swing.JDialog {
 
         getReciboSaida(registro);
         getSolicitacaoVinculada(registro);
-        preencherCamposPessoas(registro.getIdCredor());
+        preencherCamposPessoas();
         preencherComboTipoSaida(registro);
 
     }
@@ -197,10 +197,10 @@ public class form_cad_saida extends javax.swing.JDialog {
      *
      * @param cod_pessoa
      */
-    private void preencherCamposPessoas(int cod_pessoa) {
-
+    private void preencherCamposPessoas() {
+//
         PessoasController controle = new PessoasController();
-        PessoasModel pessoa = controle.getPessoa(cod_pessoa);
+        PessoasModel pessoa = controle.getPessoa(this.id_pessoa_selecionada);
 
         campo_cpf_cnpj.setText(pessoa.getCpf());
         campo_nome_pessoa_empresa.setText(pessoa.getNome());
@@ -783,10 +783,10 @@ public class form_cad_saida extends javax.swing.JDialog {
         form.setVisible(true);
 
         // passando valor recuperado para o metodo que ira preencher os dados de pessoa ou empresa
-        if (form.codigo_pessoa != 0) {
+        if (form.getPessoa != null) {
 
-            this.id_pessoa_selecionada = form.codigo_pessoa; // atributo desta classe
-            preencherCamposPessoas(form.codigo_pessoa);
+            this.id_pessoa_selecionada = form.getPessoa.getId_pessoa(); // atributo desta classe
+            preencherCamposPessoas();
 
         } else {
             JOptionPane.showMessageDialog(this, "Atenção: nenhuma pessoa foi selecionada, verifique", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
@@ -825,7 +825,7 @@ public class form_cad_saida extends javax.swing.JDialog {
             // trago a lista de saidas recuperada no formulario
             this.registro = buscarReg.saidaSelec;
 
-            preencherCamposSaidasAlterar();
+            preencherCamposSaidasAlterar(registro.getIdCredor());
 
             this.id_reg_saida = buscarReg.cod_reg;
             btn_atualizar.setEnabled(true);

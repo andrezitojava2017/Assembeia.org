@@ -6,36 +6,26 @@
 package br.org.assembleia.model;
 
 import br.org.assembleia.dao.MembroDao;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 
 /**
  *
  * @author andre
  */
-@Entity
-@Table(name = "tbl_membro")
-@PrimaryKeyJoinColumn(name = "id_pessoa")
 public class MembroModel extends PessoasModel {
 
     public MembroModel() {
     }
 
+    private int id;
 
-
-    @Column(name = "data_admissao")
     private String dataPosse;
 
-    @Column(name = "data_demissao")
     private String dataDemissao;
 
-
-    @Column(name = "id_cargo")
     private int idCargo;
-
 
     public int getIdCargo() {
         return idCargo;
@@ -44,7 +34,6 @@ public class MembroModel extends PessoasModel {
     public void setIdCargo(int idCargo) {
         this.idCargo = idCargo;
     }
-
 
     public String getDataDemissao() {
         return dataDemissao;
@@ -61,7 +50,6 @@ public class MembroModel extends PessoasModel {
 //    public void setCargo(String cargo) {
 //        this.cargo = cargo;
 //    }
-
     public String getDataPosse() {
         return dataPosse;
     }
@@ -70,17 +58,60 @@ public class MembroModel extends PessoasModel {
         this.dataPosse = dataPosse;
     }
 
+
+
+    public int getId() {
+
+        return id;
+
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    /**
+     * Formata datas para o padrao aceito pelo MYSQL
+     *
+     * @param membro
+     * @return
+     */
+    private String formatarDataMysql(MembroModel membro) {
+
+        DateTimeFormatter frm = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(membro.getDataPosse(), frm);
+
+        return date.toString();
+
+    }
+    
+    /**
+     * Formata a data para ser exibido na view
+     * @param data
+     * @return String
+     */
+    private String formatarDataView(String data){
+        
+        DateTimeFormatter frm = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dat = LocalDate.parse(data);
+//        System.out.println(frm.format(dat));
+        return frm.format(dat);
+    }
+    
     /**
      * Chamada para o metodo DAO que faz gravação dos dados do novo membro
      *
      * @param model
      * @return MembroModel
      */
-    public MembroModel insertMembro(MembroModel model) {
-
+    public int insertMembro(MembroModel model) {
         MembroDao dao = new MembroDao();
-        return dao.insertMembro(model);
 
+        model.setDataPosse(
+                //formata a data
+                formatarDataMysql(model)
+        );
+        return dao.insertMembro(model);
     }
 
     /**
@@ -91,18 +122,51 @@ public class MembroModel extends PessoasModel {
     public List<MembroModel> getListaMembro() {
 
         MembroDao dao = new MembroDao();
-        return dao.getListaMembro();
-
+//        return dao.getListaMembro();
+        List<MembroModel> membro = dao.getListaMembro();
+        
+        // iremos formatar a data para ser exibida na view, se necessário
+        for (int i = 0; i < membro.size(); i++) {
+            String data = formatarDataView(
+                            membro.get(i).getDataPosse());
+            membro.get(i).setDataPosse(data);
+        }
+        return membro;
     }
-    
+
     /**
      * Recupera informações de um determinado membro
+     *
      * @param idMembro
      * @return MembroModel
      */
-    public MembroModel getMembro(int idMembro){
+    public MembroModel getMembro(int idMembro) {
         MembroDao md = new MembroDao();
         MembroModel membro = md.getMembro(idMembro);
         return membro;
+    }
+    
+    /**
+     * Desativa um membro do cadastro
+     * @param membro 
+     */
+    public int desativarMembro(MembroModel membro){
+        
+        MembroDao dao = new MembroDao();
+        membro.setDataPosse(formatarDataMysql(membro));
+        return dao.desativarMembro(membro);
+        
+    }
+    
+    /**
+     * Autalizar cadastro de membro
+     * @param membro
+     * @return int
+     */
+    public int updateMembro(MembroModel membro){
+                
+        MembroDao dao = new MembroDao();
+        membro.setDataPosse(formatarDataMysql(membro));
+        return dao.updateMembro(membro);
     }
 }

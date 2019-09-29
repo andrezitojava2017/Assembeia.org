@@ -19,12 +19,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class form_localizar_pessoas extends javax.swing.JDialog {
 
-    int codigo_pessoa = 0;
-    int tipo_cpf_cnpj = 0;
     List<PessoasModel> getListaPessoas = null;
     List<MembroModel> getListaMembro = null;
-    PessoasModel getPessoa = null;
-    MembroModel getMembro = null;
+    public PessoasModel getPessoa = null;
+    public MembroModel getMembro = null;
 
     /**
      * Creates new form form_localizar_pessoas
@@ -35,6 +33,12 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
         group_tipo.add(jCheckBox1);
     }
 
+    /**
+     * Construtor para carregar a lista de membros cadastrados na base
+     * @param parent
+     * @param modal
+     * @param membro 
+     */
     public form_localizar_pessoas(java.awt.Frame parent, boolean modal, String membro) {
         super(parent, modal);
         initComponents();
@@ -255,12 +259,11 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
 
         if (this.getListaMembro != null) {
             this.getMembro = this.getListaMembro.get(linha);
-            System.out.println(getMembro.getNome());
-            //dispose();
-        } else if (this.getListaPessoas!= null) {
-            this.getPessoa = this.getListaPessoas.get(linha);
+            dispose();
             
-            System.out.println(getPessoa.getNome());
+        } else if (this.getListaPessoas!= null) {
+            
+            this.getPessoa = this.getListaPessoas.get(linha);
             dispose();
         }
 

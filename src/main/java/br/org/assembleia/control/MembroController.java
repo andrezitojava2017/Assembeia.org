@@ -17,34 +17,57 @@ public class MembroController {
 
     /**
      * Chamada para o metodo DAO que faz gravação dos dados do novo membro
+     *
      * @param model
      * @return MembroModel
      */
-    public MembroModel insertMembro(MembroModel model) {
+    public int insertMembro(MembroModel model) {
 
         MembroModel membro = new MembroModel();
         return membro.insertMembro(model);
 
     }
-    
+
     /**
      * Chamada para o metodo DAO que recupera uma lista de membros cadastrados
+     *
      * @return List<MembroModel>
      */
     public List<MembroModel> getListaMembro() {
 
         MembroModel membro = new MembroModel();
         return membro.getListaMembro();
-        
+
     }
-    
+
     /**
      * Recupera informações de um determinado membro
+     *
      * @param idMembro
      * @return MembroModel
      */
-    public MembroModel getMembro(int idMembro){
+    public MembroModel getMembro(int idMembro) {
         MembroModel md = new MembroModel().getMembro(idMembro);
         return md;
+    }
+
+    /**
+     * Desativa cadastro de membro
+     * @param membro
+     * @return 
+     */
+    public int desativarMembro(MembroModel membro) {
+        MembroModel mdl = new MembroModel();
+        return mdl.desativarMembro(membro);
+    }
+
+    /**
+     * Atualizar cadastro de membro
+     * @param membro
+     * @return 
+     */
+    public int updateMembro(MembroModel membro) {
+        MembroModel mdl = new MembroModel();
+        return mdl.updateMembro(membro);
     }
 }
