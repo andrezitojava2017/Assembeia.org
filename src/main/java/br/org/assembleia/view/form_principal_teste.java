@@ -5,7 +5,9 @@
  */
 package br.org.assembleia.view;
 
+import br.org.assembleia.model.ConfiguracaoModel;
 import br.org.assembleia.model.TipoRegistro;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,6 +20,8 @@ public class form_principal_teste extends javax.swing.JFrame {
      */
     public form_principal_teste() {
         initComponents();
+        ConfiguracaoModel config = new ConfiguracaoModel();
+//        System.out.println("DIRETORIO: " + ConfiguracaoModel.diretorio);
     }
 
     /**
@@ -43,18 +47,16 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu10 = new javax.swing.JMenu();
         jMenuItem12 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
@@ -62,6 +64,8 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem11 = new javax.swing.JMenuItem();
+        menuSuporte = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Controle Financeiro");
@@ -113,7 +117,9 @@ public class form_principal_teste extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton4);
 
-        btn_alterar_modulo.setText("ALTERAR MODULO");
+        btn_alterar_modulo.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        btn_alterar_modulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-fechar-janela-48.png"))); // NOI18N
+        btn_alterar_modulo.setText("Altear Modulo");
         btn_alterar_modulo.setFocusable(false);
         btn_alterar_modulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_alterar_modulo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -189,15 +195,6 @@ public class form_principal_teste extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem6);
 
-        jMenuItem1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jMenuItem1.setText("Alterar cad. pessoa");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem1);
-
         jMenuItem7.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jMenuItem7.setText("Localizar pessoa");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
@@ -208,6 +205,21 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenu3.add(jMenuItem7);
 
         jMenu1.add(jMenu3);
+
+        jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-grupos-de-usuários-25.png"))); // NOI18N
+        jMenu10.setText("Membro");
+        jMenu10.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+
+        jMenuItem12.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jMenuItem12.setText("Cadastrar membro");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem12);
+
+        jMenu1.add(jMenu10);
 
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-perguntas-frequentes-25.png"))); // NOI18N
         jMenu4.setText("Cadastro de tipos");
@@ -223,20 +235,6 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenu4.add(jMenuItem8);
 
         jMenu1.add(jMenu4);
-
-        jMenu10.setText("Membro");
-        jMenu10.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-
-        jMenuItem12.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jMenuItem12.setText("Cadastrar membro");
-        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem12ActionPerformed(evt);
-            }
-        });
-        jMenu10.add(jMenuItem12);
-
-        jMenu1.add(jMenu10);
 
         jMenuBar1.add(jMenu1);
 
@@ -275,15 +273,6 @@ public class form_principal_teste extends javax.swing.JFrame {
             }
         });
         jMenu5.add(jMenuItem2);
-
-        jMenuItem3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jMenuItem3.setText("jMenuItem3");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem3);
 
         jMenu2.add(jMenu5);
 
@@ -336,6 +325,19 @@ public class form_principal_teste extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu6);
 
+        menuSuporte.setText("Suporte");
+        menuSuporte.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+
+        jMenuItem1.setText("Relatorio");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menuSuporte.add(jMenuItem1);
+
+        jMenuBar1.add(menuSuporte);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -359,12 +361,10 @@ public class form_principal_teste extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-       
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+        form_cad_pessoas form = new form_cad_pessoas();
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         form_localizar_pessoas localizar = new form_localizar_pessoas(this, false);
@@ -385,10 +385,6 @@ public class form_principal_teste extends javax.swing.JFrame {
         form_cad_saida saida = new form_cad_saida(this, true);
         saida.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
-
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         form_imprimir_relatorios rel = new form_imprimir_relatorios(this, false, TipoRegistro.TIPO_ENTRADA);
@@ -437,6 +433,13 @@ public class form_principal_teste extends javax.swing.JFrame {
         view.setVisible(true);
         
     }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        
+        JOptionPane.showMessageDialog(this, "Diretorio padrao:\n"
+                                           + ConfiguracaoModel.diretorio);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -498,7 +501,6 @@ public class form_principal_teste extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -508,5 +510,6 @@ public class form_principal_teste extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenu menuSuporte;
     // End of variables declaration//GEN-END:variables
 }
