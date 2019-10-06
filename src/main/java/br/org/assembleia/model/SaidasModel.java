@@ -7,6 +7,7 @@ package br.org.assembleia.model;
 
 import br.org.assembleia.abstratas.Registro;
 import br.org.assembleia.dao.SaidasDao;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *

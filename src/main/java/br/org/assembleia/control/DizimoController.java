@@ -8,7 +8,13 @@ package br.org.assembleia.control;
 import br.org.assembleia.dao.DizimoDao;
 import br.org.assembleia.model.DizimoModel;
 import br.org.assembleia.model.MembroModel;
+import br.org.assembleia.model.Relatorios_Model;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -72,5 +78,20 @@ public class DizimoController {
 
         DizimoModel update = new DizimoModel();
         update.updateRegistroDizimo(registro);
+    }
+    
+    /**
+     * Gera relatorio com registros de dizimos por pessoa
+     * @param competencia 
+     */
+    public void abrirRelatorioDizimoMensal(String competencia){
+        
+        try {
+            Relatorios_Model model = new Relatorios_Model();
+            model.relatorioMensalDizimos(competencia);
+        } catch (SQLException | JRException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar gerar relatorio de registros de dizimos\n" + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
 }

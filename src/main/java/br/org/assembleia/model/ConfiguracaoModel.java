@@ -42,6 +42,7 @@ public class ConfiguracaoModel {
 
         // verifica se o arquivo existe, caso nao existir exibe uma msge
         File arquivo = pth.toFile();
+        
         if (arquivo.isDirectory()) {
 
             return pth.toString();

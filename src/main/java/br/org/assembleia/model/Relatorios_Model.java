@@ -28,12 +28,69 @@ public class Relatorios_Model extends Relatorio {
 
         // passando nome do relatorio que sera utilizado, para o metodo que
         // contem o local padrao de relatorios
-        String nomeRel = "Rel_Entradas_Mensais.jasper";
+        String nomeRel = "Rel_Entradas_Mensais";
         Map parametro = new HashMap();
         parametro.put("competencia", compet);
 
         // metodo que ira gerar o relatorio
         gerarRelatorio(nomeRel, parametro);
 
+    }
+    
+    /**
+     * Faz a impressao do relatorio de saidas mensal
+     * @param compet
+     * @throws SQLException
+     * @throws JRException 
+     */
+    public void relatorioMensalSaidas(String compet) throws SQLException, JRException{
+        
+        String nomeRel = "Rel_Saidas_Mensais";
+        Map parametro = new HashMap();
+        parametro.put("competencia", compet);
+        
+        gerarRelatorio(nomeRel, parametro);
+        
+    }
+    
+    /**
+     * Gera o relatorio com registros de dizimos por pessoa
+     * @param compet
+     * @throws SQLException
+     * @throws JRException 
+     */
+    public void relatorioMensalDizimos(String compet) throws SQLException, JRException{
+        
+        String nomeRel = "RelDizimosPorPessoa";
+        Map parametros = new HashMap();
+        parametros.put("competencia", compet);
+        gerarRelatorio(nomeRel, parametros);
+    }
+    
+    /**
+     * Gera o relatorio com dados dos membros que estão ativos no sistema
+     * @throws SQLException
+     * @throws JRException 
+     */
+    public void relatorioMembrosAtivos() throws SQLException, JRException{
+        
+        String nomeRel = "Rel_Membros_Ativos";
+        gerarRelatorio(nomeRel);
+        
+    }
+    
+    /**
+     * Gera uma carteirinha de identificação de membros
+     * @param idMembro
+     * @throws SQLException
+     * @throws JRException 
+     */
+    public void gerarCarteirasMembro(int idMembro) throws SQLException, JRException{
+        
+        String nomeRel = "Carteirinha_Membro";
+        Map parametro = new HashMap();
+        parametro.put("idMembro", idMembro);
+        gerarRelatorio(nomeRel, parametro);
+        
     }
 }

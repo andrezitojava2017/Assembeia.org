@@ -7,7 +7,13 @@ package br.org.assembleia.control;
 
 import br.org.assembleia.dao.MembroDao;
 import br.org.assembleia.model.MembroModel;
+import br.org.assembleia.model.Relatorios_Model;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -69,5 +75,32 @@ public class MembroController {
     public int updateMembro(MembroModel membro) {
         MembroModel mdl = new MembroModel();
         return mdl.updateMembro(membro);
+    }
+    
+    /**
+     * Gera relatorio com informações de membros ativos no sistema
+     */
+    public void gerarRelatorioMembrosAtivos(){
+        try {
+            Relatorios_Model model = new Relatorios_Model();
+            model.relatorioMembrosAtivos();
+        } catch (SQLException | JRException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar gerar relatorio com membros ativos\n" + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Gera carteirinha de identificação de membro ativos
+     * @param idMembro 
+     */
+    public void gerarCarteiraMembro(int idMembro){
+        
+        try {
+            Relatorios_Model model = new Relatorios_Model();
+            model.gerarCarteirasMembro(idMembro);
+        } catch (SQLException | JRException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar gerar carteirinha do membro selecionado\n" + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
 }

@@ -6,6 +6,9 @@
 package br.org.assembleia.abstratas;
 
 import br.org.assembleia.conexao.ConexaoDB;
+import br.org.assembleia.model.ConfiguracaoModel;
+import br.org.assembleia.view.form_principal_teste;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
@@ -20,18 +23,17 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public abstract class Relatorio {
 
-    protected String caminhoPadrao = "/home/andre/Documentos/assembleia/";
+//    protected String caminhoPadrao = "/home/andre/Documentos/assembleia/";
     protected String nomeRelatorio;
     protected Connection con;
 
-    public String getCaminhoPadrao() {
-        return caminhoPadrao;
-    }
-
-    public void setCaminhoPadrao(String caminhoPadrao) {
-        this.caminhoPadrao = caminhoPadrao;
-    }
-
+//    public String getCaminhoPadrao() {
+//        return caminhoPadrao;
+//    }
+//
+//    public void setCaminhoPadrao(String caminhoPadrao) {
+//        this.caminhoPadrao = caminhoPadrao;
+//    }
     public String getNomeRelatorio() {
         return nomeRelatorio;
     }
@@ -56,13 +58,14 @@ public abstract class Relatorio {
      * @return caminho String com o caminho completo do relatorio
      */
     public String getCaminhoPadraoRelatorio(String nomeRel) {
-        String caminho = "/home/andre/Documentos/assembleia/" + nomeRel + ".jasper";
+        String caminho = ConfiguracaoModel.diretorio + File.separator + nomeRel + ".jasper";
 
         return caminho;
     }
 
     /**
      * Metodo responsavel em gerar relatorios do sistema
+     *
      * @param nomeRel - nome do relatorio que sera utilizado
      * @param parametros - parametros que deverão ser utilizados no relatorio
      * @throws java.sql.SQLException
@@ -71,16 +74,41 @@ public abstract class Relatorio {
     protected void gerarRelatorio(String nomeRel, Map parametros) throws SQLException, JRException {
 
         String caminho;
-        caminho = caminhoPadrao += nomeRel;
+        caminho = getCaminhoPadraoRelatorio(nomeRel);
 
         con = ConexaoDB.getconection();
-        
+
         JasperPrint print = JasperFillManager.fillReport(caminho, parametros, con);
-        
+
         JasperViewer tela = new JasperViewer(print, false);
-        
+
         tela.setVisible(true);
-        
+
+        con.close();
+
+    }
+
+    /**
+     * Metodo responsavel em gerar relatorios do sistema
+     *
+     * @param nomeRel - nome do relatorio que sera utilizado
+     * @throws java.sql.SQLException
+     * @throws net.sf.jasperreports.engine.JRException
+     */
+    protected void gerarRelatorio(String nomeRel) throws SQLException, JRException {
+
+        String caminho;
+        caminho = getCaminhoPadraoRelatorio(nomeRel);
+
+        con = ConexaoDB.getconection();
+
+        JasperPrint print;
+        print = JasperFillManager.fillReport(caminho, null, con);
+
+        JasperViewer tela = new JasperViewer(print, false);
+
+        tela.setVisible(true);
+
         con.close();
 
     }

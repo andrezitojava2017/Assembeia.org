@@ -5,6 +5,7 @@
  */
 package br.org.assembleia.view;
 
+import br.org.assembleia.control.MembroController;
 import br.org.assembleia.model.ConfiguracaoModel;
 import br.org.assembleia.model.TipoRegistro;
 import javax.swing.JOptionPane;
@@ -64,6 +65,9 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem11 = new javax.swing.JMenuItem();
+        jMenu11 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
         menuSuporte = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
@@ -323,6 +327,29 @@ public class form_principal_teste extends javax.swing.JFrame {
 
         jMenu6.add(jMenu9);
 
+        jMenu11.setText("Outros");
+        jMenu11.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+
+        jMenuItem3.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jMenuItem3.setText("Membros ativos");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jMenuItem3);
+
+        jMenuItem13.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jMenuItem13.setText("Carterinhas");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jMenuItem13);
+
+        jMenu6.add(jMenu11);
+
         jMenuBar1.add(jMenu6);
 
         menuSuporte.setText("Suporte");
@@ -441,6 +468,26 @@ public class form_principal_teste extends javax.swing.JFrame {
                                            + ConfiguracaoModel.diretorio);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        MembroController relatorio = new MembroController();
+        relatorio.gerarRelatorioMembrosAtivos();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        // TODO add your handling code here:
+        
+        form_localizar_pessoas membro = new form_localizar_pessoas(this, true, "M");
+        membro.setVisible(true);
+        
+        if(membro.getMembro != null){
+            MembroController control = new MembroController();
+            control.gerarCarteiraMembro(membro.getMembro.getId());
+        } else {
+            JOptionPane.showMessageDialog(this, "Atenção nenhum membro foi selecionado");
+        }
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -487,6 +534,7 @@ public class form_principal_teste extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
+    private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -500,7 +548,9 @@ public class form_principal_teste extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;

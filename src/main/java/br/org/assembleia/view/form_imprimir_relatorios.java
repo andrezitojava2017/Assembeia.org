@@ -292,11 +292,20 @@ public class form_imprimir_relatorios extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimirActionPerformed
+        
         if(radioEntrada.isSelected()){
             registro_entrada_control control = new registro_entrada_control();
            // System.out.println("ITEM SELECIONADO: " + comboCompetencias.getSelectedItem().toString());
             control.abrirRelatorioEntradasMensais(campo_competencia.getText());
             
+        }
+        if(radioSaida.isSelected()){
+            SaidasController control = new SaidasController();
+            control.abrirRelatorioSaidasMensais(campo_competencia.getText());
+        }
+        if(radioDizimo.isSelected()){
+            DizimoController control = new DizimoController();
+            control.abrirRelatorioDizimoMensal(campo_competencia.getText());
         }
     }//GEN-LAST:event_btn_imprimirActionPerformed
 

@@ -12,6 +12,8 @@ import br.org.assembleia.model.TipoEntradaModel;
 import java.sql.SQLException;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 
@@ -130,4 +132,6 @@ public class registro_entrada_control {
             JOptionPane.showMessageDialog(null, "Atenção não foi possivel gerar o relatorio de entradas\n" + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+
 }

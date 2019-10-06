@@ -6,10 +6,14 @@
 package br.org.assembleia.control;
 
 import br.org.assembleia.dao.SaidasDao;
+import br.org.assembleia.model.Relatorios_Model;
 import br.org.assembleia.model.SaidasModel;
 import br.org.assembleia.model.TipoSaidasModel;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -96,6 +100,20 @@ public class SaidasController {
         SaidasModel model = new SaidasModel();
         return model.deleteRegistroSaida(registro);
 
+    }
+
+    /**
+     * Abre o relatorio de saidas mensais
+     *
+     * @param competencia
+     */
+    public void abrirRelatorioSaidasMensais(String competencia) {
+        try {
+            Relatorios_Model rel = new Relatorios_Model();
+            rel.relatorioMensalSaidas(competencia);
+        } catch (SQLException | JRException ex) {
+            JOptionPane.showMessageDialog(null, "Atenção não foi possivel gerar o relatorio de saidas\n" + ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }
