@@ -353,7 +353,7 @@ public class form_localizar_dizimos extends javax.swing.JDialog {
 
         int row = tbl_registros.getSelectedRow();
         this.itemSelecionado = dizimos.get(row);
-        System.out.println(itemSelecionado.getIdentificador() + " " + itemSelecionado.getDescricao());
+//        System.out.println(itemSelecionado.getIdentificador() + " " + itemSelecionado.getDescricao());
         dispose();
     }//GEN-LAST:event_btn_alterar_regActionPerformed
 

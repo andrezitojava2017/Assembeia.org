@@ -118,19 +118,38 @@ public class MembroDao {
      * @return MembroModel
      */
     public MembroModel getMembro(int idMembro) {
-        MembroModel membro = null;
-        try {
-            managerFactory = new ConexaoJpa().getConexao("assembleia");
-            entityManager = managerFactory.createEntityManager();
-            membro = entityManager.find(MembroModel.class, idMembro);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        //String sql = "select data_admissao, data_demissao, id_cargo, nome_cargo, id_pessoa, nome from assembleia.tbl_membro";
+        String sql = "select tbl_membro.id, tbl_membro.id_pessoa, tbl_membro.data_admissao, tbl_membro.id_cargo, tbl_pessoas.nome, tbl_pessoas.cpf from tbl_membro "
+                + "inner join tbl_pessoas "
+                + "on tbl_pessoas.id = tbl_membro.id_pessoa where(tbl_membro.id=" + idMembro + ")";
+
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        MembroModel membro = new MembroModel();
+        try {
+            con = new ConexaoDB().getconection();
+            stm = con.prepareStatement(sql);
+            rs = stm.executeQuery();
+
+            while (rs.next()) {
+
+                membro.setId(rs.getInt("id"));
+                membro.setNome(rs.getString("nome"));
+                membro.setDataPosse(rs.getString("data_admissao"));
+                membro.setIdCargo(rs.getInt("id_cargo"));
+                membro.setCpf(rs.getString("cpf"));
+                membro.setId_pessoa(rs.getInt("id_pessoa"));
+
+            }
+
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao tentar recuperar lista de membros\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
 
         } finally {
-            entityManager.close();
-            managerFactory.close();
+            ConexaoDB.fecharConexao(con, stm, rs);
         }
         return membro;
     }

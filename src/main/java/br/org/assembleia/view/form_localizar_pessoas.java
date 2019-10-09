@@ -66,7 +66,7 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
             for (MembroModel object : getListaMembro) {
 
                 tabela.addRow(new Object[]{
-                    object.getId_pessoa(),
+                    object.getId(),
                     object.getNome(),
                     object.getCpf()
                 });

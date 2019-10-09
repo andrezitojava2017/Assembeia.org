@@ -16,6 +16,8 @@ import java.util.Currency;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -58,12 +60,17 @@ public class SaidasModel extends Registro {
      * @param valor
      * @return String
      */
-    private String formatarValores(String valor) throws ParseException {
+    private String formatarValores(String valor){
 
         DecimalFormat fr = new DecimalFormat("###,##0.00");
         fr.setCurrency(Currency.getInstance(new Locale("pt", "BR")));
-
-        return fr.parse(valor).toString();
+        String vlFrm = null;
+        try {
+             vlFrm = fr.parse(valor).toString();
+        } catch (ParseException ex) {
+            Logger.getLogger(SaidasModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return vlFrm;
     }
     
 
@@ -81,6 +88,7 @@ public class SaidasModel extends Registro {
         LocalDate ld = LocalDate.parse(model.getData(), fmt);
 
         model.setData(ld.toString());
+        model.setValor(formatarValores(model.getValor()));
 
         SaidasDao dao = new SaidasDao();
         SaidasModel retorno = dao.gravarRegistroSaida(model);
@@ -124,19 +132,12 @@ public class SaidasModel extends Registro {
      */
     public int updateRegistroSaida(SaidasModel registro) {
         int retorno = 0;
-        try {
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate data = LocalDate.parse(registro.data, format);
-
-            registro.setData(data.toString());
-            registro.setValor(formatarValores(registro.getValor()));
-
-            SaidasDao dao = new SaidasDao();
-            retorno = dao.updateRegistroSaida(registro);
-
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao tentar formatar valores para formato do banco de dados");
-        }
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate data = LocalDate.parse(registro.data, format);
+        registro.setData(data.toString());
+        registro.setValor(formatarValores(registro.getValor()));
+        SaidasDao dao = new SaidasDao();
+        retorno = dao.updateRegistroSaida(registro);
         return retorno;
     }
 

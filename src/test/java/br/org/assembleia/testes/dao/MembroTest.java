@@ -33,10 +33,16 @@ public class MembroTest {
 //            System.out.println(mdl.getId() + " " + mdl.getNome() + " " + mdl.getDataPosse());
 //        }
 
-//membro.formatarDataView("2019-09-27");
+////membro.formatarDataView("2019-09-27");
+//
+//        LocalDate dat = LocalDate.now();
+//        System.out.println(dat.toString());
 
-        LocalDate dat = LocalDate.now();
-        System.out.println(dat.toString());
+MembroDao dao = new MembroDao();
+        MembroModel membro1 = dao.getMembro(4);
+        
+        System.out.println(membro1.getNome());
+        System.out.println(membro1.getId_pessoa());
         
     }
     
