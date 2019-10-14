@@ -21,8 +21,8 @@ public class form_principal_teste extends javax.swing.JFrame {
      */
     public form_principal_teste() {
         initComponents();
+        // indica o caminho padrao para relatorios e modelos de cartas
         ConfiguracaoModel config = new ConfiguracaoModel();
-//        System.out.println("DIRETORIO: " + ConfiguracaoModel.diretorio);
     }
 
     /**
