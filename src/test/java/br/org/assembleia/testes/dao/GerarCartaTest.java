@@ -5,9 +5,20 @@
  */
 package br.org.assembleia.testes.dao;
 
+import br.org.assembleia.enumerador.CartasModelo;
+import br.org.assembleia.enumerador.DiretorioPadrao;
 import br.org.assembleia.model.CartasModel;
 import br.org.assembleia.model.ConfiguracaoModel;
+import br.org.assembleia.model.MembroModel;
+import br.org.assembleia.model.PessoasModel;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -19,29 +30,11 @@ public class GerarCartaTest {
 
     public static void main(String[] args) {
 
-
-        ConfiguracaoModel cfg = new ConfiguracaoModel();
-        System.out.println("caminho documento: " + cfg.diretorio);
-
-        CartasModel carta = new CartasModel();
-
-        JFileChooser buscar = new JFileChooser();
-        int showOpenDialog = buscar.showOpenDialog(null);
-
-        if (showOpenDialog == 0) {
-            File doc = buscar.getSelectedFile();
-            if(doc.exists()){
-//                String textoDoc = carta.lerDocumento(doc);
-//                String vetor[] = textoDoc.split("\n");
-//                
-//                for (int i = 0; i < vetor.length; i++) {
-//                    System.out.println(vetor[i]);
-//                }
-                
-            } else {
-                JOptionPane.showMessageDialog(null, "Error - Arquivo não encontrato!!");
-            }
-        }
-
+        PessoasModel membro = new PessoasModel();
+        membro.setDataBatismo("1990-08-30");
+        DateTimeFormatter frm = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy");
+        LocalDate dta = LocalDate.parse(membro.getDataBatismo());
+        
+        System.out.println(frm.format(dta));
     }
 }

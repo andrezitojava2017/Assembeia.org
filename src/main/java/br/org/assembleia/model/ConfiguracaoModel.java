@@ -33,7 +33,7 @@ public class ConfiguracaoModel {
      * os relatorio e os modelos de cartas
      * @return String
      */
-    private String setCaminhoRelatorio() {
+    private static String setCaminhoRelatorio() {
 
         // caminho do arquivo
         String localArqConfig = System.getProperty("user.home") + File.separator + "assembleia" + File.separator;

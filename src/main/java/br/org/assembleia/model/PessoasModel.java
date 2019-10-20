@@ -341,7 +341,7 @@ public class PessoasModel implements Serializable {
 
         PessoasDao dao = new PessoasDao();
         List<PessoasModel> lista = dao.getListaPessoas();
-
+  
         return lista;
     }
 

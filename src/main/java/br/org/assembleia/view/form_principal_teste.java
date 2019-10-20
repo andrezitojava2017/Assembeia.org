@@ -6,9 +6,17 @@
 package br.org.assembleia.view;
 
 import br.org.assembleia.control.MembroController;
+import br.org.assembleia.control.ModeloCartasController;
+import br.org.assembleia.enumerador.CartasModelo;
+import br.org.assembleia.enumerador.DiretorioPadrao;
 import br.org.assembleia.model.ConfiguracaoModel;
+import br.org.assembleia.model.MembroModel;
+import br.org.assembleia.model.PessoasModel;
 import br.org.assembleia.model.TipoRegistro;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 
 /**
  *
@@ -21,8 +29,7 @@ public class form_principal_teste extends javax.swing.JFrame {
      */
     public form_principal_teste() {
         initComponents();
-        // indica o caminho padrao para relatorios e modelos de cartas
-        ConfiguracaoModel config = new ConfiguracaoModel();
+
     }
 
     /**
@@ -68,6 +75,7 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenu11 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
         menuSuporte = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
@@ -348,6 +356,15 @@ public class form_principal_teste extends javax.swing.JFrame {
         });
         jMenu11.add(jMenuItem13);
 
+        jMenuItem14.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jMenuItem14.setText("Carta recomendacao");
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
+        jMenu11.add(jMenuItem14);
+
         jMenu6.add(jMenu11);
 
         jMenuBar1.add(jMenu6);
@@ -415,14 +432,14 @@ public class form_principal_teste extends javax.swing.JFrame {
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         form_imprimir_relatorios rel = new form_imprimir_relatorios(this, false, TipoRegistro.TIPO_ENTRADA);
-        
+
         rel.setVisible(true);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         form_imprimir_relatorios rel = new form_imprimir_relatorios(this, false, TipoRegistro.TIPO_SAIDA);
         rel.setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
@@ -455,17 +472,18 @@ public class form_principal_teste extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_alterar_moduloActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        
+
         form_cad_membro view = new form_cad_membro();
         view.setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        
-        JOptionPane.showMessageDialog(this, "Diretorio padrao:\n"
-                                           + ConfiguracaoModel.diretorio);
+        JOptionPane.showMessageDialog(this, "Diretorios padrões:\n"
+                + "Modelo cartas: " + DiretorioPadrao.SUB_DIR_CARTAS.getDiretorioPadrao() + "\n"
+                + "Relatorios: " + DiretorioPadrao.SUB_DIR_RELATORIO.getDiretorioPadrao() + "\n"
+                + "Cartas emitidas: " + DiretorioPadrao.SUB_DIR_EMISSAO_CARTA.getDiretorioPadrao());
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -476,17 +494,48 @@ public class form_principal_teste extends javax.swing.JFrame {
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
         // TODO add your handling code here:
-        
+
         form_localizar_pessoas membro = new form_localizar_pessoas(this, true, "M");
         membro.setVisible(true);
-        
-        if(membro.getMembro != null){
+
+        if (membro.getMembro != null) {
             MembroController control = new MembroController();
             control.gerarCarteiraMembro(membro.getMembro.getId());
         } else {
             JOptionPane.showMessageDialog(this, "Atenção nenhum membro foi selecionado");
         }
     }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        // TODO add your handling code here:
+        ModeloCartasController ctrlCartas = new ModeloCartasController();
+
+        File doc = new File(DiretorioPadrao.SUB_DIR_CARTAS.getDiretorioPadrao()
+                + CartasModelo.RECOMENDACAO.getCartaModelo());
+
+        if (doc.exists()) {
+
+            form_localizar_pessoas localizar = new form_localizar_pessoas(this, true);
+            localizar.setVisible(true);
+
+            if (localizar.getPessoa != null) {
+
+                XWPFWordExtractor conteudoExtraido = ctrlCartas.carregarModeloCarta(doc);
+                
+                PessoasModel mdl = localizar.getPessoa;
+
+                ModeloCartasController ctrl = new ModeloCartasController();
+                boolean resultadoCarta = ctrl.gerarDocCartaRecomendacao(conteudoExtraido, mdl);
+
+                if (resultadoCarta) {
+                    JOptionPane.showMessageDialog(this, "Parabens...O documento foi gerado com sucesso!");
+                }
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Error - Arquivo não encontrato!!");
+        }
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -549,6 +598,7 @@ public class form_principal_teste extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

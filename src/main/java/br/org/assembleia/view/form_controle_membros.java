@@ -6,8 +6,12 @@
 package br.org.assembleia.view;
 
 import br.org.assembleia.control.ModeloCartasController;
+import br.org.assembleia.enumerador.CartasModelo;
+import br.org.assembleia.enumerador.DiretorioPadrao;
 import br.org.assembleia.model.ConfiguracaoModel;
 import br.org.assembleia.model.MembroModel;
+import java.awt.Component;
+import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -24,7 +28,6 @@ public class form_controle_membros extends javax.swing.JFrame {
      */
     public form_controle_membros() {
         initComponents();
-        ConfiguracaoModel objt = new ConfiguracaoModel();
     }
 
     /**
@@ -36,80 +39,62 @@ public class form_controle_membros extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Modelo Cartas");
+        jButton1.setText("Cartas");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(151, 151, 151)
-                .addComponent(jButton1)
-                .addContainerGap(182, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jButton1)
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(99, 99, 99)
+                .addComponent(jButton1)
+                .addContainerGap(502, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(146, 146, 146)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addGap(103, 103, 103)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(424, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        
-        JFileChooser buscar = new JFileChooser();
-        int showOpenDialog = buscar.showOpenDialog(null);
+
         ModeloCartasController ctrlCartas = new ModeloCartasController();
-        
-        if (showOpenDialog == 0) {
-            File doc = buscar.getSelectedFile();
-            if(doc.exists()){
+
                 
-                XWPFWordExtractor conteudoExtraido = ctrlCartas.carregarModeloCarta(doc);
-                
-                MembroModel mdl = new MembroModel();
-                mdl.setNome("DESENVOLVEDOR DESKTOP");
-                mdl.setDataBatismo("01/01/2019");
-                
-                ModeloCartasController ctrl = new ModeloCartasController();
-                ctrl.gerarDocCartaRecomendacao(conteudoExtraido, mdl);
-                
-            } else {
-                JOptionPane.showMessageDialog(null, "Error - Arquivo não encontrato!!");
+        File doc = new File(DiretorioPadrao.SUB_DIR_CARTAS.getDiretorioPadrao());
+        if (doc.exists()) {
+
+            XWPFWordExtractor conteudoExtraido = ctrlCartas.carregarModeloCarta(doc);
+
+            MembroModel mdl = new MembroModel();
+            mdl.setNome("JEDERSON ANDRE SANTOS");
+            mdl.setDataBatismo("31/07/1990");
+
+            ModeloCartasController ctrl = new ModeloCartasController();
+            boolean resultadoCarta = ctrl.gerarDocCartaRecomendacao(conteudoExtraido, mdl);
+
+            if (resultadoCarta) {
+                JOptionPane.showMessageDialog(this, "Parabens...O documento foi gerado com sucesso!");
             }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Error - Arquivo não encontrato!!");
         }
-        
+
 //        ModeloCartasController ct = new ModeloCartasController();
 //        ct.carregarModeloCarta("modeloCartaRecomendacao.docx");
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -151,6 +136,5 @@ public class form_controle_membros extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

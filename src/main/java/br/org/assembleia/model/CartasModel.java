@@ -5,12 +5,17 @@
  */
 package br.org.assembleia.model;
 
+import br.org.assembleia.enumerador.DiretorioPadrao;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -74,31 +79,35 @@ public class CartasModel {
         }
     }
 
-    public void gerarDocCartaRecomendacao(XWPFWordExtractor extract, MembroModel membro) throws FileNotFoundException, IOException {
+    public void gerarDocCartaRecomendacao(XWPFWordExtractor extract, PessoasModel membro) throws FileNotFoundException, IOException {
 
+        // substituindo espaços por "_"
+        String nomeArquivo = membro.getNome().replaceAll(" ", "_");
+        
         // arquivo com o caminho a ser salvo
-        FileOutputStream novoArquivo = new FileOutputStream(ConfiguracaoModel.diretorio
-                + File.separator
-                + "cartaRecomendacao"
-                + File.separator
-                + membro.getNome() + ".docx");
+        FileOutputStream novoArquivo = new FileOutputStream(DiretorioPadrao.SUB_DIR_EMISSAO_CARTA.getDiretorioPadrao()
+                                                                             + File.separator + nomeArquivo + ".docx");
 
         // texto extratido do documento
         String textoDoc = extract.getText();
 
+        // formatamos a data do bastismo
+        DateTimeFormatter frm = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter frmAtual = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy");
+        
+        LocalDate dta = LocalDate.parse(membro.getDataBatismo());
+        LocalDate dtaAtual = LocalDate.now();
+        membro.setDataBatismo(frm.format(dta));
+        
         // agora e realizado a troca de conteudo
         String replace = textoDoc.replace("<cidadeDestino>", "cidade destino");
-        replace = replace.replace("<nomeMembro>", "JEDERSON ANDRE");
-        replace = replace.replace("<dataBatismo>", "01/01/1990");
-        replace = replace.replace("<estadoCivil>", "SOLTEIRO");
-        replace = replace.replace("<identidade>", "1635210-6");
+        replace = replace.replace("<nomeMembro>", membro.getNome());
+        replace = replace.replace("<dataBatismo>", membro.getDataBatismo());
+        replace = replace.replace("<dataExpedicao>", frmAtual.format(dtaAtual));
 
+        // cria um vetor com paragrafos
         String linhas[] = replace.split("\n");
-        /*
-            for (int i = 0; i < vet.length; i++) {
-                System.out.println(vet[i]);
-            }
-         */
+
         // cria o documento
         XWPFDocument document = new XWPFDocument();
         XWPFParagraph conteudoPrincipal = document.createParagraph();
@@ -107,7 +116,6 @@ public class CartasModel {
             // cria paragrafo e formata
             XWPFParagraph novoConteudo = document.createParagraph();
 
-            //title.setAlignment(ParagraphAlignment.LEFT); 
             //formata o estilo associado ao pagrafo
             XWPFRun conteudoRun = novoConteudo.createRun();
             conteudoRun.setText(linhas[i]);
@@ -115,7 +123,7 @@ public class CartasModel {
         }
         
         document.write(novoArquivo);
-
+        
     }
 
     /**

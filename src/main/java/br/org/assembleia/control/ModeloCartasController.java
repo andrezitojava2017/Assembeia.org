@@ -7,6 +7,7 @@ package br.org.assembleia.control;
 
 import br.org.assembleia.model.CartasModel;
 import br.org.assembleia.model.MembroModel;
+import br.org.assembleia.model.PessoasModel;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -23,6 +24,7 @@ public class ModeloCartasController {
     /**
      * Carrega o documento e extrai o conteudo do arquivo selecionado
      * @param documento 
+     * @return  XWPFWordExtractor
      */
     public XWPFWordExtractor carregarModeloCarta(File documento) {
 
@@ -42,17 +44,19 @@ public class ModeloCartasController {
     
     /**
      * Metodo para gerar uma carta de recomendação apartir de modelo especifico
-     * @param extract
      * @param membro 
+     * @return  boolean
      */
-    public void gerarDocCartaRecomendacao(XWPFWordExtractor extract, MembroModel membro){
+    public boolean gerarDocCartaRecomendacao(XWPFWordExtractor conteudoExtraido, PessoasModel membro){
         try {
             
             CartasModel cartaRecomendacao = new CartasModel();
-            cartaRecomendacao.gerarDocCartaRecomendacao(extract, membro);
+            cartaRecomendacao.gerarDocCartaRecomendacao(conteudoExtraido, membro);
+            return true;
             
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Algo deu errado, um erro foi recuperado no sistema\n" + ex);
+            return false;
         }
     }
 }

@@ -175,7 +175,7 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Localizar por:"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Localizar:"));
 
         jCheckBox1.setText("CPF");
         jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
@@ -244,6 +244,8 @@ public class form_localizar_pessoas extends javax.swing.JDialog {
                         .addComponent(lblMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel1.getAccessibleContext().setAccessibleName("Localizar:");
 
         pack();
         setLocationRelativeTo(null);
