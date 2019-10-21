@@ -6,6 +6,7 @@
 package br.org.assembleia.control;
 
 import br.org.assembleia.model.SolicitacaoModel;
+import java.util.List;
 
 /**
  *
@@ -56,4 +57,16 @@ public class SolicitacaoController {
         return retorno;
     }
 
+    
+    /**
+     * Chama metodo DAO para recuparar lista de solicitacoes por competencia
+     * @param competencia
+     * @return List<SolicitacaoModel>
+     */
+    public List<SolicitacaoModel> getListaSolicitacao(String competencia){
+        
+        SolicitacaoModel md = new SolicitacaoModel();
+        return md.getListaSolicitacao(competencia);
+        
+    }
 }

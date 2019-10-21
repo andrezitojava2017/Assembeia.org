@@ -5,9 +5,15 @@
  */
 package br.org.assembleia.dao;
 
+import br.org.assembleia.conexao.ConexaoDB;
 import br.org.assembleia.conexao.ConexaoJpa;
 import br.org.assembleia.model.SaidasModel;
 import br.org.assembleia.model.SolicitacaoModel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -105,16 +111,16 @@ public class SolicitacaoDao {
         return solicitacao;
     }
 
-    
     /**
      * Deleta registro de solicitacao
+     *
      * @param solicitacao
-     * @return 
+     * @return
      */
     public int deleteSolicitacao(SolicitacaoModel solicitacao) {
-        
+
         int retorno = 0;
-        
+
         try {
 
             managerFactory = new ConexaoJpa().getConexao("assembleia");
@@ -123,7 +129,7 @@ public class SolicitacaoDao {
             EntityManager.merge(solicitacao);
             EntityManager.getTransaction().commit();
             retorno = 1;
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao tentar deletar SOLICITAÇÃO vinculada a registro de saida\n" + e);
         } finally {
@@ -134,4 +140,68 @@ public class SolicitacaoDao {
         return retorno;
 
     }
+
+    /**
+     * Recupera uma lista de solicitações gravadas na base
+     *
+     * @param competencia
+     * @return List<SolicitacaoModel>
+     */
+    public List<SolicitacaoModel> getListaSolicitacao(String competencia) {
+
+        List<SolicitacaoModel> lista = null;
+
+        try {
+
+            managerFactory = new ConexaoJpa().getConexao("assembleia");
+            EntityManager = managerFactory.createEntityManager();
+            Query query = EntityManager.createQuery("SELECT sl FROM SolicitacaoModel sl where sl.competencia='" + competencia + "'", SolicitacaoModel.class);
+            lista = query.getResultList();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar recuperar lista de solicitação\n" + e);
+        } finally {
+            EntityManager.close();
+            managerFactory.close();
+        }
+
+        return lista;
+    }
+
+//    public List<SolicitacaoModel> getListaSolicitacaoDetalhada(String competencia) {
+//
+//        List<SolicitacaoModel> lista = new ArrayList<>();
+//
+//        String sql = "select sl.id, sl.competencia, sl.numero, sl.situacao, sl.id_saida "
+//                + "from tbl_solicitacao as sl "
+//                + "where sl.competencia ='" + competencia + "'";
+//        
+//        Connection con;
+//        PreparedStatement stm;
+//        ResultSet rs;
+//
+//        try {
+//
+//            con = new ConexaoDB().getconection();
+//            stm = con.prepareStatement(sql);
+//            rs = stm.executeQuery();
+//            
+//            
+//            while(rs.next()){
+//                
+//                SolicitacaoModel sl = new SolicitacaoModel();
+//                
+//                sl.setIdentificador(rs.getInt("id"));
+//                sl.setCompetencia(rs.getString("competencia"));
+//                sl.setSequencia(rs.getInt("numero"));
+//                sl.setSituacao(rs.getString("situacao"));
+//                sl.setIdSaida(rs.getInt("id_saida"));
+//                
+//                lista.add(sl);
+//            }
+//
+//        } catch (Exception e) {
+//        }
+//        return lista;
+//    }
 }

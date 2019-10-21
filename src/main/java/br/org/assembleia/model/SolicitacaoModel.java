@@ -8,6 +8,7 @@ package br.org.assembleia.model;
 import br.org.assembleia.dao.SolicitacaoDao;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -89,6 +90,19 @@ public class SolicitacaoModel {
 
     public void setIdSaida(int idSaida) {
         this.idSaida = idSaida;
+    }
+
+    /**
+     * formata a data para exibicao na view
+     *
+     * @param data
+     * @return String
+     */
+    private String formatarDataExibicaoView(String data) {
+
+        DateTimeFormatter frm = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dta = LocalDate.parse(data);
+        return frm.format(dta);
     }
 
     /**
@@ -178,6 +192,7 @@ public class SolicitacaoModel {
 
     /**
      * Recupera dados de uma determinada solicitacao
+     *
      * @return SolicitacaoModel
      */
     public SolicitacaoModel getSolicitacao(int identificador) {
@@ -188,18 +203,36 @@ public class SolicitacaoModel {
         return Solicitacao;
 
     }
-    
-    
+
     /**
      * Atualiza uma solicitacao para SITUACAO I - INATIVA
+     *
      * @param model
-     * @return 
+     * @return
      */
-    public int deleteSolicitacaoVinculada(SolicitacaoModel model){
-        
+    public int deleteSolicitacaoVinculada(SolicitacaoModel model) {
+
         SolicitacaoDao dao = new SolicitacaoDao();
         int retorno = dao.deleteSolicitacao(model);
         return retorno;
-        
+
+    }
+
+    /**
+     * Chama metodo DAO para recuperar lista de solicitaçoes da base de dados
+     *
+     * @param competencia
+     * @return List<SolicitacaoModel>
+     */
+    public List<SolicitacaoModel> getListaSolicitacao(String competencia) {
+        SolicitacaoDao dao = new SolicitacaoDao();
+        List<SolicitacaoModel> listaSolicitacao = dao.getListaSolicitacao(competencia);
+
+        listaSolicitacao.forEach((sm) -> {
+            sm.setDataCadastro(formatarDataExibicaoView(
+                    sm.getDataCadastro()));
+        });
+
+        return listaSolicitacao;
     }
 }

@@ -5,6 +5,12 @@
  */
 package br.org.assembleia.testes.dao;
 
+import br.org.assembleia.dao.SolicitacaoDao;
+import br.org.assembleia.model.SolicitacaoModel;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 
 /**
  *
@@ -16,5 +22,9 @@ public class SaidasTeste {
 //        SaidasModel mdl = new SaidasModel();
 //        System.out.println(mdl.formatarValores("0,12"));
         
+
+        DateTimeFormatter frm = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dta = LocalDate.parse("1990-07-31");
+        System.out.println(frm.format(dta));
     }
 }

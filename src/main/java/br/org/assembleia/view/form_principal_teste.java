@@ -65,6 +65,7 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem15 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
@@ -287,6 +288,15 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenu5.add(jMenuItem2);
 
         jMenu2.add(jMenu5);
+
+        jMenuItem15.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jMenuItem15.setText("Solicitaçao");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem15);
 
         jMenuBar1.add(jMenu2);
 
@@ -537,6 +547,13 @@ public class form_principal_teste extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        
+       form_solicitacao view = new form_solicitacao(this, true);
+       view.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -599,6 +616,7 @@ public class form_principal_teste extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
