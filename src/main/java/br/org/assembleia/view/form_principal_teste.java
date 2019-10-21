@@ -290,6 +290,7 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenu2.add(jMenu5);
 
         jMenuItem15.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jMenuItem15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-arquivo-de-fichas-25.png"))); // NOI18N
         jMenuItem15.setText("Solicitaçao");
         jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,6 +304,7 @@ public class form_principal_teste extends javax.swing.JFrame {
         jMenu6.setText("Relatorios");
         jMenu6.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
+        jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-razão-geral-25.png"))); // NOI18N
         jMenu7.setText("Entradas");
         jMenu7.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
@@ -317,6 +319,7 @@ public class form_principal_teste extends javax.swing.JFrame {
 
         jMenu6.add(jMenu7);
 
+        jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-poupança-25.png"))); // NOI18N
         jMenu8.setText("Saidas");
         jMenu8.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
@@ -331,6 +334,7 @@ public class form_principal_teste extends javax.swing.JFrame {
 
         jMenu6.add(jMenu8);
 
+        jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-livro-razão-25.png"))); // NOI18N
         jMenu9.setText("Dizimos");
         jMenu9.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
@@ -345,6 +349,7 @@ public class form_principal_teste extends javax.swing.JFrame {
 
         jMenu6.add(jMenu9);
 
+        jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/org/assembleia/imagens/icons8-cardápio-25.png"))); // NOI18N
         jMenu11.setText("Outros");
         jMenu11.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
@@ -382,7 +387,7 @@ public class form_principal_teste extends javax.swing.JFrame {
         menuSuporte.setText("Suporte");
         menuSuporte.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
-        jMenuItem1.setText("Relatorio");
+        jMenuItem1.setText("Caminhos");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);

@@ -162,6 +162,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/br/org/assembleia/imagens/icons8-arquivo-de-fichas-25.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Solicita&#xe7;ao"/>
               </Properties>
               <Events>
@@ -180,6 +183,9 @@
           <SubComponents>
             <Menu class="javax.swing.JMenu" name="jMenu7">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/br/org/assembleia/imagens/icons8-raz&#xe3;o-geral-25.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Entradas"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -201,6 +207,9 @@
             </Menu>
             <Menu class="javax.swing.JMenu" name="jMenu8">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/br/org/assembleia/imagens/icons8-poupan&#xe7;a-25.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Saidas"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -222,6 +231,9 @@
             </Menu>
             <Menu class="javax.swing.JMenu" name="jMenu9">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/br/org/assembleia/imagens/icons8-livro-raz&#xe3;o-25.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Dizimos"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -243,6 +255,9 @@
             </Menu>
             <Menu class="javax.swing.JMenu" name="jMenu11">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/br/org/assembleia/imagens/icons8-card&#xe1;pio-25.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Outros"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="12" style="0"/>
@@ -296,7 +311,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Relatorio"/>
+                <Property name="text" type="java.lang.String" value="Caminhos"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>

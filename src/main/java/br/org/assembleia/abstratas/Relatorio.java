@@ -6,6 +6,7 @@
 package br.org.assembleia.abstratas;
 
 import br.org.assembleia.conexao.ConexaoDB;
+import br.org.assembleia.enumerador.DiretorioPadrao;
 import br.org.assembleia.model.ConfiguracaoModel;
 import br.org.assembleia.view.form_principal_teste;
 import java.io.File;
@@ -58,7 +59,7 @@ public abstract class Relatorio {
      * @return caminho String com o caminho completo do relatorio
      */
     public String getCaminhoPadraoRelatorio(String nomeRel) {
-        String caminho = ConfiguracaoModel.diretorio + File.separator + nomeRel + ".jasper";
+        String caminho = DiretorioPadrao.SUB_DIR_RELATORIO.getDiretorioPadrao() + File.separator + nomeRel + ".jasper";
 
         return caminho;
     }
